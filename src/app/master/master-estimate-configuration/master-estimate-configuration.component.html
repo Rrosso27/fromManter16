@@ -1,0 +1,452 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h5>Configuración de cotizaciones</h5>
+      <br />
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-sm-6">
+          <h6>Formulas USA</h6>
+          <br />
+          <div *ngIf="optionOneUsa">
+            <div class="row">
+              <h6>
+                <label>
+                  <input
+                    type="radio"
+                    name="usa"
+                    [value]="optionOneUsa.id"
+                    [(ngModel)]="radioSelectedUsa"
+                    (change)="selectUsa($event)"
+                  />
+                  <i class="helper"></i>
+                  {{ optionOneUsa.description }} &nbsp;&nbsp;&nbsp;&nbsp;<input
+                    type="text"
+                    [(ngModel)]="trmGeneral"
+                    disabled
+                  />
+                </label>
+              </h6>
+            </div>
+            <div class="row">
+              <h6>
+                <label>
+                  <input
+                    type="radio"
+                    name="usa"
+                    [value]="optionSecondUsa.id"
+                    [(ngModel)]="radioSelectedUsa"
+                    (change)="selectUsa()"
+                  />
+                  <i class="helper"></i>
+                  {{ optionSecondUsa.description }}
+                  &nbsp;&nbsp;&nbsp;&nbsp;<input
+                    type="text"
+                    [(ngModel)]="trmConstant"
+                  />
+                </label>
+              </h6>
+            </div>
+            <div class="row">
+              <h6>
+                <label>
+                  <input
+                    type="radio"
+                    name="usa"
+                    id="optionThirdUsa.id"
+                    [(ngModel)]="radioSelectedUsa"
+                    [value]="optionThirdUsa.id"
+                    (change)="selectUsa()"
+                  />
+                  <i class="helper"></i>
+                  {{ optionThirdUsa.description }}
+                  &nbsp;&nbsp;&nbsp;&nbsp;<input
+                    type="text"
+                    [(ngModel)]="trmPlusConstant"
+                  />
+                </label>
+              </h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <h6>Configuración ESPAÑA</h6>
+          <br />
+          <div *ngIf="itemEsp">
+            <div class="row">
+              <h6>
+                <label>
+                  Ingresar constante &nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="text" name="esp" [(ngModel)]="constantEsp" />
+                  <i class="helper"></i>
+                </label>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8"></div>
+
+        <div class="col-sm-4">
+          <button
+            class="btn btn-primary m-b-0"
+            (click)="updateConfigurationTrm()"
+          >
+            Actualizar
+          </button>
+        </div>
+      </div>
+      <hr />
+      <br />
+      <div class="row">
+        <div class="col-sm-6">
+          <h6>Configuración de control</h6>
+          <br />
+          <p>
+            <label>
+              <i class="helper"></i> Tope maximo sugerido
+              &nbsp;&nbsp;&nbsp;&nbsp;<input
+                type="text"
+                [(ngModel)]="maximumLimit"
+                value="{{ maximumLimit }}"
+              /><br /><br />
+              <i class="helper"></i> Margen cliente nuevo
+              &nbsp;&nbsp;&nbsp;&nbsp;<input
+                type="text"
+                [(ngModel)]="clientMargin"
+                value="{{ clientMargin }}"
+              /><br />
+            </label>
+          </p>
+        </div>
+
+        <div class="col-sm-6">
+          <h6>Configuración de constantes</h6>
+          <br />
+          <p>
+            <label>
+              <i class="helper"></i> Servicio terceros
+              &nbsp;&nbsp;&nbsp;&nbsp;<input
+                type="text"
+                [(ngModel)]="thirdService"
+                value="{{ thirdService }}"
+              /><br /><br />
+              <i class="helper"></i> Servicio Nacional
+              &nbsp;&nbsp;&nbsp;&nbsp;<input
+                type="text"
+                [(ngModel)]="nationalService"
+                value="{{ nationalService }}"
+              /><br />
+            </label>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8"></div>
+
+        <div class="col-sm-4">
+          <button
+            class="btn btn-primary m-b-0"
+            (click)="updateConfigurationVariables()"
+          >
+            Actualizar
+          </button>
+        </div>
+      </div>
+      <hr />
+      <br />
+      <div class="row">
+        <div class="col-sm-6">
+          <div *ngIf="formulaUsaOne">
+            <h6>Configuración USA</h6>
+            <br />
+            <h6>{{ formulaUsaOne.formula_description }}</h6>
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaUsaOnePrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaUsaOneManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaUsaOneTariff" /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaUsaTwo.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaUsaSecondPrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaUsaSecondManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaUsaSecondTariff" /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaUsaThird.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaUsaThirdPrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaUsaThirdManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaUsaThirdTariff" /><br />
+              </label>
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div *ngIf="formulaEspOne">
+            <h6>Configuración ESPAÑA</h6>
+            <br />
+            <h6>{{ formulaEspOne.formula_description }}</h6>
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaEspOnePrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaEspOneManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaEspOneTariff" /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaEspTwo.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaEspSecondPrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaEspSecondManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaEspSecondTariff" /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaEspThird.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaEspThirdPrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaEspThirdManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaEspThirdTariff" /><br />
+              </label>
+            </p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-sm-6"></div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-sm-6">
+          <div *ngIf="formulaBelOne">
+            <h6>Configuración BELGICA</h6>
+            <br />
+            <h6>{{ formulaBelOne.formula_description }}</h6>
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaBelOnePrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaBelOneManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaBelOneTariff" /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaBelTwo.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaBelSecondPrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaBelSecondManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaBelSecondTariff" /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaBelThird.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  [(ngModel)]="formulaBelThirdPrice"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  [(ngModel)]="formulaBelThirdManagementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" [(ngModel)]="formulaBelThirdTariff" /><br />
+              </label>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8"></div>
+
+        <div class="col-sm-4">
+          <button
+            class="btn btn-primary m-b-0"
+            (click)="updateFormulasConfiguration()"
+          >
+            Actualizar
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div class="col-sm-6">
+        <form [formGroup]="myFormFpe" (ngSubmit)="sendFPE()">
+          <div *ngIf="formulaUsaOne">
+            <h6>Configuración USAFPE</h6>
+            <br />
+            <label for="">extra percentage</label>
+            <input type="text" formControlName="extraPercentage" id="">
+            <br>
+            <h6>{{ formulaUsaOne.formula_description }}</h6>
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  formControlName="price"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  formControlName="managementVariables"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+
+                <input
+                  type="text"
+                  formControlName="tariff"
+                /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaUsaTwo.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  formControlName="usaSecondPrice"
+
+
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  formControlName="formulaUsaSecondManagementVariablesFPE"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  formControlName="formulaUsaSecondTariffFPE"
+                /><br />
+              </label>
+            </p>
+            <br />
+            <h6>{{ formulaUsaThird.formula_description }}</h6>
+
+            <p>
+              <label>
+                <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  formControlName="formulaUsaThirdPriceFPE"
+                /><br />
+                <i class="helper"></i> Variables manejo &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  formControlName="formulaUsaThirdManagementVariablesFPE"
+                />
+                <br />
+                <i class="helper"></i> Arancel &nbsp;&nbsp;&nbsp;&nbsp;
+                <input
+                  type="text"
+                  formControlName="formulaUsaThirdTariffFPE"
+                /><br />
+              </label>
+            </p>
+          </div>
+
+
+            <button type="submit" class="btn btn-primary m-b-0 ">Agregar</button>
+
+        </form>
+      </div>
+    </app-card>
+  </div>
+</div>

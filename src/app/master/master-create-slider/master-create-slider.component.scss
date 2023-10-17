@@ -1,0 +1,27 @@
+.modal-open {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
+}
+
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 80%;
+}
+
+.brand {
+    align-content: rigth;
+}
+
+.align-buttons {
+    text-align: right;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    // width: auto;
+    // height: auto;
+}

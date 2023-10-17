@@ -1,0 +1,233 @@
+<app-modal-basic #modalUpdatedHorometro [dialogClass]="'modal-sm'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Actualizar Horometro</h4>
+    </div>
+    <div class="app-modal-body" *ngIf="currentrow">
+        <!-- <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Horometro Actual </h6>
+                    <input type="text" class="form-control" [ngModel]="horometroCurrent" #horometroCurrent>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalUpdatedHorometro.hide()">Cancelar</button>
+                <button type="button " class="btn btn-primary m-b-0 " (click)="updatehorometroCurrent(horometroCurrent,row)">Actualizar</button>
+            </div> -->
+        <form [formGroup]="myFormUpdate" (ngSubmit)="updatehorometroCurrent()">
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <h6>Horometro Actual</h6>
+                    <input type="text" class="form-control" formControlName="horometroUpdate" value={{currentrow.h_current}}>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="align-buttons">
+                    <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalUpdatedHorometro.hide()">Cancelar</button>
+                    <button type="submit " class="btn btn-primary m-b-0 ">Actualizar horometro</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+<button type="button" style="display:none;" id="uploadHorometro" class="btn btn-primary waves-effect" (click)="modalUpdatedHorometro.show()">Actualizar horometro</button>
+
+<!-- BashBoard Normal -->
+<!--  -->
+<!--  -->
+<div *ngIf="!userCustomer" class="row">
+
+    <div class="col-sm-12">
+        <app-card>
+            <h5>Registrar Equipo </h5>
+            <br>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Cliente</h6>
+
+                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId">
+                                <option value="0" selected>Seleccionar cliente </option>
+                            <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                           </select>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6>Sede</h6>
+                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()">
+                        <option value="0" selected>Seleccionar sede </option>
+                    <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                   </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <h6>Marca</h6>
+                    <input type="text" class="form-control" placeholder="Filtrar marca" (keyup)="updateFilter($event)">
+                    <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+                </div>
+                <div class="col-sm-3">
+                    <div class="checkbox-color checkbox-primary">
+                        <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                        <label for="checkbox18">
+                                 Activo
+                                </label>
+                    </div>
+                    <div class="checkbox-color checkbox-danger">
+                        <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                        <label for="checkbox16">
+                                      Inactivo
+                                    </label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="align-buttons">
+                        <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect">Crear marca</button>
+                        <!--  <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+                <ngx-datatable-column [resizeable]="false" name="Serie" [sortable]="false" [draggable]="false" prop="serie"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="brand_description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Modelo" [sortable]="false" [draggable]="false" prop="model_description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Tercero" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Tipo Maquina" [sortable]="false" [draggable]="false" prop="machine_description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="H. Inicial" [sortable]="false" [draggable]="false" prop="h_initial"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="H. Actual" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
+                        <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                                <i class="fa fa-ban"></i>
+                              </button> -->
+
+                        <button (click)="updateHorometro(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+        </app-card>
+    </div>
+</div>
+
+
+
+
+<!-- BashBoard Usuario Cliente -->
+<!--  -->
+<!--  -->
+<div *ngIf="userCustomer" class="row">
+
+    <div class="col-sm-12">
+        <app-card>
+            <h5>Horometro Equipo </h5>
+            <br>
+            <p><strong>Para consultar los equpos, debe serleccionar un cliente y una sede</strong></p>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Cliente</h6>
+
+                    <select class="form-control" (change)="getBranchOfficeUser()" [(ngModel)]="selectedBusinessId">
+                                <option value="0" selected>Seleccionar cliente </option>
+                            <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                           </select>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6>Sede</h6>
+                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()">
+                        <option value="0" selected>Seleccionar sede </option>
+                    <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                   </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <h6>Marca</h6>
+                    <input type="text" class="form-control" placeholder="Filtrar marca" (keyup)="updateFilter($event)">
+                    <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+                </div>
+                <div class="col-sm-3">
+                    <div class="checkbox-color checkbox-primary">
+                        <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                        <label for="checkbox18">
+                                 Activo
+                                </label>
+                    </div>
+                    <div class="checkbox-color checkbox-danger">
+                        <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                        <label for="checkbox16">
+                                      Inactivo
+                                    </label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="align-buttons">
+                        <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect">Crear marca</button>
+                        <!--  <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+                <ngx-datatable-column [resizeable]="false" name="Serie" [sortable]="false" [draggable]="false" prop="serie"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="brand_description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Modelo" [sortable]="false" [draggable]="false" prop="model_description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Tercero" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Tipo Maquina" [sortable]="false" [draggable]="false" prop="machine_description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="H. Inicial" [sortable]="false" [draggable]="false" prop="h_initial"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="H. Actual" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
+                        <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                                <i class="fa fa-ban"></i>
+                              </button> -->
+
+                        <button (click)="updateHorometro(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+        </app-card>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card [title]="'Registro Ticket'" [headerContent]="''" [cardOptionBlock]="true">
+           <br>
+              <div class="form-group row">
+                  <div class="col-sm-8 col-xs-12" >
+                      <h6>Asunto <span style="color:red;">*</span></h6>
+                      <input type="text" class="form-control" [(ngModel)]="subject" #ctrl="ngModel" id="workTitle" required>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-12" >
+                      <h6>Descripción<span style="color:red;">*</span> </h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="description" #ctrl="ngModel" id="workObservation" ></textarea>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <div class="col-sm-3" >
+                      <h6>Celular<span style="color:red;">*</span> </h6>
+                      <input type="tel" class="form-control" [(ngModel)]="cellphone" #ctrl="ngModel" id="workTitle" required>
+                 </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <h6><img src="assets/images/folder_image.png" width="50" height="50"> Elegir imagen<span style="color:red;"> Cargar una imagen a la vez</span></h6>
+                  <input type='file' (change)="onSelectFileImage($event)" accept="image/*" >
+                  <br>
+                  <br>
+                  <!-- <app-card [title]="'Lista de imagenes'" [classHeader]="true" [blockClass]="'table-border-style'"> -->
+                  <!--  <span class="code-header">use class <code>table</code> inside table element</span> -->
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Imagen</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody class="col-sm-3" *ngFor='let url of urlsImages; let i = index'>
+                        <td>
+        
+                          <img [src]="url" height="500" *ngIf="url" alt="img" class="img-fluid img-100">
+        
+                        </td>
+                        <td>
+                          <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i
+                              class="icofont icofont-ui-delete"></i></button>
+        
+                        </td>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- </app-card> -->
+                </div>
+              </div>
+
+              <div class=" align-buttons">
+                <button type="button" class="btn btn-primary m-b-0 waves-effect" id="storeheaderbutton" (click)="uploadAll()" >Crear Ticket</button>
+              </div>
+
+                  <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volverrrrr</button>
+    </app-card>
+  </div>
+</div>
+        
+

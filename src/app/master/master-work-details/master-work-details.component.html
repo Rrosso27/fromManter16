@@ -1,0 +1,441 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [title]="'Registro rutinas'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+            <h5>Información rutina </h5>
+            <br>
+            <h6 *ngIf=" showButtonUpdated == false">Luego de crear la rutina, puedes crear el sistema</h6>
+            <h6 *ngIf=" showButtonUpdated == true">Ya puedes crear sistemas</h6>
+            <br>
+            <app-card  [headerContent]="''" [cardOptionBlock]="true">
+                <br>
+                <div class="form-group row">
+                    <h6>Seleccione una de las opciones para la rutina <span style="color:red;">*</span></h6>
+                </div>
+                <div class="form-group row">
+                        
+                    <div class="col-sm-6 col-xs-12">
+                        <label >
+                            <input id="general" type="radio" name="color" value="azul" (click)="valueSelectType(1)"> General&nbsp;
+                        </label>
+                        <label >
+                            <input id="regional" type="radio" name="color" value="negro" (click)="valueSelectType(2)"> Sucursal&nbsp;
+                        </label>
+                        <label >
+                            <input id="customer" type="radio" name="color" value="amarillo" (click)="valueSelectType(3)"> Cliente&nbsp;
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-xs-12 " >
+                        <div *ngIf="typeRoutine==2">
+                            <div class="form-group row">
+                                <div class="col-sm-6 col-xs-12 align-buttons">
+                                    <button  class="btn btn-primary" (click)="modalAssingRegional.show()" >Asignar Suscursales</button>
+                                  </div>
+                            </div>
+                        </div> 
+        
+                         <div *ngIf="typeRoutine==3" class="form-group row">
+                            <div class="col-sm-6 col-xs-12 align-buttons">
+                                <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
+                              </div>
+                        </div>
+                        <!--Para actualizar-->
+                        <div *ngIf="typeRoutine==4" class="form-group row">
+                            <div class="col-sm-6 col-xs-12 align-buttons">
+                                <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
+                              </div>
+                        </div>
+                        <div *ngIf="typeRoutine==5">
+                            <div class="form-group row">
+                                <div class="col-sm-6 col-xs-12 align-buttons">
+                                    <button  class="btn btn-primary" (click)="modalAssingRegional.show()" >Asignar Suscursales</button>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!--Para crear-->
+            
+               
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-8 col-xs-12" *ngIf="showButtonUpdated == false">
+                        <h6>Descripción de la Rutina <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" [(ngModel)]="routineDescription" #ctrl="ngModel" id="workTitle" required>
+                    </div>
+                    <div class="col-sm-8 col-xs-12" *ngIf="showButtonUpdated == true">
+                        <h6>Descripción de la Rutina <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" [(ngModel)]="routineDescriptionUpdate" #ctrl="ngModel" id="workTitleUpdate" required>
+                    </div>
+                    <!-- <div class="col-sm-1 editicon" *ngIf="showButtonUpdated == true">
+                            <button (click)="updateheader(title2.value)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        </div> -->
+
+                    <div class="col-sm-4 col-xs-12" *ngIf="showButtonUpdated == false">
+                        <h6>Horas de la Rutina <span style="color:red;">*</span></h6>
+                        <input type="number" class="form-control" [(ngModel)]="routineHour" #ctrl="ngModel" id="workHours" required>
+                    </div>
+                    <div class="col-sm-4 col-xs-12" *ngIf="showButtonUpdated == true">
+                        <h6>Horas de la Rutina <span style="color:red;">*</span></h6>
+                        <input type="number" class="form-control" [(ngModel)]="routineHourUpdate" #ctrl="ngModel" id="workHoursUpdate" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-12" *ngIf="showButtonUpdated == false">
+                        <h6>Observacion de la Rutina <span style="color:red;"></span></h6>
+                        <textarea type="text" class="form-control" [(ngModel)]="routineObservation" #ctrl="ngModel" id="workObservation" required></textarea>
+                    </div>
+                    <div class="col-sm-12" *ngIf="showButtonUpdated == true">
+                        <h6>Observacion de la Rutina <span style="color:red;"></span></h6>
+                        <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" required></textarea>
+                    </div>
+                </div>
+               
+
+                <div class="form-group row">
+                    <div class="col-sm-12 align-buttons">
+                        <button (click)="updateheader()" type="submit" class="btn btn-primary m-b-0" *ngIf="showButtonUpdated == true">Actualizar encabezado <i class="icofont icofont-pencil-alt-5"></i></button>
+                    </div>
+                </div>
+                <!-- <button class="btn btn-primary m-b-0" (click)="modalDetail.show()">Crear detalle</button>  -->
+                <div class="form-group row align-buttons">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary m-b-0 waves-effect" id="storeheaderbutton" (click)="validateSelecteType()" *ngIf="showButtonUpdated == false">Agregar encabezado</button>
+                        <!-- <button (click)="registerheader()" id="registerHeader" type="submit" class="btn btn-primary m-b-0" *ngIf="showButtonUpdated == false">Agregar encabezado</button> -->
+                        <button type="button" class="btn btn-default waves-effect" id="showComponent" hidden (click)="modalUpdateComponent.show()">Cancelar</button>
+                        <button style="display: none;" type="button" class="btn btn-default waves-effect" id="showUpdateSystem" hidden (click)="modalUpdateSystem.show()">Cancelar</button>
+                        <button type="button" class="btn btn-default waves-effect" id="storeheaderbutton2" hidden (click)="registerheader()">Cancelar</button>
+                    </div>
+                </div>
+            </app-card>
+            <div *ngIf="showButtonUpdated == true">
+                <div class="align-buttons">
+                    <button class="btn btn-primary m-b-0" (click)="modalSystem.show()" *ngIf="showButtonUpdated == true">Crear Sistema</button>
+                </div>
+                <br>
+                <app-card *ngFor="let system of maintenanceSystem; let i = index" >
+                    <div class="col-sm-8 col-xs-12">
+                        <br>
+                        <div>
+                            <h6>Sistema &nbsp; {{i+1}} <span style="color:red;">*</span></h6>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="text" value={{system.systems.system_description}} class="form-control" id="systemtitle" disabled>
+                        </div>
+
+                        <div class="align-buttons">
+                            <button (click)="updateSystem(system.systems)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                            <button (click)="deleteSystem(system.systems)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                        </div>
+                    </div>
+
+
+                    <div class="align-buttons">
+                        <button class="btn btn-primary m-b-0" (click)="modalComponent.show()"  (click)="currentComponents(system.systems)">Crear Componente</button>
+                        <button style="display: none;" class="btn btn-primary m-b-0" id="showComp" (click)="modalComponent.show()" (click)="currentComponent(system.systems)">Crear Componente</button>
+                    </div>
+                    <br>
+                    <div  *ngFor="let component of system.components; let c = index">
+                        <div class="col-sm-8 col-xs-12">
+                            <div>
+                                <h6>Componente&nbsp; {{c+1}} <span style="color:red;">*</span></h6>
+                            </div>
+                            <br>
+                            <div>
+                                <input type="text" value={{component.components.description}} class="form-control" id="systemtitle" disabled>
+                            </div>
+                            <div class="align-buttons">
+                                 <button (click)="updateComponent(component.components)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                                <button (click)="deleteComponent(component.components)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                            </div>
+                        </div>
+                    
+
+
+                    <div class="align-buttons">
+                        <button class="btn btn-primary m-b-0" (click)="modalPart.show()" (click)="currentParts(component.components)">Crear Parte</button>
+                        <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdatePart.show()" >Actualizar</button>
+                    </div>
+
+                    <ngx-datatable #table class="data-table" [rows]="component.parts"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+                        <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
+                       
+
+                        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Descripción" [sortable]="false" prop="description"></ngx-datatable-column>
+                        <ngx-datatable-column  [flexGrow]="3" [sortable]="false" [resizeable]="false" name="Trabajo Realizado" [sortable]="false" prop="work"></ngx-datatable-column>
+                         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Materiales" [sortable]="false" prop="supplice"></ngx-datatable-column>
+                        <ngx-datatable-column  [flexGrow]="3" [sortable]="false" [resizeable]="false" name="Parametros" [sortable]="false" prop="parameter"></ngx-datatable-column>
+                        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <button (click)="updatePart(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                                <button (click)="deletePart(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                            </ng-template>
+                        </ngx-datatable-column>
+          
+                    </ngx-datatable>
+                    <br>
+                </div>
+                    <br>
+                    <br>
+                
+                </app-card>
+            </div>
+                        <div class="align-buttons">
+                            <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Rutinas</button>
+                        </div>
+        </app-card>
+    </div>
+</div>
+
+<app-modal-basic #modalSystem [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Agregar Sistemas</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="detailForm">
+            <div class="form-group row">
+                <div class="col-sm-2"> </div>
+
+                <div class="col-sm-8">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="system" formControlName="system" required>
+                </div>
+
+                <div class="col-sm-2"> </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalSystem.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageDetail(detailForm.value)">Crear Sistema</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateSystem [dialogClass]="'modal-lg'" >
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Sistema</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="updateDetailForm">            
+            <div class="form-group row">
+                <div class="col-sm-2"> </div>
+
+                <div class="col-sm-8">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="updateSystem" formControlName="updateSystem">
+                </div>
+
+                <div class="col-sm-2"> </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateDetailHide" (click)="modalUpdateSystem.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateSystem(updateDetailForm.value)">Actualizar Sistema</button>
+
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+ 
+<app-modal-basic #modalComponent [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Agregar Componente</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="componentForm">
+            <div class="form-group row">
+                <div class="col-sm-2"> </div>
+
+                <div class="col-sm-8">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="component" formControlName="component" required>
+                </div>
+
+                <div class="col-sm-2"> </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageComponentlHide" (click)="modalComponent.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageComponent(componentForm.value)">Crear Componente</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateComponent [dialogClass]="'modal-lg'" >
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Componente</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="updateComponentForm">            
+            <div class="form-group row">
+                <div class="col-sm-2"> </div>
+
+                <div class="col-sm-8">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="updateComponent" formControlName="updateComponent">
+                </div>
+
+                <div class="col-sm-2"> </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateComponentHide" (click)="modalUpdateComponent.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateComponent(updateComponentForm.value)">Actualizar Componente</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+ 
+ 
+<app-modal-basic #modalPart [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Agregar Parte</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="partForm">
+            <div class="form-group row">
+
+                <div class="col-sm-12">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="partDescription" formControlName="partDescription" required>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-12">
+                        <h6>Trabajo a realizar</h6>
+                        <textarea type="text" class="form-control"  formControlName="partWork" required></textarea>
+                       </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-12">
+                    <h6>Insumos </h6>
+                    <input type="text" class="form-control" id="partSupplice" formControlName="partSupplice" required>
+                </div>  
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-12">
+                    <h6>Parametro</h6>
+                    <input type="text" class="form-control" id="partParameter" formControlName="partParameter" required>
+                </div> 
+
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storagePartHide" (click)="modalPart.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Crear Parte</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdatePart [dialogClass]="'modal-lg'" >
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Parte</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="updatePartForm">            
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="partDescriptionUpdate" formControlName="partDescriptionUpdate" required>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-sm-12">
+                        <h6>Trabajo a realizar</h6>
+                        <textarea type="text" class="form-control"  formControlName="partWorkUpdate" required></textarea>
+                       </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Insumos <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="partSuppliceUpdate" formControlName="partSuppliceUpdate" required>
+                </div> 
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Parametro <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="partParameterUpdate" formControlName="partParameterUpdate" required>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updatePartHide" (click)="modalUpdatePart.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Parte</button>
+
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<!-- Modal para seleccion de cliente -->
+
+<app-modal-basic #modalAssingCustomer [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+  
+        <h4 class="modal-title">Selecciona los clientes</h4>
+    </div>
+    <div class="app-modal-body">
+      
+      <div class="form-group row">  
+          <div class="col-sm-6">
+              <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+            </div>    
+       </div>    
+        <app-card>
+                <div *ngFor="let item of cusotmerSelecteds">
+                    <div class="form-group row">  
+                        <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> &nbsp;{{item.item}}
+
+                    </div>
+            
+               </div>
+            </app-card>
+           
+        <br>
+        <br>
+        <div class="align-buttons">
+           <!-- <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDate()">Cancelar</button> -->
+           <button type="button"  class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingCustomer.hide()">Cancelar</button>
+            <button type="submit " class="btn btn-primary m-b-0 " (click)="saveCustomer()" >Guardar</button>
+        </div>
+    </div>          
+</app-modal-basic>
+
+<app-modal-basic #modalAssingRegional [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+  
+        <h4 class="modal-title">Selecciona las regionales</h4>
+    </div>
+    <div class="app-modal-body">
+    <app-card>
+        <div  class="form-group row" *ngFor="let item of regionalSelecteds">
+             <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck />&nbsp; {{item.item}}
+      
+       </div>
+    </app-card>
+        
+        <br>
+        <br>
+        <div class="align-buttons">
+            <!-- <button type="button"  class="btn btn-default waves-effect" id="cancerl" (click)="addCanceRegional()">Cancelar</button> -->
+            <button type="button"  class="btn btn-default waves-effect" id="assignRegionalHide" (click)="modalAssingRegional.hide()">Cancelar</button>
+            <button type="submit " class="btn btn-primary m-b-0 " (click)="saveRegional()" >Guardar</button>
+        </div>
+    </div>          
+</app-modal-basic> 

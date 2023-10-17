@@ -1,0 +1,275 @@
+<div class="row">
+  <div class="col-sm-12">
+    <!-- <app-master-spinner></app-master-spinner>  -->
+    <!-- Basic Inputs Validation start -->
+
+
+
+    <app-card [title]="'Registro equipo'" [headerContent]="''" [cardOptionBlock]="true">
+      <form [formGroup]="myForm" (ngSubmit)="sendUpdateForklift()">
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <h6>Cliente<span style="color:red;">*</span></h6>
+
+            <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId" disabled="true"
+              formControlName="customer">
+              <option value="0" selected>Seleccionar cliente </option>
+              <option *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+
+          <div class="col-sm-6">
+            <h6>Sede<span style="color:red;">*</span></h6>
+            <select class="form-control" [(ngModel)]="selectedOfficeId" disabled="true" formControlName="office">
+              <option value="0" selected>Seleccionar sede </option>
+              <option *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+        </div>
+        <br>
+        <h5>Información equipo </h5>
+        <br>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <h6> Serie <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="series" disabled="true"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.series.errors }">
+            <div *ngIf="submitted && checkForm.series.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.series.errors.required">Este campo es requerido</div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <h6> Descripción <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="description" disabled="true"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+            <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <h6>Marca<span style="color:red;">*</span></h6>
+            <select class="form-control" (change)="getCustomerModel()" disabled="true" [(ngModel)]="selectedBrandId"
+              formControlName="brand">
+              <option value="0" selected>Seleccionar marca </option>
+              <option *ngFor="let brand of brands" [ngValue]="brand.id"> {{brand.description}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <h6>Modelo<span style="color:red;">*</span></h6>
+            <select class="form-control" [(ngModel)]="selectedModelId" disabled="true" formControlName="model">
+              <option value="0" selected>Seleccionar modelo </option>
+              <option *ngFor="let model of models" [ngValue]="model.id"> {{model.description}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <h6>Maquina<span style="color:red;">*</span></h6>
+            <select class="form-control" [(ngModel)]="selectedMachineId" disabled="true" formControlName="machine">
+              <option value="0" selected>Seleccionar maquina </option>
+              <option *ngFor="let machine of machines" [ngValue]="machine.id"> {{machine.description}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <h6>Combustible<span style="color:red;">*</span></h6>
+            <select class="form-control" [(ngModel)]="selectedFuelId" disabled="true" formControlName="fuel">
+              <option value="0" selected>Seleccionar maquina </option>
+              <option *ngFor="let fuel of fuels" [ngValue]="fuel.id"> {{fuel.description}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+
+
+          <div class="col-sm-4">
+            <h6>Llantas<span style="color:red;">*</span></h6>
+            <select class="form-control" [(ngModel)]="selectedtyreId" formControlName="tyre" disabled="true">
+              <option value="0" selected>Seleccionar llantas </option>
+              <option *ngFor="let tyre of tyres" [ngValue]="tyre.id"> {{tyre.description}} </option>
+              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <h6> Llantas delanteras </h6>
+            <input type="text" class="form-control" formControlName="tyreForward"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.tyreForward.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.tyreForward.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.tyreForward.errors.required">Este campo es requerido
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <h6> LLantas traseras </h6>
+            <input type="text" class="form-control" formControlName="tyreSBack"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.tyreSBack.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.tyreSBack.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.tyreSBack.errors.required">Este campo es requerido
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <h6>Toneladas <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="tonne"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.tonne.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.tonne.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.tonne.errors.required">Este campo es requerido</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <h6>Mastil izado</h6>
+            <input type="text" class="form-control" formControlName="hoistedMast"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.hoistedMast.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.hoistedMast.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.hoistedMast.errors.required">Este campo es requerido
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <h6>Mastil contraido</h6>
+            <input type="text" class="form-control" formControlName="contractedMast"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.contractedMast.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.contractedMast.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.contractedMast.errors.required">Este campo es requerido
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <h6>H. inicial <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="startTime"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.startTime.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.startTime.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.startTime.errors.required">Este campo es requerido
+              </div>
+            </div>
+
+          </div>
+          <div class="col-sm-4">
+            <h6>H. actual <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="currentTime"
+              [ngClass]="{ 'is-invalid': submitted && checkForm.currentTime.errors }" disabled="true">
+
+            <div *ngIf="submitted && checkForm.currentTime.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.currentTime.errors.required">Este campo es requerido
+              </div>
+            </div>
+
+          </div>
+          <div class="col-sm-4">
+            <h6>Rutina<span style="color:red;">*</span></h6>
+            <select class="form-control" name="select" formControlName="routine" [(ngModel)]="selectedRoutineId"
+              disabled="true">
+              <option value="0" selected>Seleccionar rutina </option>
+              <option value="1">HOROMETRO</option>
+              <option value="2">POR DEFINIR</option>
+              <option value="3">TIEMPO</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <h6>Equipo propio</h6>
+            <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" [checked]="own"
+              (change)="onChangeOwn($event)" disabled="true"></ui-switch><br>
+          </div>
+          <div class="col-sm-4">
+            <h6>Generar alarmas</h6>
+            <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" [checked]="switchAlarm"
+              (change)="onChangeAlarm($event)" disabled="true"></ui-switch><br>
+          </div>
+          <div class="col-sm-4">
+            <h6>Activo</h6>
+            <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" [checked]="switchStatus"
+              (change)="onChangeStatus($event)" disabled="true"></ui-switch><br>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <h6>Observación</h6>
+
+            <textarea rows="5" cols="5" class="form-control" formControlName="observation" disabled="true"></textarea>
+
+          </div>
+        </div>
+        <br>
+
+
+        <br>
+
+
+
+        <div class="align-buttons">
+          <button style="display:none;" type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
+          <br>
+
+        </div>
+      </form>
+
+
+      <div class="form-group row ">
+        <div class="col-sm-6">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <!--  <th>Acción</th> -->
+                </tr>
+              </thead>
+              <tbody class="col-sm-3" *ngFor='let url of urls; let i = index'>
+                <td>
+                  <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100">
+                </td>
+                <!--  <td>
+    <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> 
+   
+        </td>-->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="align-buttons">
+        <button class="btn btn-primary m-b-0 " (click)="goAdminForklifts()">Volver Administración Equipos</button>
+      </div>
+
+    </app-card>
+  </div>
+</div>
+
+<!-- <h1 i18n="Card Header|Title for the under construction card@@constructionHeader">Under Construction!</h1>
+  <p i18n="Card Descritpion|A description for the under construction card.@@constructionDescription">This page is under construction.</p>
+
+<app-master-multi-date-picker [datesSelected]="datesSelected" (datesSelectedChange)="change($event)"></app-master-multi-date-picker>  -->

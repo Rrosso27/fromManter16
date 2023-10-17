@@ -1,0 +1,61 @@
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card  style="position: sticky; top: 300px;">
+          <h5>Administrar Modulos </h5>
+          <!-- <br>
+          <div class="row">
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+                    <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" />
+              </div>
+            <div class="col-sm-3">
+                  <div class="checkbox-color checkbox-primary">
+                      <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                      <label for="checkbox18">
+                               Activo
+                              </label>
+                  </div>
+                  <div class="checkbox-color checkbox-danger">
+                      <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                      <label for="checkbox16">
+                                    Inactivo
+                                  </label>
+                  </div>
+              </div>
+              <div class="col-sm-3">
+                  <div class="align-buttons">
+                      <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendCustomer()">Crear Modulo</button>
+                  </div>
+              </div> 
+          </div> -->
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+              [limit]="25">
+
+              <ngx-datatable-column [resizeable]="false" name="Nombre" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+              <!-- <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <label (click)="blockAgents(value)" class="label label-md label-danger"  *ngIf="value==1">Inactivo</label>
+                      <label class="label label-md label-primary" *ngIf="value==0">Activo</label>
+                  </ng-template>
+              </ngx-datatable-column> -->
+              <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                      <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <!-- <button (click)="deleteCustomer(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> -->
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+  </div>
+</div>
+

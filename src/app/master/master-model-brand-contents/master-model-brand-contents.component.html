@@ -1,0 +1,50 @@
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Gestión de Archivos</h5>
+          <br>
+
+          <div class="align-buttons">
+            <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="uploadFiles()">Cargar Archivos</button>
+        </div>
+        <br>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h6>Marca</h6>
+
+                <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
+                            <option value="0" selected>Seleccionar Marca </option>
+                        <option   *ngFor="let customer of brands" [ngValue]="customer.id"> {{customer.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                       </select>
+                </div>
+
+            <div class="col-sm-6">
+                <h6>Modelo</h6>
+                <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getCustomersForklift(selectedBusinessId,selectedOfficeId)" > 
+                    <option value="0" selected>Seleccionar Modelo </option>
+                <option   *ngFor="let office of model" [ngValue]="office.id"> {{office.description}}  </option>
+                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+               </select>
+            </div>
+        </div>
+        <br>
+
+          <ngx-datatable #table class="data-table" [rows]="catalogue" [columns]="[{name:'Descripción', prop:'description'},{name:'Tipo', prop:'type'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+              [limit]="25">
+
+              <ngx-datatable-column [flexGrow]="2" [resizeable]="false" name="Marca" [sortable]="false"  prop="modelBrand.brand"></ngx-datatable-column>
+              <ngx-datatable-column [flexGrow]="2" [resizeable]="false" name="Modelo" [sortable]="false" prop="modelBrand.model"></ngx-datatable-column>
+              <ngx-datatable-column [flexGrow]="2" [resizeable]="false" name="Acciones" [sortable]="false"  sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <button (click)="updateFuel(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteCatalogue(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card [title]="''" [headerContent]="''" [cardOptionBlock]="true">
+
+
+        <h5>Información de reporte </h5>
+        <br>
+        <br>
+          <app-card [title]="'Encabezado'" [headerContent]="''" [cardOptionBlock]="true">
+
+              <div class="form-group row">
+                  <div class="col-sm-8 col-xs-12" >
+                      <h6>Descripción del item <span style="color:red;">*</span></h6>
+                      <input type="text" class="form-control" [(ngModel)]="routineDescriptionUpdate" #ctrl="ngModel" id="workTitleUpdate" required>
+                  </div>
+
+                  <div class="col-sm-4 col-xs-12">
+                      <h6>Horas <span style="color:red;">*</span></h6>
+                      <input type="number" class="form-control" [(ngModel)]="routineHourUpdate" #ctrl="ngModel" id="workHoursUpdate" required>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+
+                  <div class="col-sm-12" >
+                      <h6>Observacion del item <span style="color:red;"></span></h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" required></textarea>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-12 align-buttons">
+                      <button (click)="updateheader()" type="submit" class="btn btn-primary m-b-0" >Actualizar encabezado <i class="icofont icofont-pencil-alt-5"></i></button>
+                  </div>
+              </div>
+              <!-- <button class="btn btn-primary m-b-0" (click)="modalDetail.show()">Crear detalle</button>  -->
+          </app-card>
+              <br>
+            <div  >
+              <app-card >
+                
+                  
+                  
+                  <div class="align-buttons">
+                      <button class="btn btn-primary m-b-0" (click)="modalPart.show()" >Crear Item</button>
+                      <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdatePart.show()" >Actualizar</button>
+                  </div>
+
+                  <ngx-datatable #table class="data-table" [rows]="rowsWorkDetails"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+                      <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
+                     
+
+                      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Descripción" [sortable]="false" prop="description"></ngx-datatable-column>
+                      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
+                          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                              <button (click)="updateParts(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                              <button (click)="deletePart(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                          </ng-template>
+                      </ngx-datatable-column>
+        
+                  </ngx-datatable>
+                  <br>
+              </app-card>
+          </div>
+          <br>
+
+                      <div class="align-buttons">
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminChecklist()">Volver Administración Informe Técnico</button>
+                      </div>
+      </app-card>
+  </div>
+</div>
+
+
+<app-modal-basic #modalPart [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Agregar Item</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="partForm">
+          <div class="form-group row">
+
+              <div class="col-sm-12">
+                  <h6>Descripción <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" id="partDescription" formControlName="partDescription" required>
+              </div>
+
+          </div>
+
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="storagePartHide" (click)="modalPart.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Crear Item</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalUpdatePart [dialogClass]="'modal-lg'" >
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Item</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="updatePartForm">            
+          <div class="form-group row">
+
+              <div class="col-sm-6">
+                  <h6>Descripción <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" id="partDescriptionUpdate" formControlName="partDescriptionUpdate" required>
+              </div>
+
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updatePartHide" (click)="modalUpdatePart.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Item</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+

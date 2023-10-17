@@ -1,0 +1,463 @@
+<!-- battery detail -->
+<app-card [title]="'Registro Baterías '">
+  <form [formGroup]="myForm" (ngSubmit)="strageBattery()">
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <h6>Marca <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="brand"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.brand.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.brand.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.brand.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div style="display: none" class="col-sm-4">
+        <h6>id <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          value="0"
+          formControlName="id"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.id.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.id.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.id.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Modelo <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="model"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.model.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.model.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.model.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Fecha de manufactura <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="manufacturingDate"
+          [ngClass]="{
+            'is-invalid':
+              submittedUpdated && checkFormUpdate.manufacturingDate.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.manufacturingDate.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.manufacturingDate.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Cliente<span style="color: red">*</span></h6>
+
+        <select
+          class="form-control"
+          (change)="getCustomerOffice()"
+          [(ngModel)]="selectedBusinessId"
+          formControlName="customer"
+        >
+          <option value="0" selected>Seleccionar cliente</option>
+          <option *ngFor="let customer of customers" value="{{ customer.id }}">
+            {{ customer.business_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Sede<span style="color: red">*</span></h6>
+        <select
+          class="form-control"
+          [(ngModel)]="selectedOfficeId"
+          formControlName="branchOfficesId"
+        >
+          <option value="0" selected>Seleccionar sede</option>
+          <option *ngFor="let office of customerOffices" [ngValue]="office.id">
+            {{ office.branch_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>alto <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="high"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.high.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.high.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.high.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Ancho <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="brand"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.brand.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.brand.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.brand.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Longitud <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="length"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.length.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.length.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.length.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Performance <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="performance"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.performance.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.performance.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.performance.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Conector <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="connector"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.connector.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.connector.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.connector.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Color de referencia <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="referenceColor"
+          [ngClass]="{
+            'is-invalid':
+              submittedUpdated && checkFormUpdate.referenceColor.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.referenceColor.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.referenceColor.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Cargador de amperaje <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="amperageCharger"
+          [ngClass]="{
+            'is-invalid':
+              submittedUpdated && checkFormUpdate.amperageCharger.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.amperageCharger.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.amperageCharger.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Voltaje <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="voltage"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.voltage.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.voltage.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.voltage.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Cable positivo <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="positiveCable"
+          [ngClass]="{
+            'is-invalid':
+              submittedUpdated && checkFormUpdate.positiveCable.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.positiveCable.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.positiveCable.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Cable negativo <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="negativeCable"
+          [ngClass]="{
+            'is-invalid':
+              submittedUpdated && checkFormUpdate.negativeCable.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.negativeCable.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.negativeCable.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Conexiones <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="connections"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.connections.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.connections.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.connections.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Tapones <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="stoppers"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.stoppers.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.stoppers.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.stoppers.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Voltaje vacío <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="emptyVoltage"
+          [ngClass]="{
+            'is-invalid':
+              submittedUpdated && checkFormUpdate.emptyVoltage.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.emptyVoltage.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.emptyVoltage.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <h6>Carga <span style="color: red">*</span></h6>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="charger"
+          [ngClass]="{
+            'is-invalid': submittedUpdated && checkFormUpdate.charger.errors
+          }"
+        />
+        <div
+          *ngIf="submittedUpdated && checkFormUpdate.charger.errors"
+          class="invalid-feedback"
+        >
+          <div
+            class="messages text-danger"
+            *ngIf="checkFormUpdate.charger.errors.required"
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="align-buttons">
+      <button  (click)="volber()"     class="btn btn-primary m-b-0">
+        Volver 
+      </button>
+    </div>
+  </form>
+</app-card>
+<!-- battery detail -->

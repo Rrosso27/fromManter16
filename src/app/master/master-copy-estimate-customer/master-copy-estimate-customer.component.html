@@ -1,0 +1,455 @@
+<app-modal-basic #modalRegisterItem [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar Item</h4>
+  </div>
+  <div class="app-modal-body">
+      <div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <h6>Código </h6>
+                  <input type="text" [(ngModel)]="code" class="form-control">
+              </div>
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+                  <input type="text" [(ngModel)]="description" class="form-control">
+              </div>
+
+          </div>
+          <br>
+
+          <div class="row">
+              <div class="col-sm-3">
+                  <h6>Cantidad</h6>
+                  <input type="number" [(ngModel)]="quantity" (blur)="calculateFreightValues()" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Costo Unitario </h6>
+                  <input type="number" [(ngModel)]="unitCost" (blur)="calculateFreightValues()" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Peso</h6>
+                  <input type="number" [(ngModel)]="weight" (blur)="calculateFreightValues()" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Lista Tipo Peso </h6>
+                  <select class="form-control" [(ngModel)]="weightTypeList" (blur)="calculateFreightValues()">
+                              <option value="0" selected>Seleccionar peso</option>
+                              <option value="1">LB </option>
+                              <option value="2">KL </option>
+                            </select>
+
+              </div>
+          </div>
+
+          <br>
+          <div class="row">
+              <div class="col-sm-3">
+                  <h6>Lista precio </h6>
+                  <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
+                          <option value="0" selected>Seleccionar país</option>
+                          <option value="2">USA </option>
+                          <option value="3">ESPAÑA </option>
+                          <option value="4">BELGICA </option>
+                        </select>
+
+              </div>
+              <div class="col-sm-3">
+                  <h6>Precio sugerido </h6>
+                  <input type="number" [(ngModel)]="suggestedPrice" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Precio </h6>
+                  <input type="number" [(ngModel)]="price" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Subtotal </h6>
+                  <input type="number" [(ngModel)]="subtotal" class="form-control">
+              </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+
+
+              <div class="col-sm-4">
+                  <h6>Entrega </h6>
+                  <input type="text"   [(ngModel)]="delivery" class="form-control">
+              </div>
+
+               <div class="col-sm-4">
+                 
+              </div>
+
+               <div class="col-sm-4">
+                  <h6 *ngIf="salePrice">COSTO DE TOTAL:  {{costTotalGlobal}} usd </h6>
+                  <br>
+                  <h6 *ngIf="salePrice">COSTO DE PESOS:  {{costPesosGlobal}} </h6>
+                  <br>
+                  <h6 *ngIf="salePrice">PRECIO DE VENTA:  {{salePrice}} </h6>
+                  <br>
+
+              </div>
+          </div>
+          <br>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetail()">Crear Item</button>
+
+          </div>
+      </div>
+  </div>
+</app-modal-basic>
+
+
+
+
+<!-- modal para actulizar -->
+<app-modal-basic #modalUpdateItem [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Actualizar Item</h4>
+  </div>
+  <div class="app-modal-body">
+      <div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <h6>Código </h6>
+                  <input type="text" [(ngModel)]="codeUpdate" class="form-control">
+              </div>
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+                  <input type="text" [(ngModel)]="descriptionUpdate" class="form-control">
+              </div>
+
+          </div>
+          <br>
+
+          <div class="row">
+              <div class="col-sm-3">
+                  <h6>Cantidad</h6>
+                  <input type="number" [(ngModel)]="quantityUpdate" (blur)="calculateFreightValues()" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Costo Unitario </h6>
+                  <input type="number" [(ngModel)]="unitCostUpdate" (blur)="calculateFreightValues()" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Peso</h6>
+                  <input type="number" [(ngModel)]="weightUpdate" (blur)="calculateFreightValues()" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Lista Tipo Peso </h6>
+                  <select class="form-control" [(ngModel)]="weightTypeListUpdate" (blur)="calculateFreightValues()">
+                              <option value="0" selected>Seleccionar peso</option>
+                              <option value="1">LB </option>
+                              <option value="2">KL </option>
+                            </select>
+
+              </div>
+          </div>
+
+          <br>
+          <div class="row">
+              <div class="col-sm-3">
+                  <h6>Lista precio </h6>
+                  <select class="form-control" [(ngModel)]="priceListUpdate" (blur)="calculateFreightValues()">
+                          <option value="0" selected>Seleccionar país</option>
+                          <option value="2">USA </option>
+                          <option value="3">ESPAÑA </option>
+                          <option value="4">BELGICA </option>
+                        </select>
+
+              </div>
+              <div class="col-sm-3">
+                  <h6>Precio sugerido </h6>
+                  <input type="number" [(ngModel)]="suggestedPriceUpdate" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Precio </h6>
+                  <input type="number" [(ngModel)]="priceUpdate" class="form-control">
+              </div>
+              <div class="col-sm-3">
+                  <h6>Subtotal </h6>
+                  <input type="number" [(ngModel)]="subtotalUpdate" class="form-control">
+              </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+
+
+              <div class="col-sm-4">
+                  <h6>Entrega </h6>
+                  <input type="text"   [(ngModel)]="deliveryUpdate" class="form-control">
+              </div>
+
+               <div class="col-sm-4">
+                 
+              </div>
+
+               <div class="col-sm-4">
+                  <h6 *ngIf="salePrice">COSTO DE TOTAL:  {{costTotalGlobalUpdate}} usd </h6>
+                  <br>
+                  <h6 *ngIf="salePrice">COSTO DE PESOS:  {{costPesosGlobalUpdate}} </h6>
+                  <br>
+                  <h6 *ngIf="salePrice">PRECIO DE VENTA:  {{salePriceUpdate}} </h6>
+                  <br>
+
+              </div>
+          </div>
+          <br>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetail()">Crear Item</button>
+
+          </div>
+      </div>
+  </div>
+</app-modal-basic>
+
+
+
+<!-- fin -->
+
+<app-modal-basic #modalUpdateCountry [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar condición DHL</h4>
+  </div>
+  <div *ngIf="currentCountry" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdatePriceCountries()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Peso </h6>
+                  <input type="text" class="form-control" formControlName="weightUpdate" value={{currentCountry.weight}} [ngClass]="{ 'is-invalid': submittedUpdate && checkFormUpdate.weightUpdate.errors }">
+                  <div *ngIf="submittedUpdate && checkFormUpdate.weightUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormUpdate.weightUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <h6>Precio </h6>
+                  <input type="text" class="form-control" formControlName="priceUpdate" value={{currentCountry.price}} [ngClass]="{ 'is-invalid': submittedUpdate && checkFormUpdate.priceUpdate.errors }">
+                  <div *ngIf="submittedUpdate && checkFormUpdate.priceUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormUpdate.priceUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateCountryHide" (click)="modalUpdateCountry.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar condición</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Registrar cotización </h5>
+          <br>
+        <div class="row">
+              <div class="col-sm-4" >
+              <div class="align-consecutive">
+                      <h6>Cot Num. </h6>
+                      <h3 class="color-consecutive" *ngIf="this.consecutive"> {{ this.consecutive }} </h3>
+              </div>
+          </div>
+              <div class="col-sm-4">
+                  <h6>Fecha cotización </h6>
+                <h4>{{this.now}}</h4>
+              </div>
+                <div class="col-sm-4">
+                  <h6>Elaborado por </h6>
+                 <h4> {{user}} </h4>
+              </div>
+          </div>
+          <br>
+           <div class="row">
+              <div class="col-sm-6">
+                      <h6>Cliente</h6>
+                
+                      <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBusinessId"> 
+                                  <option value="0" selected>Seleccionar cliente </option>
+                              <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                             </select>
+              </div>
+              <div class="col-sm-6">
+                      <h6>Equipo</h6>
+
+                      <select class="form-control" [(ngModel)]="selectedForkliftId" > 
+                                  <option value="0" selected>Seleccionar equipo </option>
+                                  <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"> {{forklift.full_name}}  </option>
+                              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                             </select>
+              </div>
+          </div>
+<br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Documento </h6>
+                  <input type="text"  [(ngModel)]="documentCustomer"  value={{documentCustomer}} class="form-control" >
+                     </div>
+<!--  (change)="getForklitfs()" -->
+               <div class="col-sm-4">
+                  <h6>Cliente </h6>
+                  <input type="text" [(ngModel)]="nameCustomer"  value={{nameCustomer}}  class="form-control">
+                     </div>
+
+                         <div class="col-sm-4">
+                  <h6>Equipo </h6>
+                  <input type="text"  class="form-control">
+                     </div>
+          </div>
+<br>
+      <div class="row">
+              <div class="col-sm-4">
+                  <h6>Departamento<span style="color:red;">*</span></h6>
+
+                  <select class="form-control" [(ngModel)]="selectedDepartmentId" (change)="getCities()">
+                        <option value="0" selected>Seleccionar departamento </option>
+                    <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                   </select>
+               </div>
+
+               <div class="col-sm-4">
+                  <h6>Ciudad<span style="color:red;">*</span></h6>
+                  <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedCityId">
+                            <option value="0" selected>Seleccionar ciudad </option>
+                        <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
+                       </select>
+              </div>
+
+              <div class="col-sm-2">
+                  <h6>Forma de pago </h6>
+                  <input type="text"  [(ngModel)]="days"  value={{days}}  class="form-control">
+              </div>
+              <div class="col-sm-2">
+                  <h6>Garantia </h6>
+                  <input type="text"  [(ngModel)]="guaranty"  value={{guaranty}}  class="form-control">
+               </div>
+      </div>
+
+
+<br>
+            <div class="row">
+              <div class="col-sm-4">
+               <h6>Contacto </h6>
+                  <input type="text"  [(ngModel)]="contact"  value={{contact}}   class="form-control">
+                     </div>
+            
+                 <div class="col-sm-4">
+               <h6>Correo </h6>
+                  <input type="text"  [(ngModel)]="email"  value={{email}} class="form-control">
+                     </div>
+          
+
+                  <div class="col-sm-2">
+                  <h6>Validez</h6>
+                  <input type="text"   [(ngModel)]="validity"  value={{validity}} class="form-control">
+                  </div>
+                      <div class="col-sm-2">
+                  <h6>TRM </h6>
+              <h3> {{  this.trmGeneralUsa }}</h3>
+eeee
+              <h3> {{  this.trmGeneralEsp }}</h3>
+                     </div>
+          </div>
+          <br>
+          <div class="row">
+              <div class="col-sm-4">
+               <h6>Teléfono</h6>
+                  <input type="text"   [(ngModel)]="cellphone"  value={{cellphone}}  class="form-control">
+              </div> 
+              <div class="col-sm-8">
+                      <h6>Observación</h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="observation"></textarea>
+                     </div> 
+          </div>
+         
+              <!-- <div class="col-sm-6"> -->
+                 <!--  <h6>País<span style="color:red;">*</span></h6>
+                  <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedEstimateCountryId">
+                          <option value="0" selected>Seleccionar país</option>
+                          <option  *ngFor="let estimateCountry of estimateCountries" [ngValue]="estimateCountry"> {{estimateCountry.name}} </option>
+                        </select> -->
+                  <!--  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)"> -->
+                  <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+           <!--   </div> -->
+            <!--  <div class="col-sm-3"> -->
+                  <!--     <div class="checkbox-color checkbox-primary">
+                  <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                  <label for="checkbox18">
+                         Activo
+                        </label>
+              </div>
+              <div class="checkbox-color checkbox-danger">
+                  <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                  <label for="checkbox16">
+                              Inactivo
+                            </label>
+              </div>-->
+           <br>
+             
+                  <div class="align-buttons">
+                      <button type="button" style="display:none;" id="uploadItem" class="btn btn-primary waves-effect" (click)="modalUpdateItem.show()">Actualizar item</button>
+                      <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterItem.show()" *ngIf="showCreateItem">Crear item</button>
+                      <button type="button"  class="btn btn-primary waves-effect" (click)="createEstimate()" *ngIf="showEstimateId">Crear cotización</button>
+                      <button type="button" id="registerCountry" class="btn btn-primary waves-effect"  *ngIf="showCreateItem">Actualizar cotización</button>
+                  </div>
+              
+                
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="rowsItems" [columns]="[{name:'Peso (kilos)', prop:'code'},{name:'Precio x Kilo (usd)', prop:'price'},{prop:'id'}]"  [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+              [limit]="5">
+
+              <ngx-datatable-column  name="Código" [sortable]="false" [draggable]="false" prop="code"></ngx-datatable-column>
+              <ngx-datatable-column  name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+               <ngx-datatable-column  name="Cant" [sortable]="false" [draggable]="false" prop="quantity"></ngx-datatable-column>
+             <ngx-datatable-column  name="Cto Unit" [sortable]="false" [draggable]="false" prop="unit_cost"></ngx-datatable-column>
+             <ngx-datatable-column  name="List Precio" [sortable]="false" [draggable]="false" prop="price_list"></ngx-datatable-column>
+             <ngx-datatable-column  name="Precio sugerido" [sortable]="false" [draggable]="false" prop="price_suggest"></ngx-datatable-column>
+                  <ngx-datatable-column  name="Precio" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                    <ngx-datatable-column  name="Subtotal" [sortable]="false" [draggable]="false" prop="subtotal"></ngx-datatable-column>
+                      <ngx-datatable-column  name="Entrega" [sortable]="false" [draggable]="false" prop="delivery"></ngx-datatable-column>
+              <ngx-datatable-column  name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                   
+
+                      <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deletePriceCountry(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+      
+      <div class="row">
+          <!-- <div class="col-md-4" *ngFor="let img of images;let i=index">
+             <img id="img{{i}}" class="img-fluid" crossOrigin="Anonymous" [src]="img.url">
+         </div>  -->
+         <div class="col-md-12 mt-3">
+             <button (click)="download()" class="btn btn-primary">Download PDF</button>
+
+             <button (click)="downloadEcxel()" class="btn btn-primary">Download ECXEL</button>
+
+           <!--   <button (click)="upload()" class="btn btn-primary">Download subir</button> -->
+
+             
+         </div>
+     </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+.spinner {
+    margin: 18px auto;
+    top: 65px;
+    left: 65px;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    transform: translate(-50%, -50%);
+    &.animation-start .circle {
+        animation: rotating 2s ease-in-out infinite;
+    }
+    &.animation-stop .circle {
+        animation-iteration-count: 1;
+    }
+    .circle {
+        width: 50px;
+        height: 50px;
+        display: block;
+        position: absolute;
+        transform-origin: 50% 50%;
+        animation-iteration-count: 0;
+    }
+    .circle:after {
+        content: '';
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        display: block;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #381abc;
+    }
+    .circle.delay-1 {
+        animation-delay: 0.125s;
+    }
+    .circle.size-1:after {
+        width: 11px;
+        height: 11px;
+    }
+    .circle.delay-2 {
+        animation-delay: 0.25s;
+    }
+    .circle.size-2:after {
+        width: 12px;
+        height: 12px;
+    }
+    .circle.delay-3 {
+        animation-delay: 0.375s;
+    }
+    .circle.size-3:after {
+        width: 13px;
+        height: 13px;
+    }
+    .circle.delay-4 {
+        animation-delay: 0.5s;
+    }
+    .circle.size-4:after {
+        width: 14px;
+        height: 14px;
+    }
+    .circle.delay-5 {
+        animation-delay: 0.625s;
+    }
+    .circle.size-5:after {
+        width: 15px;
+        height: 15px;
+    }
+    .circle.delay-6 {
+        animation-delay: 0.75s;
+    }
+    .circle.size-6:after {
+        width: 16px;
+        height: 16px;
+    }
+    .circle.delay-7 {
+        animation-delay: 0.875s;
+    }
+    .circle.size-7:after {
+        width: 17px;
+        height: 17px;
+    }
+    .circle.delay-8 {
+        animation-delay: 1s;
+    }
+    .circle.size-8:after {
+        width: 18px;
+        height: 18px;
+    }
+    .circle.delay-9 {
+        animation-delay: 1.125s;
+    }
+    .circle.size-9:after {
+        width: 19px;
+        height: 19px;
+    }
+    .circle.delay-10 {
+        animation-delay: 1.25s;
+    }
+    .circle.size-10:after {
+        width: 20px;
+        height: 20px;
+    }
+    .circle.delay-11 {
+        animation-delay: 1.375s;
+    }
+    .circle.size-11:after {
+        width: 21px;
+        height: 21px;
+    }
+    .circle.delay-12 {
+        animation-delay: 1.5s;
+    }
+    .circle.size-12:after {
+        width: 22px;
+        height: 22px;
+    }
+}

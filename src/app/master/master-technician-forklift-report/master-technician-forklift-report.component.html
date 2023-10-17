@@ -1,0 +1,35 @@
+<div class="col-sm-12">
+
+  <app-card [title]="'Reporte de Técnico1'" [headerContent]="''" [cardOptionBlock]="true">
+      <div>
+        <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+
+      </div>
+        <div class="align-buttons">
+            <button type="button" id="uploadNew" class="btn btn-primary" (click)="redirecttodetails()" >Crear Reporte</button>
+        </div>
+        <br>
+        <ngx-datatable #table class="data-table" [rows]="rowsWork"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+          <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Nombre de Técnico" [sortable]="false"  prop="name_user"></ngx-datatable-column>
+          <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de creación" [sortable]="false"  prop="date"></ngx-datatable-column> -->
+          <ngx-datatable-column   [flexGrow]="2"  name="Estado del Reporte" [sortable]="false"  sortable="false"  prop="status">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <div class="statusLabel" *ngIf="value==1">
+                INICIADO
+              </div>
+
+              <div *ngIf="value==2">
+                FINALIZADO
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Acciones" sortable="false"  prop="id">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <button class="btn btn-primary btn-icon" (click)="goToTpdateView(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
+                  <button class="btn btn-danger btn-icon" (click)="deleteWorkHeader(row)"><i class="icofont icofont-ui-delete"></i></button>
+              </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card>
+
+</div>

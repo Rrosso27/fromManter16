@@ -1,0 +1,123 @@
+<app-modal-basic #modalRegisterCountry [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Registrar país cotizaciones</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="myForm" (ngSubmit)="sendCountry()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>País </h6>
+                    <input type="text" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': submitted && checkForm.name.errors }">
+                    <div *ngIf="submitted && checkForm.name.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.name.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Moneda </h6>
+                    <input type="text" class="form-control" formControlName="money" [ngClass]="{ 'is-invalid': submitted && checkForm.money.errors }">
+                    <div *ngIf="submitted && checkForm.money.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.money.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createCountryHide" (click)="modalRegisterCountry.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear País</button>
+
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateCountry [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar país cotizaciones</h4>
+    </div>
+    <div *ngIf="currentCountry" class="app-modal-body">
+        <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateCountry()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>País </h6>
+                    <input type="text" class="form-control" formControlName="nameUpdate" value={{currentCountry.name}} [ngClass]="{ 'is-invalid': submittedUpdate && checkFormUpdate.nameUpdate.errors }">
+                    <div *ngIf="submittedUpdate && checkFormUpdate.nameUpdate.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkFormUpdate.nameUpdate.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Moneda </h6>
+                    <input type="text" class="form-control" formControlName="moneyUpdate" value={{currentCountry.money}} [ngClass]="{ 'is-invalid': submittedUpdate && checkFormUpdate.moneyUpdate.errors }">
+                    <div *ngIf="submittedUpdate && checkFormUpdate.moneyUpdate.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkFormUpdate.moneyUpdate.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateCountryHide" (click)="modalUpdateCountry.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar país</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <app-card>
+            <h5>Registrar país cotizaciones </h5>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <!--  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)"> -->
+                    <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+                </div>
+                <div class="col-sm-3">
+                    <!--     <div class="checkbox-color checkbox-primary">
+                        <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                        <label for="checkbox18">
+                               Activo
+                              </label>
+                    </div>
+                    <div class="checkbox-color checkbox-danger">
+                        <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                        <label for="checkbox16">
+                                    Inactivo
+                                  </label>
+                    </div>-->
+                </div>
+                <div class="col-sm-3">
+                    <div class="align-buttons">
+                        <button type="button" style="display:none;" id="uploadCountry" class="btn btn-primary waves-effect" (click)="modalUpdateCountry.show()">Crear país</button>
+                        <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterCountry.show()">Crear país</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'País', prop:'name'},{name:'Moneda', prop:'money'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+                <ngx-datatable-column [resizeable]="false" name="País" [sortable]="false" [draggable]="false" prop="name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Moneda" [sortable]="false" [draggable]="false" prop="money"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                              <i class="fa fa-ban"></i>
+                            </button> -->
+
+                        <button (click)="updateCountry(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button (click)="deleteCountry(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+        </app-card>
+    </div>
+</div>

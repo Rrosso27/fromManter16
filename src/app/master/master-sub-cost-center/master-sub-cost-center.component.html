@@ -1,0 +1,133 @@
+<app-modal-basic #modalRegisterSubCostCenter [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar Sub Centro de Costos</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendCostCenter()">
+
+        <div class="form-group row">
+          <div class="col-sm-5">
+            <h6 class="regional">Selecciona la regional a la cual pertenece<span style="color: red;">*</span></h6>
+            <select class="form-control" name="select" [(ngModel)]="selectedCostCenter" formControlName="costCenter">
+              <option value="0" selected>Seleccionar la regional</option>
+              <option  *ngFor="let reg of regionals" [ngValue]="reg"> {{reg.description}} </option>
+            </select>
+          </div>
+        </div>
+
+          <div class="form-group row">
+              <div class="col-sm-5">
+                  <h6>Codigo <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="code" [ngClass]="{ 'is-invalid': submitted && checkForm.code.errors }">
+                  <div *ngIf="submitted && checkForm.code.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.code.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+                  <div class="col-sm-2"></div>
+
+              <div class="col-sm-5">
+
+                  <h6>Descripción<span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+                  <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+          </div>            
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createSubCostCenterHide" (click)="modalRegisterSubCostCenter.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Agregar Sub Centro de Costos</button>
+            </div>
+          
+        </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateSubCostCenter [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Sub Centro de Costo</h4>
+  </div>
+  <div *ngIf="currentSubCostCenter" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="updateSubCostCenters()">
+
+          <div class="form-group row">
+              <div class="col-sm-5">
+                <h6 class="regional">Selecciona la regional a la cual pertenece<span style="color: red;">*</span></h6>
+                <select class="form-control" name="select" [(ngModel)]="selectedCostCenterUpdate" formControlName="costCenterUpdate">
+                  <option value="0" selected>Seleccionar la regional</option>
+                  <option  *ngFor="let reg of regionals" [ngValue]="reg.id"> {{reg.description}} </option>
+                </select>
+              </div>
+            </div>
+            <div class=" form-group row ">
+                <div class="col-sm-5 ">
+                    <h6>Codigo <span style="color:red; ">*</span></h6>
+                    <input type="text " class="form-control " formControlName="codeUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.codeUpdate.errors } ">
+                    <div *ngIf="submittedUpdated && checkFormUpdate.codeUpdate.errors " class="invalid-feedback ">
+                        <div class="messages text-danger " *ngIf="checkFormUpdate.codeUpdate.errors.required ">Este campo es requerido</div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-5 ">
+                    <h6>Descripción <span style="color:red; ">*</span></h6>
+                    <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                    <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
+                        <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="modalUpdateSubCostCenter" (click)="modalUpdateSubCostCenter.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Centro de costo</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<div class="row">
+<div class="col-sm-12">
+    <app-card  style="position: sticky; top: 300px;">
+        <h5>Registrar Sub Centro de Costo </h5>
+        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+            </div>
+            
+            <div class="col-sm-3">
+                <div class="align-buttons">
+                    <button type="button" id="registerCostCenter" class="btn btn-primary waves-effect" (click)="modalRegisterSubCostCenter.show()" (click)="getRegionals()" >Crear Sub Centro de costo</button>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+            [limit]="25">
+
+            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Codigo"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="code"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Regional"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="regionalDescription"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+
+                  <button type="button" style="display:none;" id="updateSubCostCenter" class="btn btn-primary waves-effect" (click)="modalUpdateSubCostCenter.show()" (click)="getRegionals()">Actualizar Centro de costo</button>
+                    <button (click)="updateSubCostCenter(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <button (click)="deleteSubCostCenters(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+
+
+        </ngx-datatable>
+    </app-card>
+</div>
+</div>

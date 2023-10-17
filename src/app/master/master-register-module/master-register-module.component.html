@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-sm-12">
+  
+      <app-card [title]="'Registro Modulos'" [headerContent]="''" [cardOptionBlock]="true">
+
+          <h5>Información de modulos </h5>
+          <br>
+          <h6 >Luego de crear el modulo, puedes crear los sub modulos</h6>
+          <br>
+
+
+          <form [formGroup]="myForm" (ngSubmit)="sendModule()" *ngIf=" showButtonUpdated == 0">
+              <div class="form-group row">
+
+                  <div class="col-sm-4">
+                      <h6>Nombre <span style="color:red;">*</span></h6>
+                      <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+                      <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                          <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                      </div>
+
+                  <div class="col-sm-4 ">
+                      <h6>Activo</h6>
+                      <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreated($event)" [checked]="enabledCreated"></ui-switch><br>
+                  </div>
+              </div>
+
+            </div>
+              <div class="align-buttons">
+                  <button type="submit " class="btn btn-primary m-b-0 ">Agregar Modulo</button>
+              </div>
+          </form>
+
+      </app-card>
+  </div>
+</div>

@@ -1,0 +1,410 @@
+<app-modal-basic #modalRegisterOffice [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar sede</h4>
+  </div>
+  <div class="app-modal-body">
+      <!-- <form [formGroup]="myFormCreateOffice" (ngSubmit)="sendOffice()"> -->
+      <form [formGroup]="myFormCreateOffice" >
+          <div class="form-group row">
+              <div class="col-sm-4">
+                  <h6>Nombre de sede <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="nameOffice" [ngClass]="{ 'is-invalid': submittedOffice && checkFormOffice.nameOffice.errors }">
+                  <div *ngIf="submittedOffice && checkFormOffice.nameOffice.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOffice.nameOffice.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <h6> Teléfono </h6>
+                  <input type="text" class="form-control" formControlName="telephoneOffice" [ngClass]="{ 'is-invalid': submittedOffice && checkFormOffice.telephoneOffice.errors }">
+                  <div *ngIf="submittedOffice && checkFormOffice.telephoneOffice.errors" class="invalid-feedback">
+                      <!--<div class="messages text-danger" *ngIf="checkFormOffice.telephoneOffice.errors.required">Este campo es requerido</div>-->
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <h6>Departamento<span style="color:red;">*</span></h6>
+
+                  <select class="form-control" [(ngModel)]="selectedDepartmentOfficeId" (change)="getCitiesOffice($event)" formControlName="departmentOffice">
+                        <option value="0" selected>Seleccionar departamento </option>
+                    <option   *ngFor="let department of departments" [ngValue]="department"> {{department.name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                   </select>
+                  <div *ngIf="submittedOffice && checkFormOffice.departmentOffice.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOffice.departmentOffice.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-4">
+                  <h6>Ciudad<span style="color:red;">*</span></h6>
+                  <select class="form-control" class="form-control" name="select" formControlName="citytOffice" [(ngModel)]="selectedCityOfficeId">
+                            <option value="0" selected>Seleccionar ciudad </option>
+                        <option  *ngFor="let city of citiesOffice " [ngValue]="city "> {{city.city}} </option>
+                       </select>
+                  <div *ngIf="submittedOffice && checkFormOffice.citytOffice.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOffice.citytOffice.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+              <div class="col-sm-4">
+                  <h6> Dirección <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="addressOffice" [ngClass]="{ 'is-invalid': submittedOffice && checkFormOffice.addressOffice.errors }">
+                  <div *ngIf="submittedOffice && checkFormOffice.addressOffice.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOffice.addressOffice.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+              <div class="col-sm-4">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOffice($event)" [checked]="enabledCreatedOffice"></ui-switch><br>
+              </div>
+
+
+
+          </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterOffice.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Crear sede</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalUpdateOffice [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+  </div>
+  <div class="app-modal-body">
+      <!-- <form [formGroup]="myFormUpdateOffice" (ngSubmit)="updatedOffice()"> -->
+      <form [formGroup]="myFormUpdateOffice" >
+          <div class="form-group row">
+              <div class="col-sm-4">
+                  <h6>Nombre de sede <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="nameOfficeUpdate" [ngClass]="{ 'is-invalid': submittedOfficeUpdated && checkFormOfficeUpdate.nameOfficeUpdate.errors }">
+                  <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.nameOfficeUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.nameOfficeUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <h6> Teléfono </h6>
+                  <input type="text" class="form-control" formControlName="telephoneOfficeUpdate" [ngClass]="{ 'is-invalid': submittedOfficeUpdated && checkFormOfficeUpdate.telephoneOfficeUpdate.errors }">
+                  <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.telephoneOfficeUpdate.errors" class="invalid-feedback">
+                      <!--<div class="messages text-danger" *ngIf="checkFormOfficeUpdate.telephoneOfficeUpdate.errors.required">Este campo es requerido</div>-->
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <h6>Departamento<span style="color:red;">*</span></h6>
+
+                  <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate()" formControlName="departmentOfficeUpdate">
+                            <option value="0" selected>Seleccionar departamento </option>
+                        <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                       </select>
+                  <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.departmentOfficeUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.departmentOfficeUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-4">
+                  <h6>Ciudad<span style="color:red;">*</span></h6>
+                  <select class="form-control" class="form-control" name="select" formControlName="citytOfficeUpdate" [(ngModel)]="selectedCityOfficeIdUpdate">
+                                <option value="0" selected>Seleccionar ciudad </option>
+                            <option  *ngFor="let city of citiesOfficeUpdate " [ngValue]="city.id "> {{city.city}} </option>
+                           </select>
+                  <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.citytOfficeUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.citytOfficeUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+              <div class="col-sm-4">
+                  <h6> Dirección <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="addressOfficeUpdate" [ngClass]="{ 'is-invalid': submittedOfficeUpdated && checkFormOfficeUpdate.addressOfficeUpdated.errors }">
+                  <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.addressOfficeUpdated.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.addressOfficeUpdated.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+              <div class="col-sm-4">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
+              </div>
+
+
+
+          </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateOffice.hide()">Cancelar</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+      <!-- <app-master-spinner></app-master-spinner>  -->
+      <!-- Basic Inputs Validation start -->
+
+
+
+      <app-card [title]="'Registro Clientes'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+          <h5>Detalle cliente </h5>
+          <br>
+          <h6 *ngIf=" showButtonUpdated == 0">Luego de crear el cliente, puedes crear sedes</h6>
+          <h6 *ngIf=" showButtonUpdated == 1">Ya puedes crear sedes</h6>
+          <br>
+          <!--                       //////////////////////////////////                      -->
+
+
+          <form [formGroup]="myFormUpdate" (ngSubmit)="updatedCustomer()">
+              <div class=" form-group row ">
+
+                  <div class="col-sm-4 ">
+                      <h6>Tipo documento <span style="color:red; ">*</span></h6>
+                      <select  disabled class="form-control " name="select " [(ngModel)]="selectedTypeDocumentIdUpdate" formControlName="typeDocumentIdUpdate">
+                          <option value="0 " selected>Seleccionar tipo documento</option>
+                          <option  *ngFor="let typeDocument of typeDocuments" [ngValue]="typeDocument.id"> {{typeDocument.description}} </option>
+                        </select>
+                  </div>
+
+                  <!-- <select *ngIf="car " class="form-control "
+        [(ngModel)]="selectedDoor " #selectDoor
+        (change)="getRecDet(selectDoor.value); "  required >
+      <option *ngFor="let oneDoor of car.doors "
+              [ngValue]="oneDoor ">
+             {{oneDoor.position}}
+      </option>
+</select>   -->
+
+                  <div class="col-sm-4 ">
+                      <!--    <h6>Documento <span style="color:red; ">*</span></h6>
+                <input type="number " class="form-control " id="password ">
+              <div class="messages text-danger error " *ngIf="myForm.controls.password.touched && !myForm.controls.password.valid ">Este campo es requerido</div> -->
+
+                      <h6>Documento <span style="color:red; ">*</span></h6>
+                      <input disabled type="text " class="form-control " formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.documentIdUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.documentIdUpdate.errors " class="invalid-feedback ">
+                          <div class="messages text-danger " *ngIf="checkFormUpdate.documentIdUpdate.errors.required ">Este campo es requerido</div>
+                      </div>
+
+
+                  </div>
+                  <div class="col-sm-4 ">
+                      <!--    <h6>Razón social <span style="color:red; ">*</span></h6>
+                <input type="text " class="form-control " id="rpassword ">
+                 <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
+                  <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+
+                      <h6>Razón social <span style="color:red; ">*</span></h6>
+                      <input disabled type="text " class="form-control " formControlName="businessNameUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.businessNameUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.businessNameUpdate.errors " class="invalid-feedback ">
+                          <div class="messages text-danger " *ngIf="checkFormUpdate.businessNameUpdate.errors.required ">Este campo es requerido</div>
+                      </div>
+
+
+
+
+                  </div>
+
+              </div>
+
+              <div class="form-group row ">
+                  <div class="col-sm-4 ">
+                      <!-- <h6>Teléfono <span style="color:red; ">*</span></h6>
+                <input type="text " class="form-control " id="rpassword ">-->
+
+                      <h6>Teléfono </h6>
+                      <input  disabled type="text " class="form-control " formControlName="telephoneUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.telephoneUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.telephoneUpdate.errors " class="invalid-feedback ">
+                          <!--<div class="messages text-danger " *ngIf="checkFormUpdate.telephoneUpdate.errors.required ">Este campo es requerido</div>-->
+                      </div>
+
+                  </div>
+                  <!--   <div class="col-sm-4 ">
+              <h6>Correo electrónico <span style="color:red; ">*</span></h6>
+              <input type="email " class="form-control " id="password ">
+          </div> -->
+                  <div class="col-sm-4 ">
+                      <!--  <h6>Dirección <span style="color:red; ">*</span></h6>
+                <input type="text " class="form-control " id="rpassword ">  -->
+
+                      <h6>Dirección <span style="color:red; ">*</span></h6>
+                      <input disabled type="text " class="form-control " formControlName="addressUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.addressUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.addressUpdate.errors " class="invalid-feedback ">
+                          <div class="messages text-danger " *ngIf="checkFormUpdate.addressUpdate.errors.required ">Este campo es requerido</div>
+                      </div>
+                      <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
+                <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  </div>
+
+
+
+                  <div  style="display: none;" class="col-sm-4 ">
+                      <!-- <h6>Lista de precios <span style="color:red; ">*</span></h6>
+                      <select class="form-control " name="select " formControlName="priceListIdUpdate" [(ngModel)]="selectedPriceListIdUpdate ">
+                        <option value="0 " selected>Seleccionar lista de precios</option>
+                        <option  *ngFor="let priceL of priceList " [ngValue]="priceL.id"> {{priceL.description}} </option>
+                        </select> -->
+                      <input  disabled type="number" class="form-control " formControlName="priceMarginUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.priceMarginUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.priceMarginUpdate.errors " class="invalid-feedback ">
+                          <div class="messages text-danger " *ngIf="checkFormUpdate.priceMarginUpdate.errors.required ">Este campo es requerido</div>
+                      </div>
+
+                  </div>
+
+
+
+              </div>
+
+
+
+              <div class="form-group row ">
+
+
+
+                  <div class="col-sm-4 ">
+                      <h6>Condición de pago<span style="color:red; ">*</span></h6>
+                      <select disabled class="form-control " [(ngModel)]="selectedPaymentConditionIdUpdate" class="form-control " formControlName="paymentConditionIdUpdate" name="select ">
+                    <option value="0 " selected>Seleccionar condición pago </option>
+                          <option  *ngFor="let paymentCondition of paymentConditions" [ngValue]="paymentCondition.id"> {{paymentCondition.description}} </option>
+                       </select>
+
+                  </div>
+
+
+                  <div class="col-sm-4 ">
+                      <h6>Departamento <span style="color:red; ">*</span></h6>
+                      <!-- $event juan jose metodo sin parametro en el ts-->
+                      <select  disabled class="form-control " [(ngModel)]="selectedDepartmentIdUpdate" (change)="getCitiesUpdate()" formControlName="departmentIdUpdate">
+                        <option value="0 " selected>Seleccionar departamento </option>
+                    <option   *ngFor="let department of departments " [ngValue]="department.id"> {{department.name}}  </option>
+                    <!--  <option value="0 " selected>Seleccionar perfil</option> -->
+                   </select>
+                      <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
+                <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  </div>
+                  <div class="col-sm-4 ">
+                      <h6>Ciudad<span style="color:red; ">*</span></h6>
+                      <select  disabled class="form-control " class="form-control " name="select " formControlName="cityIdUpdate" [(ngModel)]="selectedCityIdUpdate">
+                        <option value="0 " selected>Seleccionar ciudad </option>
+                    <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
+                   </select>
+                      <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
+                <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  </div>
+              </div>
+
+
+
+              <!--
+        <label class="btn btn-default ">
+            <input type="file " (change)="selectFile($event) " multiple>
+          </label>
+
+        <button class="btn btn-success " [disabled]="!selectedFiles " (click)="upload() ">Upload</button>
+-->
+
+          </form>
+
+
+
+          <!--
+        <h3>Angular 7 Image Preview before Upload:</h3>
+        <span style="color:red; " *ngIf="message ">{{message}}</span>
+        <input #file type="file " accept='image/*' (change)="preview(file.files) " />
+        <img [src]="imgURL " height="200 " *ngIf="imgURL ">
+-->
+          <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+      </app-card>
+  </div>
+</div>
+
+<!-- <div class="row ">
+  <div class="col-sm-12 ">
+      <app-card>
+          <h5>Registrar sede </h5>
+          <br>
+          <div class="align-buttons">
+              <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateOffice.show()">Crear sede</button>
+              <div *ngIf="currentCustomerId !==0 ">
+                  <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear sede</button>
+              </div>
+              <div *ngIf="currentCustomerId == 0 ">
+                  <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="messageError()">Crear sede</button>
+              </div>
+          </div>
+          <br>
+          <ngx-datatable #table class="data-table" [rows]="dataOffices" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+              <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
+                      <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                      <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+          </ngx-datatable>
+             <br>
+             <br>
+      </app-card>
+  </div>
+</div>-->
+
+<app-card >
+<div class="row">
+      <div class="col-sm-12">
+          <h5>
+              Relacionar sucursales
+          </h5>
+
+          <br>
+          <input style="display: none;" type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong style="display: none;">Seleccionar todo</strong>
+          <br>
+          <div class="table-responsive">
+              <div class="table-scroll">
+               <table class="table table-framed">
+                 <thead>
+                 <tr>
+                   <th style="flex-grow: 1;"> </th>
+                   <th style="flex-grow: 3;">Descripción</th>
+                 </tr>
+                 </thead>
+                 <tbody>
+                 <tr *ngFor="let item of regionals;let pointIdex=index">
+                   <td scope="row">
+                       <input disabled  type="checkbox"  name="list_name" value="{{item.id}}" (change)="partChangeActive($event,item)" [checked]="item.cheked"/>
+                   </td>
+                   <td> {{item.description}}</td>
+                 </tr>
+                 </tbody>
+               </table>
+              </div>
+          </div>
+          <div class="align-buttons">
+              <button class="btn btn-primary m-b-0 " (click)="goAdminCustomer()">Volver Administración Clientes</button>
+          </div>
+      </div>
+
+  </div>
+</app-card>
+

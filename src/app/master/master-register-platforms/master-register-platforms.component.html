@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card [title]="'Registro Plataformas'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+          <h5>Información Mantenimiento Plataforma </h5>
+          <br>
+          <h6 >Luego de crear la plataforma, puedes crear el sistema</h6>
+
+          <br>
+          <app-card  [headerContent]="''" [cardOptionBlock]="true">
+
+              <div class="form-group row">
+                  <div class="col-sm-8 col-xs-12" >
+                      <h6>Descripción <span style="color:red;">*</span></h6>
+                      <input type="text" class="form-control" [(ngModel)]="routineDescription" #ctrl="ngModel" id="workTitle" required>
+                  </div>
+               
+                  <!-- <div class="col-sm-1 editicon" *ngIf="showButtonUpdated == true">
+                          <button (click)="updateheader(title2.value)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      </div> -->
+
+                  <div class="col-sm-4 col-xs-12" >
+                      <h6>Horas</h6>
+                      <input type="number" class="form-control" [(ngModel)]="routineHour" #ctrl="ngModel" id="workHours" >
+                  </div>
+              
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-12" >
+                      <h6>Observacion </h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="routineObservation" #ctrl="ngModel" id="workObservation" ></textarea>
+                  </div>
+            
+              </div>
+
+            
+              <div class="form-group row">
+                <div class="col-sm-4">
+                    <input type="checkbox"  value="supplicePart"  name="supplicePart"  (change)="selectStatuSupplicePart($event)"/>&nbsp;Insumos y Partes
+                </div>
+                <div class="col-sm-4">
+                    <input type="checkbox"  value="deliveryReview"  name="deliveryReview"  (change)="selectStatusDeliveryReview($event)"/>&nbsp;Revisión de entrega
+                </div>
+                <div class="col-sm-4">
+                    <input type="checkbox"  value="pending"  name="pending"  (change)="selectStatusPending($event)"/>&nbsp;Pendiente
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-4">
+                    <input type="checkbox"  value="survey"  name="survey"  (change)="selectStatuSurvey($event)"/>&nbsp;Encuesta
+                </div>
+                <div class="col-sm-4">
+                    <input type="checkbox"  value="firm"  name="firm"  (change)="selectStatusFirm($event)"/>&nbsp;Firma
+                </div>
+              
+              </div>
+              <div class="align-buttons">
+             
+                      <button type="button" class="btn btn-primary m-b-0 waves-effect" id="storeheaderbutton" (click)="registerheader()" >Agregar encabezado</button>
+                      <!-- <button (click)="registerheader()" id="registerHeader" type="submit" class="btn btn-primary m-b-0" *ngIf="showButtonUpdated == false">Agregar encabezado</button> -->
+
+                      <!-- <button style="display: none;" type="button" class="btn btn-default waves-effect" id="showUpdateSystem" hidden (click)="modalUpdateSystem.show()">Cancelar</button> -->
+                      <button type="button" class="btn btn-default waves-effect" id="storeheaderbutton2" hidden (click)="registerheader()">Cancelar</button>
+                  
+              </div>
+          </app-card>
+         
+                      <div class="align-buttons">
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Mantenimiento Plataformas</button>
+                      </div>
+      </app-card>
+  </div>
+</div>
+
+
+

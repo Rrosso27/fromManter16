@@ -1,0 +1,98 @@
+
+<div class="row">
+
+  <div class="app-modal-header">
+    <h4 class="modal-title">Detalle Pendiente</h4>
+  </div>
+  <div class="col-sm-12">
+    <app-card>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <h6>Descricción de la rutina</h6>
+             <input type="text" [(ngModel)]="descriptionRutine" class="form-control" disabled>
+         </div>
+         <div class="col-sm-3">
+           <h6>Fecha de inicio de la rutina</h6>
+           <input type="text" [(ngModel)]="dateStart" class="form-control" disabled>
+          </div>
+                <div class="col-sm-3">
+                  <h6>Fecha final de la rutina</h6>
+                     <input type="text" [(ngModel)]="dateFinish" class="form-control" disabled>
+                 </div>
+      </div>
+    </app-card>
+  </div>
+  
+</div>
+
+<app-card title="Detalle de Rutina">
+  <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 "  >Crear</button>
+  <h5></h5>
+
+  <ngx-datatable #table class="data-table" [rows]="rowsWork"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sistema" [sortable]="false"  prop="system_routine_description"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Componente" [sortable]="false"  prop="component_routine_description"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="1" [sortable]="false" [resizeable]="false"  name="Parte" [sortable]="false"  prop="parts_routine_description"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Trabajo a realizar" [sortable]="false"  prop="work"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Observación" [sortable]="false"  prop="observation"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Check" [sortable]="false"  prop="check">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+    <div class="statusLabel" *ngIf="value==2">
+      <img src="././assets/images/cancel.png" width="10%">
+    </div>
+
+    <div *ngIf="value==1">
+      <img src="././assets/images/checked.png" width="10%">
+    </div>
+       
+    </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+</app-card>
+
+<app-card title="Técnicos Asignados">
+  <ngx-datatable #table class="data-table" [rows]="technician"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Nombre del Técnico" [sortable]="false"  prop="name"></ngx-datatable-column>
+
+  </ngx-datatable>
+
+</app-card>
+
+
+<app-card title="Pendientes">
+  <ngx-datatable #table class="data-table" [rows]="pending"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción " [sortable]="false"  prop="description"></ngx-datatable-column>
+
+  </ngx-datatable>
+
+</app-card>
+
+<app-card title="Insumos">
+  <ngx-datatable #table class="data-table" [rows]="supplice"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción " [sortable]="false"  prop="description"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cantidad" [sortable]="false"  prop="quantity"></ngx-datatable-column>
+
+  </ngx-datatable>
+
+</app-card>
+
+<app-card title="Revisión de Entrega">
+  <ngx-datatable #table class="data-table" [rows]="delivery"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Observación" [sortable]="false"  prop="observation"></ngx-datatable-column>
+
+  </ngx-datatable>
+
+</app-card>
+
+<app-card  title="Imágenes">
+  <div class="form-group row">
+    <img *ngFor="let img of urlImages" src="{{img.image}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
+  </div>
+</app-card>

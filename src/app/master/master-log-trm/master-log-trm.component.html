@@ -1,0 +1,47 @@
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Historico de TRM </h5>
+          <br>
+
+  <div class="form-group row">
+      <div class="col-4">
+        <h6>Desde:</h6>
+        <div class="input-group" dir="ltr">
+          <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                  name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+              <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+        </div>
+     </div>
+  <div class="col-4">
+      <h6>Hasta:</h6>
+      <div class="input-group" dir="ltr">
+      <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+          <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+      </div>
+      </div>
+
+    </div>
+        
+           
+                <div class="align-buttons">
+                    <br>  
+                    <button class="btn btn-primary" (click)="getEstimateFiltersInitial()"><i class="icofont icofont-search" ></i>Buscar</button>
+                  
+                </div>
+              <br>
+              <br>
+      <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+       <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Fecha" [sortable]="false"  prop="create_at"></ngx-datatable-column>
+       <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Descripción" [sortable]="false"  prop="configuration_trm"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Valor" [sortable]="false"  prop="value"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Nombre Usuario " [sortable]="false"  prop="user"></ngx-datatable-column>
+    
+  </ngx-datatable>
+
+        </app-card>
+    </div>
+</div>

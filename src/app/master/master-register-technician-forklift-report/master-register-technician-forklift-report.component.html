@@ -1,0 +1,70 @@
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Reporte de Técnicos</h5>
+          <br>
+
+          <div class="form-group row">
+
+            <div class="col-sm-6">
+              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+          </div>
+
+            <div class="col-sm-6">
+              <h6>Cliente  <span style="color:red;">*</span></h6>
+              <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
+                          <option value="0" selected>Seleccionar cliente </option>
+                      <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Sede  <span style="color:red;">*</span></h6>
+                <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+              </div>
+
+            <div class="col-sm-4">
+              <h6>Equipo  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
+                          <option value="0" selected>Seleccionar equipo </option>
+                          <option   *ngFor="let forklift of forklifts" [ngValue]="forklift"   > {{forklift.full_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+
+            <div class="col-sm-4">
+              <h6>Reporte  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedReporId" > 
+                          <option value="0" selected>Seleccionar el reporte a diligenciar </option>
+                          <option   *ngFor="let forklift of report" [ngValue]="forklift"   > {{forklift.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+          </div>
+            <div class=" align-buttons" >
+              <button  type="button" (click)="registerHeader()"   class="btn btn-primary waves-effect">Crear Reporte Técnico</button>
+              </div>
+
+          
+          
+
+      </app-card>      
+  </div>
+</div>

@@ -1,0 +1,179 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar Archivos</h4>
+  </div>
+  <div class="app-modal-body">
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <h6>Marca<span style="color:red;">*</span></h6>
+              <select class="form-control" [(ngModel)]="selectedValue" name="select">
+                  <option value="0" selected>Seleccionar Marca</option>
+                        <option  *ngFor="let brand of brands" [ngValue]="brand"> {{brand.description}} </option>
+                     </select>
+            </div>
+              <div class="col-sm-6">
+                  <h6>Modelo<span style="color:red;">*</span> </h6>
+                  <select class="form-control" [(ngModel)]="selectedModel" name="select" >
+                    <option value="0" selected>Seleccionar Modelo</option>
+                    <option  *ngFor="let mo of model" [ngValue]="mo"> {{mo.description}} </option>
+                  </select>
+              </div>    
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivo</h6>
+              <input type='file' multiple (change)="onSelectFile($event)" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12" *ngIf="urlsFiles.length!=0">
+              <table>
+                  <thead>
+                      <tr>
+                          <td>
+                              Nombre del archivo
+                          </td>
+                          <td>
+                              Tipo Partes
+                          </td>
+                          <td>
+                              Tipo servicios
+                          </td>
+                          <td>
+                              Acciones
+                          </td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of urlsFiles; let i=index">
+                          <td>{{item.url}}</td>
+                          <td><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck (click)="onChangeType(i,1,$event)">&nbsp;</td>
+                          <td><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck (click)="onChangeType(i,2,$event)">&nbsp;</td>
+                          <td> <button (click)="deleteFile(i,item)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button></td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+        </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="uploadFiles()">Guardar Archivos</button>
+          </div>
+          
+  </div>
+</app-modal-basic>
+
+
+  <div class="col-sm-12">
+    <app-card>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <h6>Marca<span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="loadingModelUpdateChange()" [(ngModel)]="selectedValueUpdate" name="select">
+              <option value="0" selected>Seleccionar Marca</option>
+                    <option  *ngFor="let brand of brands" [ngValue]="brand.id"> {{brand.description}} </option>
+                 </select>
+        </div>
+          <div class="col-sm-6">
+              <h6>Modelo<span style="color:red;">*</span> </h6>
+              <select class="form-control" [(ngModel)]="selectedModelUpdate" (change)="loadingCatalogueIdChange()" name="select" >
+                <option value="0" selected>Seleccionar Modelo</option>
+                <option  *ngFor="let mo of model" [ngValue]="mo.id"> {{mo.description}} </option>
+              </select>
+          </div>    
+      </div>
+
+      <div class="form-group row">
+        <br>
+        <div style="text-align:right" class="col-sm-12">
+          <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivo</h6>
+          <input type='file' multiple (change)="onSelectFile($event)" accept="image/*,application/pdf" >
+        </div>
+      </div>
+      <div class="form-group row">
+        <br>
+        <div class="col-sm-12" *ngIf="urlsFiles.length!=0">
+            <table class="col-sm-12 table" >
+                <thead class="higher">
+                    <tr>
+                        <td>
+                            Nombre del archivo (es un cambio importante)
+                        </td>
+                        <td>
+                            Tipo Partes
+                        </td>
+                        <td>
+                            Tipo servicios
+                        </td>
+                        <td>
+                            Acciones
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of urlsFiles; let i=index">
+                        <td style="max-width: 90px;  overflow-wrap: break-word;
+                        word-wrap: break-word;
+                        hyphens: auto;"> <label >{{item.name}}</label> </td>
+                        <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck (click)="onChangeType(i,1,$event)">&nbsp;</td>
+                        <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck (click)="onChangeType(i,2,$event)">&nbsp;</td>
+                        <td style="text-align: center"> 
+                            <button (click)="deleteFile(i,item)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                            <label *ngIf="item.id!=0" class="link btn btn-primary btn-icon" id="viewFile" (click)="viewFile(item)"><i class="icofont icofont-eye-alt"></i></label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="align-buttons">
+              <button type="submit " class="btn btn-primary m-b-0" (click)="uploadFilesUpdate()">Guardar Archivos</button>
+              <br>
+      </div>
+
+      <div  class="form-group row" oncontextmenu='return false'>
+        <br>
+        <div class="pdf-container col-sm-12" oncontextmenu='return false' id="viewFiles">
+        </div>
+      </div>
+      <div [style.top]='topCssText' style=" position:absolute;left:0px;bottom:2%;right:4%;" oncontextmenu="return false;"></div>
+     
+
+
+    </app-card>
+    <div class="align-buttons">
+ 
+      <button type="submit " class="btn btn-primary m-b-0" (click)="toBack()">Volver al inicio</button>
+    </div>
+  </div>
+  <script type="text/javascript">
+  function copyToClipboard() {
+            // Create a "hidden" input
+            var aux = document.createElement("input");
+            // Assign it the value of the specified element
+            aux.setAttribute("value", "Isaac es como bobo panaaa");
+            // Append it to the body
+            document.body.appendChild(aux);
+            // Highlight its content
+            aux.select();
+            // Copy the highlighted text
+            document.execCommand("copy");
+            // Remove it from the body
+            document.body.removeChild(aux);
+            alert("Print screen desabled.");
+        }
+        $(document).ready(function(){
+                $(window).keyup(function(e){
+                    if(e.keyCode == 44 ){
+                        copyToClipboard();
+                    }
+                }); 
+                $(window).focus(function() {
+                    $("body").show();
+                }).blur(function() {
+                    $("body").hide();
+                });
+        });
+      </script>

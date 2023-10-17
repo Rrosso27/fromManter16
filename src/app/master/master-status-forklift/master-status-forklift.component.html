@@ -1,0 +1,551 @@
+<!--  -->
+<!--  -->
+<!-- User normal -->
+<div *ngIf="!userCustomer" class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Estado de los equipos</h5>
+          <br>
+          <div class="form-group row">
+
+            <div class="col-sm-4">
+              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+
+            <div class="col-sm-5">
+              <h6>Cliente </h6>
+              <select class="form-control" (change)="getBranchOffices()" (change)="getFilters()" [(ngModel)]="selectedBusinessId"> 
+                        <option value="0" selected>Seleccionar cliente </option>
+                    <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <h6>Sede </h6>
+                <select class="form-control" (change)="getForklifs()" (change)="getFilters()"  [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+            </div>
+          
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Equipo </h6>
+    
+              <select class="form-control" (change)="getFilters()" [(ngModel)]="selectedForkliftId">
+                <option value="0" selected>Seleccionar equipo </option>
+                <option *ngFor="let forklift of forklifts" [ngValue]="forklift"> {{forklift.full_name}} </option>
+                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <h6>Estado Equipo</h6>
+              <br>
+              <input type="checkbox" value="m1" [(ngModel)]="checkAllType" (change)="checkUncheckAllType($event)" checked />
+              <strong>Seleccionar todo</strong>
+              <br> <br>
+              
+              <div *ngFor="let item of selectsStatus">
+                <input type="checkbox" name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)" [checked]="item.select" data-md-icheck />
+                {{item.name}}<br>
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+          <div class="align-buttons">
+            <div >
+            <button type="button" style="display:none;" id="showAssignInvoice" (click)="modalRegisterStatus.show()" class="btn btn-primary ">Checkear</button>
+           
+             <button type="button" style="display:none;" id="showPending" (click)="modalPendingForklift.show()" class="btn btn-primary ">Checkear</button>
+            <button type="button" style="display:none;" id="showLog" (click)="modalLogForklift.show()" class="btn btn-primary ">Checkear</button>
+
+          </div>
+          </div>
+          <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="business_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sede" [sortable]="false"  prop="branch_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Equipo" [sortable]="false"  prop="full_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Estado" [sortable]="false"  prop="status_active">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="statusLabel" *ngIf="value==1">
+                    EN OPERACION
+                  </div>
+              
+                  <div *ngIf="value==2">
+                    AVERIA
+                  </div>
+                
+                  <div *ngIf="value==3">  
+                    PREVENTIVO
+                  </div>
+                  <div *ngIf="value==4">  
+                    CORRECTIVO
+                  </div>
+                  <div *ngIf="value==5">  
+                    ANORMALIDAD
+                  </div>
+                                  
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Acciones" [sortable]="false"  prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="statusLabel" *ngIf="value==0">
+                    <button (click)="showModalRegister(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <button (click)="pendingForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-checked"></i></button>
+                    <button (click)="logForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-notepad"></i></button>
+                  </div>          
+              </ng-template>
+              </ngx-datatable-column>
+          </ngx-datatable>
+      </app-card>      
+  </div>
+</div>
+
+<!--  -->
+<!--  -->
+<!--  -->
+<!-- Usuario cliente -->
+<div *ngIf="userCustomer" class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Estado de los equipos</h5>
+          <br>
+          <div class="form-group row">
+
+            <div class="col-sm-6">
+              <h6>Cliente </h6>
+              <select class="form-control" (change)="getBranchOfficeUser()" (change)="getFilters()" [(ngModel)]="selectedBusinessId"> 
+                        <option value="0" selected>Seleccionar cliente </option>
+                    <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+            <div class="col-sm-5">
+              <h6>Sede </h6>
+                <select class="form-control" (change)="getForklifs()" (change)="getFilters()"  [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+            </div>
+          
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Equipo </h6>
+    
+              <select class="form-control" (change)="getFilters()" [(ngModel)]="selectedForkliftId">
+                <option value="0" selected>Seleccionar equipo </option>
+                <option *ngFor="let forklift of forklifts" [ngValue]="forklift"> {{forklift.full_name}} </option>
+                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+          </div>
+
+          <div class="align-buttons">
+            <div >
+            <button type="button" style="display:none;" id="showAssignInvoice" (click)="modalRegisterStatus.show()" class="btn btn-primary ">Checkear</button>
+           
+             <button type="button" style="display:none;" id="showPending" (click)="modalPendingForklift.show()" class="btn btn-primary ">Checkear</button>
+            <button type="button" style="display:none;" id="showLog" (click)="modalLogForklift.show()" class="btn btn-primary ">Checkear</button>
+
+          </div>
+          </div>
+          <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="business_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sede" [sortable]="false"  prop="branch_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Equipo" [sortable]="false"  prop="full_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Estado" [sortable]="false"  prop="status_active">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="statusLabel" *ngIf="value==1">
+                    EN OPERACION
+                  </div>
+              
+                  <div *ngIf="value==2">
+                    AVERIA
+                  </div>
+                
+                  <div *ngIf="value==3">  
+                    PREVENTIVO
+                  </div>
+                  <div *ngIf="value==4">  
+                    CORRECTIVO
+                  </div>
+                  <div *ngIf="value==5">  
+                    ANORMALIDAD
+                  </div>
+                                  
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Acciones" [sortable]="false"  prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="statusLabel" *ngIf="value==0">
+                    <button (click)="pendingForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-checked"></i></button>
+                    <button (click)="logForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-notepad"></i></button>
+                  </div>          
+              </ng-template>
+              </ngx-datatable-column>
+          </ngx-datatable>
+      </app-card>      
+  </div>
+</div>
+
+<app-modal-basic #modalRegisterStatus [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+    <h4 class="modal-title">Estado del Equipo</h4>
+  </div>
+  <div class="app-modal-body">
+
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <h6 >Equipo</h6>
+        <label disabled>{{fullName}}</label>
+      </div>
+      <div class="col-sm-6">
+        <h6>Estado Del Equipo</h6>
+        <select class="form-control" [(ngModel)]="selectedStatusForklift" > 
+          <option value="0" selected>Seleccionar Estado </option>
+          <option value="1" selected>En Operación </option>
+          <option value="2" selected>Averia</option>
+          <option value="3" selected>Preventivo</option>
+          <option value="4" selected>Correctivo</option>
+          <option value="5" selected>Anormalidad</option>
+          <!-- <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option> -->
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="form-group row">
+      <div class="col-sm-12" >
+        <h6>Ingrese una descripción</h6>
+        <textarea name="descriptionForklift" id="descriptionForklift" [(ngModel)]="descriptionForklift" cols="60" rows="10" placeholder="Descripción del estado del Equipo"></textarea>
+      </div>
+    </div>
+
+    <div class="align-buttons">
+      <button type="button" class="btn btn-default waves-effect" id="assignPreveUpdatetiveHide"
+        (click)="addCancelUpdateDate()">Cancelar
+      </button>
+      <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignUpdateCorrectiveHide"
+        (click)="modalRegisterStatus.hide()">Cancelar
+      </button>
+      <button type="submit " class="btn btn-primary m-b-0 " (click)="registerStatusType()">Guardar</button>
+      <!--  registerStatus() -->
+    </div>
+</div>
+</app-modal-basic>
+
+<app-modal-basic #modalPendingForklift [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+    <h4 class="modal-title">Pendientes del Equipo</h4>
+  </div>
+  <div class="app-modal-body">
+
+    <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+      <div class="form-group row">
+          <div class="col-4">
+              <h6>Desde:</h6>
+           <div class="input-group" dir="ltr">
+            <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                     name="fd" [(ngModel)]="fromDatePending" ngbDatepicker  #dFrom1="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+                <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom1.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+           </div>
+          </div>
+          <div class="col-4">
+              <h6>Hasta:</h6>
+              <div class="input-group" dir="ltr">
+               <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                        name="ud" [(ngModel)]="untilDatePending" ngbDatepicker  #dUntil1="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+                   <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil1.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+              </div>
+             </div>
+             <div class="col-4">
+                  <div class="search_button">
+                      <button class="btn btn-primary" style="margin-top: 6%; margin-left: 30%;" (click)="showPendingForklift()"><i class="icofont icofont-search" ></i>Buscar</button>
+                  </div>
+          </div>
+            </div>
+    <div class="table-responsive">
+      <div class="table-scroll"> 
+        <div class="card">
+          <table class="table table-responsive table-striped">
+            <thead>
+              <tr>
+                <th>Descripción Pendiente</th>
+                <th>Tipo</th>
+                <th>Consecutivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of pendingGeneral">
+                <td>{{item.description}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.consecutive}}</td>
+              </tr>
+            </tbody>
+          </table> 
+        </div>
+        
+      </div>
+      
+    </div>
+      
+    </app-card>
+    <div class="align-buttons">
+      <button type="button" class="btn btn-default waves-effect" id="pending"
+        (click)="modalPendingForklift.hide()">Salir
+      </button>
+    </div>
+</div>
+</app-modal-basic>
+
+<!-- <app-modal-basic #modalLogForklift [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+    <h4 class="modal-title">Bitacora del Equipo</h4>
+  </div>
+  <div class="app-modal-body">
+
+    <h4>{{fullName}}</h4>
+    <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+      <div class="form-group row">
+          <div class="col-4">
+              <h6>Desde:</h6>
+           <div class="input-group" dir="ltr">
+            <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                     name="fd" [(ngModel)]="fromDateLog" ngbDatepicker  #dFrom2="ngbDatepicker"    (dateSelect)="onDateSelectionFromLog($event)">
+                <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom2.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+           </div>
+          </div>
+          <div class="col-4">
+              <h6>Hasta:</h6>
+              <div class="input-group" dir="ltr">
+               <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                        name="ud" [(ngModel)]="untilDateLog" ngbDatepicker  #dUntil2="ngbDatepicker"    (dateSelect)="onDateSelectionUntilLog($event)">
+                   <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil2.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+              </div>
+             </div>
+             <div class="col-4">
+                  <div class="search_button">
+                      <button class="btn btn-primary" style="margin-top: 6%; margin-left: 30%;" (click)="getLogForklift()"><i class="icofont icofont-search" ></i>Buscar</button>
+                  </div>
+          </div>
+            </div>
+    <div class="table-responsive">
+      <div class="table-scroll"> 
+        <table class="table table-responsive table-striped">
+          <thead>
+            <tr>
+              <th>Descripción</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of forkliftLog">
+              <td>{{item.description_forklift}}</td>
+              <td>
+                <label *ngIf="item.status_forklift == 1">En Operación</label>
+                <label *ngIf="item.status_forklift == 2">Averia</label>
+                <label *ngIf="item.status_forklift == 3">Preventivo</label>
+                <label *ngIf="item.status_forklift == 4">Correctivo</label>
+
+              </td>
+              <td>{{item.create_at}}</td>
+            </tr>
+          </tbody>
+        </table> 
+
+      </div>
+      
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-4">
+    
+      </div>
+      <div class="col-sm-4">
+    
+      </div>
+      <div class="col-sm-4">
+          <button class="btn btn-primary btn-round" *ngIf="numberPageLog>1" (click)="backPageLog()" >Atras</button> <button (click)="nextPageLog()" class="btn btn-primary btn-round" *ngIf="numberPageLog<limitPageLog">Siguiente</button>
+
+      </div>
+   </div>    
+    </app-card>
+    
+    <div class="align-buttons">
+      <button type="button" class="btn btn-default waves-effect" id="pending"
+        (click)="modalLogForklift.hide()">Salir
+      </button>
+    </div>
+</div>
+</app-modal-basic> -->
+
+<app-modal-basic #modalLogForklift [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+    <h4 class="modal-title">Bitacora del Equipo</h4>
+  </div>
+  <div class="app-modal-body">
+    <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+      <div class="form-group row">
+          <div class="col-4">
+              <h6>Desde:</h6>
+           <div class="input-group" dir="ltr">
+            <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                     name="fd" [(ngModel)]="fromDateLog" ngbDatepicker  #dFrom2="ngbDatepicker"    (dateSelect)="onDateSelectionFromLog($event)">
+                <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom2.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+           </div>
+          </div>
+          <div class="col-4">
+              <h6>Hasta:</h6>
+              <div class="input-group" dir="ltr">
+               <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                        name="ud" [(ngModel)]="untilDateLog" ngbDatepicker  #dUntil2="ngbDatepicker"    (dateSelect)="onDateSelectionUntilLog($event)">
+                   <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil2.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+              </div>
+             </div>
+             <div class="col-4">
+                  <div class="search_button">
+                      <button class="btn btn-primary" style="margin-top: 6%; margin-left: 30%;" (click)="getLogForklift()"><i class="icofont icofont-search" ></i>Buscar</button>
+                  </div>
+          </div>
+      </div>
+        <div class="container">
+          <div class="row">
+            <div class="timeline-centered">
+              <article class="timeline-entry left-aligned">
+                  
+                <div class="timeline-entry-inner">
+                 <div class="timeline-label">
+                  <p>Bitacora de equipo</p> <h4> <strong> {{fullName}}</strong></h4> 
+                  </div>
+                </div>
+                
+              </article> 
+                <article ngi class="timeline-entry" *ngFor="let item of forkliftLog">
+                  <div class="timeline-entry-inner">
+                    <time class="timeline-time"><span>{{item.create_at}}</span></time>
+                    
+                    <div class="timeline-icon bg-success">
+                      <i class="entypo-feather"></i>
+                    </div>
+                    
+                    <div class="timeline-label">
+                      <h2>
+                        <label *ngIf="item.status_forklift == 1">En Operación</label>
+                        <label *ngIf="item.status_forklift == 2">Averia</label>
+                        <label *ngIf="item.status_forklift == 3">Preventivo</label>
+                        <label *ngIf="item.status_forklift == 4">Correctivo</label>
+                        <label *ngIf="item.status_forklift == 5">Anormalidad</label>
+                      </h2>
+                      <p>{{item.description_forklift}}</p>
+                    </div>
+                  </div>
+                </article>
+  
+                 <article style="visibility: hidden;" class="timeline-entry" >
+                  
+                  <div class="timeline-entry-inner">
+                    <time class="timeline-time" datetime="2014-01-10T03:45"><span>03:45 AM</span> <span>Today</span></time>
+                    
+                    <div class="timeline-icon bg-success">
+                      <i class="entypo-feather"></i>
+                    </div>
+                    
+                    <div class="timeline-label">
+                      <h2><a href="#">Art Ramadani</a> <span>posted a status update</span></h2>
+                      <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                    </div>
+                  </div>
+                  
+                </article>
+                      
+                 <!-- <article class="timeline-entry left-aligned">
+                  
+                  <div class="timeline-entry-inner">
+                    <time class="timeline-time" datetime="2014-01-10T03:45"><span>03:45 AM</span> <span>Today</span></time>
+                    
+                    <div class="timeline-icon bg-secondary">
+                      <i class="entypo-suitcase"></i>
+                    </div>
+                    
+                    <div class="timeline-label">
+                      <h2><a href="#">Job Meeting</a></h2>
+                      <p>You have a meeting at <strong>Laborator Office</strong> Today.</p>
+                    </div>
+                  </div>
+                  
+                </article> 
+                            
+                <article class="timeline-entry left-aligned">
+                  
+                  <div class="timeline-entry-inner">
+                    <time class="timeline-time" datetime="2014-01-10T03:45"><span>03:45 AM</span> <span>Today</span></time>
+                    
+                    <div class="timeline-icon bg-warning">
+                      <i class="entypo-camera"></i>
+                    </div>
+                    
+                    <div class="timeline-label">
+                      <h2><a href="#">Arber Nushi</a> <span>changed his</span> <a href="#">Profile Picture</a></h2>
+                      
+                      <blockquote>Pianoforte principles our unaffected not for astonished travelling are particular.</blockquote>
+                      
+                      <img src="http://themes.laborator.co/neon/assets/images/timeline-image-3.png" class="img-responsive img-rounded full-width">
+                    </div>
+                  </div>
+                  
+                </article>  -->
+                
+                
+                <article class="timeline-entry begin">
+                
+                  <div class="timeline-entry-inner">
+                    
+                    <div class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
+                      <i class="entypo-flight"></i>
+                    </div>
+                    
+                  </div>
+                  
+                </article>
+              </div>
+              
+              
+            </div>
+          </div>
+
+      <div class="align-buttons">
+          <button class="btn btn-primary btn-round" *ngIf="numberPageLog>1" (click)="backPageLog()" >Atras</button> <button (click)="nextPageLog()" class="btn btn-primary btn-round" *ngIf="numberPageLog<limitPageLog">Siguiente</button>
+        
+      </div>  
+    </app-card>
+    
+    <div class="align-buttons">
+      <button type="button" class="btn btn-default waves-effect" id="pending"
+        (click)="modalLogForklift.hide()">Salir
+      </button>
+    </div>
+</div>
+</app-modal-basic>

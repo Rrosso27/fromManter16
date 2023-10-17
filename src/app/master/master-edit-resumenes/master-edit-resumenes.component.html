@@ -1,0 +1,514 @@
+<div class="row">
+
+  <div class="app-modal-header">
+    <h4 class="modal-title">Detalle Montacarga</h4>
+  </div>
+  <div class="col-sm-12">
+    <app-card>
+
+      <div class="form-group row">
+
+        <div class="col-sm-6">
+          <h6>Equipo</h6>
+          <input type="text" class="form-control" [(ngModel)]="forkliftText" disabled>
+        </div>
+  
+        <div class="col-sm-6">
+          <h6>Cliente</h6>
+          <input type="text" class="form-control" [(ngModel)]="customerName" disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+
+        <div class="col-sm-4">
+          <h6>Sede</h6>
+          <input type="text" class="form-control" [(ngModel)]="branch" disabled>
+        </div>
+      </div>
+  
+  
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Montacargas Serie</h6>
+          <input type="text" class="form-control" [(ngModel)]="serie" disabled>
+        </div>
+  
+        <div class="col-sm-4">
+          <h6>Marca</h6>
+          <input type="text" class="form-control" [(ngModel)]="brand" disabled>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Model</h6>
+          <input type="text" class="form-control" [(ngModel)]="model" disabled>
+        </div>
+        
+        
+      </div>
+  
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Descripción</h6>
+          <input type="text" class="form-control" [(ngModel)]="description" disabled>
+        </div>
+        
+        <div class="col-sm-4">
+          <h6>Maquina</h6>
+          <input type="text" class="form-control" [(ngModel)]="machine" disabled>
+        </div>
+  
+        <div class="col-sm-4">
+          <h6>Combustion</h6>
+          <input type="text" class="form-control" [(ngModel)]="fuel" disabled>
+        </div>
+      </div>
+  
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Llantas</h6>
+          <input type="text" class="form-control" [(ngModel)]="tyre_description" disabled>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Toneladas</h6>
+          <input type="text" class="form-control" [(ngModel)]="tonne" disabled>
+        </div>
+        
+        <div class="col-sm-4">
+          <h6>Mastil Izado</h6>
+          <input type="text" class="form-control" [(ngModel)]="mastilIzado" disabled>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Mastil Contraido</h6>
+          <input type="text" class="form-control" [(ngModel)]="mastilContract" disabled>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Horometro Inicial</h6>
+          <input type="text" class="form-control" [(ngModel)]="hInitial" disabled>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Horometro Actual</h6>
+          <input type="text" class="form-control" [(ngModel)]="hCurrent" disabled>
+        </div>  
+      </div>
+      
+    </app-card>
+    
+    <div class="form-group row">
+      <div class="col-4">
+          <h6>Desde:</h6>
+       <div class="input-group" dir="ltr">
+        <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                 name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+            <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+       </div>
+      </div>
+      <div class="col-4">
+          <h6>Hasta:</h6>
+          <div class="input-group" dir="ltr">
+           <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                    name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+               <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+          </div>
+         </div>
+         <div class="align-buttons">
+          <br>
+          <button class="btn btn-primary" (click)="getRoutinesFromDate()"><i class="icofont icofont-search" ></i>Buscar</button>
+        </div>
+      
+    </div>
+    
+    <app-card>
+      <h5>Imagenes</h5>
+      <br>
+      <div class="form-group row">
+        <img *ngFor="let img of urlImages" src="{{img.name}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
+      </div>
+    </app-card>
+       
+    <app-card *ngIf="currentPreventive">
+      <!-- <div class="align-buttons">
+        <button type="button " style="display: none;" id="showPreventives" class="btn btn-primary m-b-0 " (click)="modalAssingPreventive.show()" >Crear</button>
+    </div> -->
+      <h5>Rutinas preventivas</h5>
+      <ngx-datatable #table class="data-table" [rows]="currentPreventive"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadPreventive(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descriptionRoutine"></ngx-datatable-column>
+        <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.preventiveRoutines"></ngx-datatable-column> -->
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="preventive_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label >{{value}}</label>
+        
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card>
+     
+    <app-card *ngIf="rowsClient">
+      <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
+    
+      <h5>Rutinas Correctivas</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadCorrective(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="result.corrective.corrective_consecutive">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+            <label >{{value}}</label>
+            
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card>
+
+    <app-card *ngIf="currentChecklist">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
+    
+      <h5>Checklist</h5>
+      <ngx-datatable #table class="data-table" [rows]="currentChecklist"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadChecklist(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción del checklist" [sortable]="false"  prop="descritionChecklist"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="checklists_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label >{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card> 
+
+    <!-- <app-card *ngIf="rowPlatform">
+
+      <h5>Plataforma</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowPlatform"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadPlatform(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionPlatform"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="platform_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label >{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card> -->
+
+    <!-- <app-card *ngIf="rowStevedore">
+
+      <h5>Estibadores</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadStevedore(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionStevedore"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="stevedore_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label >{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card>  -->
+ 
+<!-- 
+    <app-card *ngIf="currentBattery">
+
+      <h5>Batería</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.battery.finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadBattery(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="result.battery.date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="result.battery.work"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="result.battery.battery_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label >{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.battery.pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card>  -->
+ 
+    <app-card>
+      <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
+     <h5>Pendientes</h5>
+    
+      <ngx-datatable #table class="data-table" [rows]="pendingGeneral"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
+
+        
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Consecutivo" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
+        
+      </ngx-datatable>
+    </app-card>
+
+    <app-card *ngIf="rowReport">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
+    
+      <h5>Reporte Técnico</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowReport"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadReport(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="technical_reports_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showRoutineReport(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
+    <app-card>
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
+    
+      <h5>Cotizaciones</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowEstimate"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="create_at"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="estimate_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showEstimate(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="1" [sortable]="false"  sortable="false" name="PDF"   prop="id" >
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <label class="link" (click)="getEstimateId(row)">PDF</label>
+            </ng-template>     
+        </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
+    <!-- <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
+      <app-card style="width: 80%;">
+        <h5>Grafico Cotizaciones</h5>
+        <canvas id="canvas">
+          {{chartEs}}
+        </canvas>
+      </app-card>
+    </div> -->
+    <app-card *ngIf="!userCustomer">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
+      
+      <h5>Liquidaciones</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowSettlement"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="create_at"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="settlement_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showSettlement(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="1" [sortable]="false"  sortable="false" name="PDF"   prop="id" >
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <label class="link" (click)="getSettlementId(row)">PDF</label>
+            </ng-template>     
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card> 
+
+    <!-- <div class="row">
+        <div class="col-md-6 col-lg-6" style="width: 80%; text-align: center;">
+        <app-card>
+          <h5>Concepto de Liquidaciones Por Repuestos</h5>
+          <canvas id="set" width="600" height="400">{{chartSet}}</canvas>
+        </app-card>
+         <app-card class="col-sm-6">
+          <h5>Concepto de Liquidaciones Por Mano de Obra</h5>
+          <canvas id="set" width="600" height="400">{{this.chartSet}}</canvas>
+        </app-card> 
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-md-12 col-lg-6" style="width: 80%; text-align: center;">
+        <app-card style="width: 80%;">
+          <h5>Historico  de Gastos en Liquidaciones</h5>
+          <canvas id="speedCanvas" width="600" height="400"></canvas>
+        </app-card>
+      </div>
+  
+  
+      <div class="col-md-12 col-lg-6" style="width: 80%; text-align: center;">
+        <app-card style="width: 80%;">
+          <h5>Historico de total de Cotizaciones y Liquidaciones</h5>
+          <canvas id="totalCost" width="600" height="400"></canvas>
+        </app-card>
+      </div>  
+    </div>
+    
+    
+    <!-- <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
+      <app-card style="width: 80%;">
+        <h5>Grafico Cotizaciones</h5>
+        <canvas id="canvas">
+          {{chartEs}}
+        </canvas>
+      </app-card>
+    </div> -->
+
+    <app-card>
+      <h5>Repuestos Instalados</h5>
+      <ngx-datatable #table class="data-table" [rows]="partsInstall"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Repuestos" [sortable]="false"  prop="description"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cantidad" [sortable]="false"  prop="quantity"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Creación" [sortable]="false"  prop="create"></ngx-datatable-column>
+      </ngx-datatable>
+    </app-card>
+
+    <div class="align-buttons">
+ 
+        <button type="submit " class="btn btn-primary m-b-0" (click)="toBack()">Volver al inicio</button>
+      </div>
+  </div>
+
+  <div>
+
+  </div>
+</div>

@@ -1,0 +1,119 @@
+<div class="row">
+
+  <div class="col-sm-12">
+    <app-card>
+      <h5>Pendientes de Equipo </h5>
+      <br>
+
+      <div class="form-group row">
+        <div class="col-4">
+          <h6>Desde:</h6>
+          <div class="input-group" dir="ltr">
+            <input class="form-control" placeholder="dd-mm-yyyy" [readonly]="true" name="fd" [(ngModel)]="fromDate"
+              ngbDatepicker #dFrom="ngbDatepicker" (dateSelect)="onDateSelectionFrom($event)">
+            <button type="button" class="btn btn-primary waves-effect" (click)="dFrom.toggle()"><i
+                class="icofont icofont-ui-calendar"></i></button>
+          </div>
+        </div>
+        <div class="col-4">
+          <h6>Hasta:</h6>
+          <div class="input-group" dir="ltr">
+            <input class="form-control" placeholder="dd-mm-yyyy" [readonly]="true" name="ud" [(ngModel)]="untilDate"
+              ngbDatepicker #dUntil="ngbDatepicker" (dateSelect)="onDateSelectionUntil($event)">
+            <button type="button" class="btn btn-primary waves-effect" (click)="dUntil.toggle()"><i
+                class="icofont icofont-ui-calendar"></i></button>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="form-group row">
+
+        <div class="col-sm-6">
+          <h6>Sucursales <span style="color:red;">*</span> </h6>
+
+          <select class="form-control" (change)="getCustomerRegionals()" [(ngModel)]="selectedRegionalId">
+            <option value="0" selected>Seleccionar sucursal </option>
+            <option *ngFor="let reg of regional" [ngValue]="reg"> {{reg.description}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <h6>Tipo Mantenimiento <span style="color:red;">*</span></h6>
+          <br>
+          <input type="checkbox" value="m1" [checked]="checkAllType" (change)="checkUncheckAllType($event)" />
+          <strong>Seleccionar todo</strong>
+          <br>
+          <br>
+          <div *ngFor="let item of selectsType">
+            <input type="checkbox" [(ngModel)]="item.select" data-md-icheck  />
+            {{item.name}}<br>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <h6>Estado del Pendiente </h6>
+          <br>
+          <input type="checkbox" value="m1" [checked]="checkAllStatus" (change)="checkUncheckAllStatus($event)" />
+          <strong>Seleccionar todo</strong>
+          <br>
+          <br>
+          <div *ngFor="let item of selectsStatus">
+            <input type="checkbox" [(ngModel)]="item.select" data-md-icheck />
+            {{item.name}}<br>
+          </div>
+        </div>
+      </div>
+
+    </app-card>
+  </div>
+</div>
+<div class="form-group row" >
+  <div class="col-sm-6" *ngIf="selectsBusness.length!=0">
+    <app-card style="width: 100%; height: 300px;">
+      <div style="color: #007bff; width: 100%; text-align: center;">
+        <h5>CLIENTE</h5>
+      </div>
+      <br>
+      <div style="overflow-y: scroll; height: 300px">
+        <div *ngFor="let item of selectsBusness">
+          <input type="checkbox" [(ngModel)]="item.select" data-md-icheck (change)="getBranchOffices()" />
+          {{item.name}}<br>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-sm-6" *ngIf="selectsBusnessOffices.length!=0">
+    <app-card style="width: 100%; height: 300px;">
+      <h5 style="color: #007bff;text-align: center;">SEDES</h5>
+      <br>
+      <div style="overflow-y: scroll; height: 300px">
+        <div *ngFor="let value of selectsBusnessOffices">
+          <label><strong>{{value.customer}}</strong></label>
+          <div *ngFor="let item of value.office">
+            <input type="checkbox" [(ngModel)]="item.select" data-md-icheck (change)="getForklifs()" /> {{item.name}}<br>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>
+<div class="form-group row">
+  <div class="col-sm-6" *ngIf="selectsOfficeForklift.length!=0">
+    <app-card style="width: 100%; height: 300px;">
+      <h5 style="color: #007bff; text-align: center;">EQUIPOS</h5>
+      <br>
+      <div style="overflow-y: scroll; height: 300px">
+        <div *ngFor="let value of selectsOfficeForklift">
+          <label><strong>{{value.office}}</strong></label>
+          <div *ngFor="let item of value.forklift">
+            <input type="checkbox" [(ngModel)]="item.select" data-md-icheck /> {{item.name}}<br>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>
+<div class="align-buttons">
+  <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search"></i>Generar Informe</button>
+</div>

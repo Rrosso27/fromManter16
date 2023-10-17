@@ -1,0 +1,447 @@
+<app-modal-basic #modalRegisterRelationCompany data-backdrop="static" [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Relacionar con empresas</h4>
+    </div>
+    <div class="app-modal-body" *ngIf="customers">
+
+        <div class="form-group row">
+            <div class="col-sm-5">
+                <h6>Clientes <span style="color:red;">*</span></h6>
+                <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
+                    <option value="0" selected>Seleccionar cliente </option>
+                <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+               </select>
+            </div>
+
+            <div class="col-sm-5">
+                <h6>Sedes <span style="color:red;">*</span></h6>
+
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let item of userOfficeRelationShips">
+                        <input type="checkbox" (click)="selectOffices(item)" name="list_name" value="{{item.id}}"   [checked]="item.status" /> {{item.officeName}}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary m-b-0 " (click)="closeModalRelationship()">Salir</button>
+            </div>
+        </div>
+        
+        <div class="align-buttons">
+            <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterRelationCompany.hide()">Cancelar</button>
+            <button class="btn btn-primary m-b-0 " (click)="relationshipUserOffice()">Crear Relación</button>
+
+        </div>
+
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalRegisterRelationUpdate [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Actualizar relaciones con empresas</h4>
+    </div>
+    <div class="app-modal-body">
+
+        <div class="form-group row" *ngIf="currentCustomer">
+            <div class="col-sm-6">
+                <h6>Clientes <span style="color:red;">*</span></h6>
+                <h4>{{ currentCustomer.business_name }}</h4>
+            </div>
+
+            <div class="col-sm-6">
+                <h6>Sedes <span style="color:red;">*</span></h6>
+
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let item of userOfficeRelationShipsUpdate">
+                        <input type="checkbox" (click)="selectOfficesUpdate(item)" name="list_name" value="{{item.id}}"  [checked]="item.status"  /> {{item.officeName}}
+                   
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="align-buttons">
+            <button type="button" class="btn btn-default waves-effect" id="updateBranchHide" (click)="modalRegisterRelationUpdate.hide()">Cancelar</button>
+            <button class="btn btn-primary m-b-0 " (click)="relationshipUserOfficeUpdate()">Actualizar Relación</button>
+
+        </div>
+
+    </div>
+</app-modal-basic>
+
+<!--  -->
+<!--  -->
+<!--  -->
+<!-- Para operadores -->
+<div *ngIf="userProfile==3"><div class="row">
+
+    <div class="col-sm-12">
+
+        <app-card [title]="'Actualizar usuario'" [headerContent]="''" [cardOptionBlock]="true">
+            <form [formGroup]="myUpdateForm" (ngSubmit)="updateUser()">
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <h6>Nombre <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" id="updatename" formControlName="updatename" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatename.errors }">
+                        <div *ngIf="submittedUpload && checkUpdateForm.updatename.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updatename.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!--      <div class="messages text-danger" *ngIf="myForm.controls.name.touched &&  !myForm.controls.name.valid">Este campo es requerido</div> -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6>Apellidos <span style="color:red;">*</span> </h6>
+                        <input type="text" class="form-control" id="updatelastname" formControlName="updatelastname" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatelastname.errors }">
+                        <div *ngIf="submittedUpload && checkUpdateForm.updatelastname.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updatelastname.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <h6>Usuario <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" id="updateusername" formControlName="updateusername" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateusername.errors }">
+                        <div *ngIf="submittedUpload && checkUpdateForm.updateusername.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updateusername.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!---       <div class="messages text-danger" *ngIf="myForm.controls.username.touched &&  !myForm.controls.username.valid">Este campo es requerido</div> -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6>Perfil <span style="color:red;">*</span></h6>
+                        <select name="select" class="form-control" formControlName="updateprofile" [(ngModel)]="selectedProfileIdUpdate" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateprofile.errors }" disabled>
+                          <option value= "0" selected>Seleccionar perfil</option>
+                          <option value="4">TECNICO</option>
+                        </select>
+                        <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
+                        <div *ngIf="submittedUpload && checkUpdateForm.updateprofile.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updateprofile.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <h6>Celular</h6>
+                        <input type="number" class="form-control" id="updatecellphone" formControlName="updatecellphone" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatecellphone.errors }">
+                        <div *ngIf="submittedUpload && checkUpdateForm.updatecellphone.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updatecellphone.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!-- <div class="messages text-danger" *ngIf="myForm.controls.cellphone.touched &&  !myForm.controls.cellphone.valid">Este campo es requerido</div> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <h6>Telefono</h6>
+                        <input type="number" class="form-control" id="updatetelephone" formControlName="updatetelephone" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatetelephone.errors }">
+                        <div *ngIf="submittedUpload && checkUpdateForm.updatetelephone.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updatetelephone.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!-- <div class="messages text-danger" *ngIf=" myForm.controls.telephone.touched && !myForm.controls.telephone.valid">Este campo es requerido</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <h6>Correo Electrónico <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" id="updateemail" formControlName="updateemail" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateemail.errors }">
+
+                        <div *ngIf="submittedUpload && checkUpdateForm.updateemail.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updateemail.errors.required">Este campo es requerido</div>
+                            <div class="messages text-danger" *ngIf="checkUpdateForm.updateemail.errors.email">Debe ser un correo válido</div>
+                        </div>
+                        <!--     <div class="messages text-danger" *ngIf="myForm.controls.email.touched && !myForm.controls.email.valid">Este campo es requerido y debe ser un correo valido</div> -->
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Activo</h6>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeActiveUpdated($event)" [checked]="enabledUpdated"></ui-switch><br>
+                    </div>
+                    <div class="col-sm-8 ">
+                        <div class="align-buttons">
+                            <button type="submit " class="btn btn-primary m-b-0 ">Actualizar usuario</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+
+            <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+        </app-card>
+    </div>
+</div>
+
+<app-card *ngIf="selectedProfileId==4 || selectedProfileIdUpdate==4"  [title]="'Relacionar sucursales'" [headerContent]="''" [cardOptionBlock]="true" >
+    <div class="row">
+            <div class="col-sm-12">
+       
+                <div class="align-buttons">
+                    <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar sucursales</button>
+                </div>
+                <br>
+                <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
+                <br>    
+                <div class="table-responsive">
+                    <div class="table-scroll">
+                     <table class="table table-framed">
+                       <thead>
+                       <tr>
+                         <th style="flex-grow: 1;"> </th>
+                         <th style="flex-grow: 3;">Descripción</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr *ngFor="let item of regionals;let pointIdex=index">
+                         <td scope="row">
+                             <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="partChangeActive($event,item)" [checked]="item.cheked"/>
+                         </td>
+                         <td> {{item.description}}</td>
+                       </tr>
+                       </tbody>
+                     </table>
+                    </div>
+                </div>
+  
+            </div>
+            
+        </div>
+</app-card>
+    
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <app-card [title]="'Relacionar con empresas'" [headerContent]="''" [cardOptionBlock]="true">
+            <div class="align-buttons">
+                <button class="btn btn-primary m-b-0 " (click)="showClient()">Crear Relación</button>
+            </div>
+            <br>
+            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipCustomer" (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
+            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipUpdate" (click)="modalRegisterRelationUpdate.show()">Relacionar con empresas</button>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
+
+                <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
+                 <ngx-datatable-column [resizeable]="false" name="Sedes" [sortable]="false" [draggable]="false" prop="branch_office_names"></ngx-datatable-column>
+               
+               
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                                <i class="fa fa-ban"></i>
+                              </button> -->
+
+                        <button (click)="updateCustomerOffices(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button (click)="deleteCustomerOffices(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
+            <br>
+            <br>
+        </app-card>
+    </div>
+</div>
+</div>
+
+
+
+<!--  -->
+<!--  -->
+<!--  -->
+<!--Para administradores  -->
+<div *ngIf="userProfile!=3">
+    <div class="row">
+
+        <div class="col-sm-12">    
+            <app-card [title]="'Actualizar usuario'" [headerContent]="''" [cardOptionBlock]="true">
+                <form [formGroup]="myUpdateForm" (ngSubmit)="updateUser()">
+                    <div class="form-group row">
+    
+                        <div class="col-sm-6">
+                            <h6>Nombre <span style="color:red;">*</span></h6>
+                            <input type="text" class="form-control" id="updatename" formControlName="updatename" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatename.errors }">
+                            <div *ngIf="submittedUpload && checkUpdateForm.updatename.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updatename.errors.required">Este campo es requerido</div>
+                            </div>
+                            <!--      <div class="messages text-danger" *ngIf="myForm.controls.name.touched &&  !myForm.controls.name.valid">Este campo es requerido</div> -->
+                        </div>
+    
+                        <div class="col-sm-6">
+                            <h6>Apellidos <span style="color:red;">*</span> </h6>
+                            <input type="text" class="form-control" id="updatelastname" formControlName="updatelastname" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatelastname.errors }">
+                            <div *ngIf="submittedUpload && checkUpdateForm.updatelastname.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updatelastname.errors.required">Este campo es requerido</div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <h6>Usuario <span style="color:red;">*</span></h6>
+                            <input type="text" class="form-control" id="updateusername" formControlName="updateusername" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateusername.errors }">
+                            <div *ngIf="submittedUpload && checkUpdateForm.updateusername.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updateusername.errors.required">Este campo es requerido</div>
+                            </div>
+                            <!---       <div class="messages text-danger" *ngIf="myForm.controls.username.touched &&  !myForm.controls.username.valid">Este campo es requerido</div> -->
+                        </div>
+    
+                        <div class="col-sm-6">
+                            <h6>Perfil <span style="color:red;">*</span></h6>
+                            <select name="select" class="form-control" formControlName="updateprofile" [(ngModel)]="selectedProfileIdUpdate" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateprofile.errors }">
+                              <option value= "0" selected>Seleccionar perfil</option>
+                              <option value="1">ADMINISTRADOR</option>
+                              <option value="2">GESTIÓN COMERCIAL</option>
+                              <option value="3">OPERACIONES</option>
+                              <option value="4">TECNICO</option>
+                              <option value="5">FINANCIERA</option>
+                              <option value="6">USUARIO CLIENTE</option>
+                              <option value="7">USUARIO ASIGNADOR</option>
+                            </select>
+                            <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
+                            <div *ngIf="submittedUpload && checkUpdateForm.updateprofile.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updateprofile.errors.required">Este campo es requerido</div>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+    
+                    <div class="form-group row">
+    
+                        <div class="col-sm-6">
+                            <h6>Celular</h6>
+                            <input type="number" class="form-control" id="updatecellphone" formControlName="updatecellphone" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatecellphone.errors }">
+                            <div *ngIf="submittedUpload && checkUpdateForm.updatecellphone.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updatecellphone.errors.required">Este campo es requerido</div>
+                            </div>
+                            <!-- <div class="messages text-danger" *ngIf="myForm.controls.cellphone.touched &&  !myForm.controls.cellphone.valid">Este campo es requerido</div> -->
+                        </div>
+                        <div class="col-sm-6">
+                            <h6>Telefono</h6>
+                            <input type="number" class="form-control" id="updatetelephone" formControlName="updatetelephone" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updatetelephone.errors }">
+                            <div *ngIf="submittedUpload && checkUpdateForm.updatetelephone.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updatetelephone.errors.required">Este campo es requerido</div>
+                            </div>
+                            <!-- <div class="messages text-danger" *ngIf=" myForm.controls.telephone.touched && !myForm.controls.telephone.valid">Este campo es requerido</div> -->
+                        </div>
+                    </div>
+    
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <h6>Correo Electrónico <span style="color:red;">*</span></h6>
+                            <input type="text" class="form-control" id="updateemail" formControlName="updateemail" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateemail.errors }">
+    
+                            <div *ngIf="submittedUpload && checkUpdateForm.updateemail.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updateemail.errors.required">Este campo es requerido</div>
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updateemail.errors.email">Debe ser un correo válido</div>
+                            </div>
+                            <!--     <div class="messages text-danger" *ngIf="myForm.controls.email.touched && !myForm.controls.email.valid">Este campo es requerido y debe ser un correo valido</div> -->
+    
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <h6>Activo</h6>
+                            <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeActiveUpdated($event)" [checked]="enabledUpdated"></ui-switch><br>
+                        </div>
+                        <div class="col-sm-8 ">
+                            <div class="align-buttons">
+                                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar usuario</button>
+                            </div>
+                        </div>
+                    </div>
+    
+    
+                </form>
+    
+                <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+            </app-card>
+        </div>
+    </div>
+    
+    <app-card *ngIf="selectedProfileId==4 || selectedProfileIdUpdate==4"  [title]="'Relacionar sucursales'" [headerContent]="''" [cardOptionBlock]="true" >
+        <div class="row">
+                <div class="col-sm-12">
+           
+                    <div class="align-buttons">
+                        <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar sucursales</button>
+                    </div>
+                    <br>
+                    <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
+                    <br>    
+                    <div class="table-responsive">
+                        <div class="table-scroll">
+                         <table class="table table-framed">
+                           <thead>
+                           <tr>
+                             <th style="flex-grow: 1;"> </th>
+                             <th style="flex-grow: 3;">Descripción</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <tr *ngFor="let item of regionals;let pointIdex=index">
+                             <td scope="row">
+                                 <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="partChangeActive($event,item)" [checked]="item.cheked"/>
+                             </td>
+                             <td> {{item.description}}</td>
+                           </tr>
+                           </tbody>
+                         </table>
+                        </div>
+                    </div>
+      
+                </div>
+                
+            </div>
+    </app-card>
+        
+    
+    <div class="row">
+    
+        <div class="col-sm-12">
+            <app-card [title]="'Relacionar con empresas'" [headerContent]="''" [cardOptionBlock]="true">
+                <div class="align-buttons">
+                    <button class="btn btn-primary m-b-0 " (click)="showClient()">Crear Relación</button>
+                </div>
+                <br>
+                <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipCustomer" (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
+                <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipUpdate" (click)="modalRegisterRelationUpdate.show()">Relacionar con empresas</button>
+    
+                <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
+    
+                    <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
+                     <ngx-datatable-column [resizeable]="false" name="Sedes" [sortable]="false" [draggable]="false" prop="branch_office_names"></ngx-datatable-column>
+                   
+                   
+                    <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+    
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+    
+                            <button (click)="updateCustomerOffices(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                            <button (click)="deleteCustomerOffices(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                        </ng-template>
+                    </ngx-datatable-column>
+    
+                </ngx-datatable>
+                <br>
+                <br>
+            </app-card>
+        </div>
+    </div>
+    
+</div>
+
+    <div class="align-buttons">
+        <button class="btn btn-primary m-b-0 " (click)="goAdminUsers()">Volver Administración Usuarios</button>
+    </div>

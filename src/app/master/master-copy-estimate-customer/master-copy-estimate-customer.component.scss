@@ -1,0 +1,24 @@
+.brand {
+    align-content: rigth;
+}
+
+.align-buttons {
+    text-align: right;
+}
+
+.align-consecutive {
+    text-align: center;
+}
+
+.color-consecutive{
+    color: #f12121;
+}
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    .ngx-datatable {
+      height: 100vh;
+    }
+  }

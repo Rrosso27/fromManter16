@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card style="position: sticky; top: 300px;">
+      <h5>Administrar Perfil </h5>
+      <br>
+      <div class="row">
+        <br>
+        <div>
+          <input type="text" [(ngModel)]="profile.description" class="form-control" id="systemtitle" disabled>
+        </div>
+        <div class="align-buttons">
+          <button style="display: none;" type="button" class="btn btn-default waves-effect" id="showUpdateSystem" hidden
+            (click)="modalUpdateComponent.show()">Cancelar</button>
+
+          <button (click)="updateComponent(profile )" class="btn btn-primary btn-icon"><i
+              class="icofont icofont-pencil-alt-5"></i></button>
+        </div>
+      </div>
+      <br>
+      <app-card>
+        <ngb-accordion *ngFor="let val of itemsModule" [closeOthers]="false" #acc="ngbAccordion" class="ngb-accordion">
+          <ngb-panel id="ngb-close-p1" title="{{val.module}}">
+            <ng-template ngbPanelContent>
+              <input type="checkbox" value="m1" (change)="checkUncheckAllPart($event,val.part)" />
+              <strong>Seleccionar todo</strong>
+              <br>
+              <div class="modules form-group row">
+                
+                <table>
+                  <tr *ngFor="let item of val.part">
+                    <td scope="row">
+                      <!-- <input type="checkbox" name="list_name"
+                           (change)="partChangeActive($event,item)" />  -->
+                      <input type="checkbox" [(ngModel)]="item.active" data-md-icheck />&nbsp; {{item.description}}<br>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+
+      </app-card>
+      <div class="align-buttons">
+        <button type="submit" class="btn btn-primary m-b-0 " (click)="saveFunction()">Guardar Configuración</button>
+      </div>
+    </app-card>
+  </div>
+</div>
+
+<app-modal-basic #modalUpdateComponent [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h4 class="modal-title">Actualizar Sistema</h4>
+  </div>
+  <div class="app-modal-body">
+    <form [formGroup]="updateComponentForm">
+      <div class="form-group row">
+        <div class="col-sm-2"> </div>
+
+        <div class="col-sm-8">
+          <h6>Descripción <span style="color:red;">*</span></h6>
+          <input type="text" class="form-control" id="updateComponent" formControlName="updateComponent">
+        </div>
+
+        <div class="col-sm-2"> </div>
+      </div>
+      <div class="align-buttons">
+        <button type="button" class="btn btn-default waves-effect" id="updateComponentHide"
+          (click)="modalUpdateComponent.hide()">Cancelar</button>
+        <button type="submit " class="btn btn-primary m-b-0 "
+          (click)="sendUpdateComponent(updateComponentForm.value)">Actualizar Perfil</button>
+      </div>
+    </form>
+  </div>
+</app-modal-basic>

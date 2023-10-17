@@ -1,0 +1,64 @@
+<section class="login p-fixed d-flex text-center bg-primary common-img-bg">
+    <!-- Container-fluid starts -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Authentication card start -->
+                <div class="login-card card-block auth-body mr-auto ml-auto">
+                    <form [formGroup]="myForm" (ngSubmit)="doLogin()" class="md-float-material">
+
+
+
+                        <div class="auth-box">
+                            <div class="text-center">
+                                <img  src="../../../assets/images/auth/Montacargas.jpg" class="loginlogo" alt="Gradient Able">
+                               <!--  <img *ngIf="isMobile===true" src="../../../assets/images/logo.png" alt="Gradient Able"> -->
+                            </div>
+                            <div class="row m-b-20">
+                                <div class="col-md-12">
+                                    <h3 class="text-left txt-primary">Iniciar sesión</h3>
+                                </div>
+                            </div>
+                            <!--  <hr/> -->
+                            <h6 class="text-left  f-w-600 text-inverse">Usuario ó Correo electrónico </h6>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && checkForm.email.errors }">
+                                <div *ngIf="submitted && checkForm.email.errors" class=" text-left invalid-feedback">
+                                    <div class="messages text-danger" *ngIf="checkForm.email.errors.required">Este campo es requerido</div>
+                                </div>
+                                <span class="md-line"></span>
+                            </div>
+                            <h6 class="text-left  f-w-600 text-inverse">Contraseña </h6>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && checkForm.password.errors }">
+                                <div *ngIf="submitted && checkForm.password.errors" class="text-left invalid-feedback">
+                                    <div class="messages text-danger" *ngIf="checkForm.password.errors.required">Este campo es requerido</div>
+                                </div>
+                                <span class="md-line"></span>
+                            </div>
+                            <div class="row m-t-25 text-left">
+                                <div class="col-12">
+                                    <div class="checkbox-fade fade-in-primary d-">
+                                        <label>
+                            <input type="checkbox" value="">
+                            <span class="cr"><i class="cr-icon fa fa-check txt-primary"></i></span>
+                            <span class="text-inverse">Recuerdame</span>
+                          </label>
+                                    </div>
+                                    <div class="forgot-phone text-right f-right">
+                                        <a [routerLink]="['/forget']" class="text-right f-w-600 text-inverse"> Olvido su contraseña?</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-t-30">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Iniciar sesión</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

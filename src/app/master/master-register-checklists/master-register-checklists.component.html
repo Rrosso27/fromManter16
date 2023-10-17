@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card [title]="'Registro checklist'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+          <h5>Información checklist </h5>
+          <br>
+          <h6 >Luego de crear el checklist, puedes crear el componente</h6>
+          <br>
+          <app-card  [headerContent]="''" [cardOptionBlock]="true">
+
+            <div class="form-group row">
+                <h6>Seleccione el una de las opciones para la rutina <span style="color:red;">*</span></h6>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 col-xs-12">
+                    <label >
+                        <input id="general" type="radio" name="color" value="azul" (click)="valueSelectType(1)"> General&nbsp;
+                    </label>
+                    <label >
+                        <input id="regional" type="radio" name="color" value="negro" (click)="valueSelectType(2)"> Sucursal&nbsp;
+                    </label>
+                    <label >
+                        <input id="customer" type="radio" name="color" value="amarillo" (click)="valueSelectType(3)"> Cliente&nbsp;
+                    </label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div *ngIf="typeRoutine==2">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button  class="btn btn-primary" (click)="modalAssingRegional.show()" >Asignar Suscursales</button>
+                              </div>
+                        </div>
+                    </div>
+      
+                    <div *ngIf="typeRoutine==3" class="form-group row">
+                        <div class="col-sm-6">
+                            <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-8 col-xs-12">
+                      <h6>Nombre del checklist <span style="color:red;">*</span></h6>
+                      <input type="text" class="form-control" [(ngModel)]="title1" #ctrl="ngModel" id="worktitle" required>
+                  </div>
+
+
+                  <div class="col-sm-4 col-xs-12" >
+                      <h6>Horas <span style="color:red;">*</span></h6>
+                      <input type="number" class="form-control" [(ngModel)]="hours1" #ctrl="ngModel" id="workhours" required>
+                  </div>
+
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-12" >
+                      <h6>Observacion del checklist<span style="color:red;"></span></h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="observation1" #ctrl="ngModel" id="workobservation" required></textarea>
+                  </div>
+                  <br>
+
+              </div>
+                  <div class="align-buttons">
+                      <button type="button" class="btn btn-primary m-b-0 waves-effect" id="storeheaderbutton" (click)="validateSelecteType()" >Agregar encabezado</button>
+                   </div>
+          </app-card>
+      </app-card>
+  </div>
+</div>
+
+
+<!-- Modal para seleccion de cliente -->
+
+<app-modal-basic #modalAssingCustomer [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+  
+        <h4 class="modal-title">Selecciona los clientes</h4>
+    </div>
+    <div class="app-modal-body">
+      
+      <div class="form-group row">  
+          <div class="col-sm-6">
+              <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+            </div>    
+       </div>    
+       
+            <app-card>
+                <div *ngFor="let item of cusotmerSelecteds">
+                    <div class="form-group row">  
+                        <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> &nbsp;{{item.item}}
+ 
+                    </div>
+
+               </div>
+            </app-card>
+           
+        <br>
+        <br>
+        <div class="align-buttons">
+            <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingCustomer.hide()">Cancelar</button>
+            <button type="submit " class="btn btn-primary m-b-0 " (click)="saveCustomer()" >Guardar</button>
+        </div>
+    </div>          
+</app-modal-basic>
+
+<app-modal-basic #modalAssingRegional [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+  
+        <h4 class="modal-title">Selecciona las regionales</h4>
+    </div>
+    <div class="app-modal-body">
+    <app-card>
+        <div  class="form-group row" *ngFor="let item of regionalSelecteds">
+         
+               <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck />&nbsp; {{item.item}}
+    
+       </div>
+    </app-card>
+       
+        <br>
+        <br>
+        <div class="align-buttons">
+            <button type="button"  class="btn btn-default waves-effect" id="assignRegionalHide" (click)="modalAssingRegional.hide()">Cancelar</button>
+            <button type="submit " class="btn btn-primary m-b-0 " (click)="saveRegional()" >Guardar</button>
+        </div>
+    </div>          
+</app-modal-basic>

@@ -1,0 +1,197 @@
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Gestión Pendientes </h5>
+          <br>
+
+          <div class="form-group row">
+            <div class="col-4">
+                <h6>Desde:</h6>
+             <div class="input-group" dir="ltr">
+              <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                       name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+                  <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+             </div>
+            </div>
+            <div class="col-4">
+                <h6>Hasta:</h6>
+                <div class="input-group" dir="ltr">
+                 <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                          name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+                     <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+                </div>
+               </div>
+
+            
+              </div>
+
+          <div class="form-group row">
+
+            <div class="col-sm-6">
+              <h6>Sucursales </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+          </div>
+
+          <div class="col-sm-6">
+            <h6>Cliente </h6>
+            <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
+                        <option value="0" selected>Seleccionar cliente </option>
+                    <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+            </select>
+          </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Sede </h6>
+                <select class="form-control"  [(ngModel)]="selectedBranchOfficeId" (change)="getForklifs()" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+              </div>
+            <!-- <div class="col-sm-4"> -->
+              <div class="col-sm-4">
+                <h6>Equipo </h6>
+  
+                <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                       </select>
+              <!-- </div> -->
+            </div>
+              <div class="col-sm-4">
+                <h6>Estado </h6>
+  
+                <select class="form-control"   [(ngModel)]="selectedStatus" > 
+                            <option value="0" selected>Seleccionar el estado </option>
+                            <option   *ngFor="let sta of statusId" [ngValue]="sta"   > {{sta.description}}  </option>
+                       </select>
+              <!-- </div> -->
+            </div>
+          </div>
+
+          <div class="align-buttons">
+            <div >
+            <button type="button" style="display:none;" id="showAssignInvoice" (click)="modalUpdatePending.show()" class="btn btn-primary waves-effect">Checkear</button>
+
+         
+            <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
+           
+          </div>
+          </div>
+          <br>
+          <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
+
+            <!--     <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="consecutive">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <label class="link" (click)="editResumenes(row)" >{{value}}</label>
+                  </ng-template>
+                </ngx-datatable-column> --> 
+                <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <div *ngIf="value!=''">
+                      <label (click)="downloadPdf(row)" class="link">PDF</label>
+                    </div>
+                    <div *ngIf="value==''">
+                      <label >No ha sido terminado el mantenimiento</label>
+                    </div>
+                  
+                  </ng-template>
+                  </ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="N Mantenimiento" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
+                <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column> -->
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Estado" [sortable]="false"  prop="status">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+  
+  
+                <div class="statusLabel" *ngIf="value==0">
+                   Sin Gestión
+                </div>
+            
+                <div *ngIf="value==1">
+                   Cotizado
+                </div>
+               
+                <div *ngIf="value==2">  
+                  Solucionado
+                </div>
+                                
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cotización" [sortable]="false"  prop="estimate"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Observación" [sortable]="false"  prop="management_observation"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Control de Gestión" [sortable]="false"  prop="management_control"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          
+                    <button (click)="getUpdateDetail(row)"   class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <!-- <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> -->
+                 
+                  </ng-template>
+                  </ngx-datatable-column>
+             <!--    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción De rutina" [sortable]="false"  prop="type"></ngx-datatable-column> -->
+                
+              </ngx-datatable>
+
+
+      </app-card>      
+  </div>
+</div>
+
+
+<app-modal-basic #modalUpdatePending [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+    <h4 class="modal-title">Actualizar Pendiente</h4>
+</div>
+<div class="app-modal-body">
+  
+  <div class="form-group row">
+
+      <div class="col-sm-5">
+        <h6>Estado</h6>
+        <div class="input-group" >
+          <select class="form-control" [(ngModel)]="status" >
+            <option value="0" selected>Seleccionar estado</option>
+            <option value="1">Sin Gestión </option>
+            <option value="3">Solucionado</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-5">
+
+        <h6>Observación</h6>
+        <input type="text" [(ngModel)]="observation"  placeholder="Observación" class="form-control">
+      </div>
+  </div>
+
+        <!-- <div *ngIf="status==3" class="form-group row">
+
+            <div class="col-sm-5" >
+              <h5>Control de Gestión</h5>
+              
+                <input type="number" [(ngModel)]="consecutive" class="form-control" /> <br>
+              </div>
+
+        </div> -->
+          <br>
+        <br>
+          <div class="align-buttons">
+            <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDate()">Cancelar</button>
+            <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalUpdatePending.hide()">Cancelar</button>
+            <button type="submit " class="btn btn-primary m-b-0 " (click)="updatePendings()" >Guardar</button>
+          </div>
+    </div>      
+</app-modal-basic>

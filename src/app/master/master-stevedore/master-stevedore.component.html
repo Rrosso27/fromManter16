@@ -1,0 +1,23 @@
+<div class="col-sm-12">
+
+
+
+  <app-card [title]="'Administrar Mantenimiento Estibadores'" [headerContent]="''" [cardOptionBlock]="true">
+
+        <div class="align-buttons">
+            <button type="button" id="uploadNew" class="btn btn-primary" (click)="redirecttodetails()" >Crear Mantenimiento Estibador</button>
+        </div>
+        <br>
+        <ngx-datatable #table class="data-table" [rows]="rowsWork" [columns]="[{name:'Descripción', prop:'description'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+            <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button class="btn btn-primary btn-icon" (click)="goToTpdateView(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <button class="btn btn-danger btn-icon" (click)="deleteWorkHeader(row)"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </app-card>
+
+</div>

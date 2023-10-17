@@ -1,0 +1,216 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card [title]="'Registro Mantenimiento Estibadores'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+          <h5>Información Mantenimiento Estibadores</h5>
+          <br>
+          <h6 *ngIf=" showButtonUpdated == true">Ya puedes crear sistemas</h6>
+          <br>
+          <app-card  [headerContent]="''" [cardOptionBlock]="true">
+
+              <div class="form-group row">
+
+                  <div class="col-sm-8 col-xs-12" >
+                      <h6>Descripción <span style="color:red;">*</span></h6>
+                      <input type="text" class="form-control" [(ngModel)]="routineDescriptionUpdate" #ctrl="ngModel" id="workTitleUpdate" required>
+                  </div>
+
+                  <div class="col-sm-4 col-xs-12" >
+                      <h6>Horas </h6>
+                      <input type="number" class="form-control" [(ngModel)]="routineHourUpdate" #ctrl="ngModel" id="workHoursUpdate" >
+                  </div>
+              </div>
+
+              <div class="form-group row">
+  
+                  <div class="col-sm-12" >
+                      <h6>Observación</h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" ></textarea>
+                  </div>
+              </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4">
+                  <input type="checkbox" id="supplicePart"  value="supplicePart"  name="supplicePart"  (change)="selectStatuSupplicePart($event)"   />&nbsp;Insumos y Partes
+              </div>
+              <div class="col-sm-4">
+                  <input type="checkbox" id="deliveryReview"  value="deliveryReview"  name="deliveryReview"  (change)="selectStatusDeliveryReview($event)"   />&nbsp;Revisión de entrega
+              </div>
+              <div class="col-sm-4">
+                  <input type="checkbox" id="pending"  value="pending"  name="pending"  (change)="selectStatusPending($event)"   />&nbsp;Pendiente
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4">
+                  <input type="checkbox" id="survey"  value="survey"  name="survey"  (change)="selectStatuSurvey($event)"  />&nbsp; Encuesta
+              </div>
+              <div class="col-sm-4">
+                  <input type="checkbox" id="firm" value="firm"  name="firm"  (change)="selectStatusFirm($event)"   />&nbsp; Firma
+              </div>
+            
+            </div>
+              <div class="form-group row">
+                  <div class="col-sm-12 align-buttons">
+                      <button (click)="updateheader()" type="submit" class="btn btn-primary m-b-0" >Actualizar encabezado <i class="icofont icofont-pencil-alt-5"></i></button>
+                  </div>
+              </div>
+              <!-- <button class="btn btn-primary m-b-0" (click)="modalDetail.show()">Crear detalle</button>  -->
+              <div class="form-group row align-buttons">
+                  <div class="col-sm-12">
+                     
+                      <button style="display: none;" type="button" class="btn btn-default waves-effect" id="showUpdateSystem" hidden (click)="modalUpdateComponent.show()">Cancelar</button>
+                 </div>
+              </div>
+          </app-card>
+          <div >
+              <div class="align-buttons">
+                  <button class="btn btn-primary m-b-0" (click)="modalComponent.show()" >Crear Sistema</button>
+              </div>
+              <br>
+              <app-card  *ngFor="let component of system; let c = index">
+                  
+                <div class="col-sm-8 col-xs-12">
+                  <br>
+                  <br>
+                  <div>
+                      <h6>Sistema&nbsp; {{c+1}} </h6>
+                  </div>
+                  <br>
+                  <div>
+                      <input type="text" value={{component.components.system_description}} class="form-control" id="systemtitle" disabled>
+                  </div>
+                  <div class="align-buttons">
+                       <button (click)="updateComponent(component.components)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteComponent(component.components)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                      <button style="display: none;" id="showComponent"  (click)="modalUpdateComponent.show()" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </div>
+              </div>
+              <div class="align-buttons">
+                <button class="btn btn-primary m-b-0" (click)="modalPart.show()" (click)="currentParts(component.components)">Crear Parte</button>
+                <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdatePart.show()" >Actualizar</button>
+            </div>
+
+                  <ngx-datatable #table class="data-table" [rows]="component.parts"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+                      <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
+                     
+
+                      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Descripción" [sortable]="false" prop="part_description"></ngx-datatable-column>
+                      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
+                          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                              <button (click)="updateParts(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                              <button (click)="deletePart(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                          </ng-template>
+                      </ngx-datatable-column>
+        
+                  </ngx-datatable>
+                  <br>
+
+                  <br>
+                  <br>
+            </app-card>
+          </div>
+                      <div class="align-buttons">
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Mantenimiento Estibadores</button>
+                      </div>
+      </app-card>
+  </div>
+</div>
+
+<app-modal-basic #modalComponent [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Agregar Sistema</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="componentForm">
+          <div class="form-group row">
+              <div class="col-sm-2"> </div>
+
+              <div class="col-sm-8">
+                  <h6>Descripción <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" id="component" formControlName="component" required>
+              </div>
+
+              <div class="col-sm-2"> </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="storageComponentlHide" (click)="modalComponent.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storageComponent(componentForm.value)">Crear Sistema</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateComponent [dialogClass]="'modal-lg'" >
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Sistema</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="updateComponentForm">            
+          <div class="form-group row">
+              <div class="col-sm-2"> </div>
+
+              <div class="col-sm-8">
+                  <h6>Descripción <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" id="updateComponent" formControlName="updateComponent">
+              </div>
+
+              <div class="col-sm-2"> </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateComponentHide" (click)="modalUpdateComponent.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateComponent(updateComponentForm.value)">Actualizar Componente</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalPart [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Agregar Parte</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="partForm">
+          <div class="form-group row">
+
+              <div class="col-sm-12">
+                  <h6>Descripción <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" id="partDescription" formControlName="partDescription" required>
+              </div>
+
+          </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="storagePartHide" (click)="modalPart.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Crear Parte</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalUpdatePart [dialogClass]="'modal-lg'" >
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Parte</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="updatePartForm">            
+          <div class="form-group row">
+
+              <div class="col-sm-6">
+                  <h6>Descripción <span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" id="partDescriptionUpdate" formControlName="partDescriptionUpdate" required>
+              </div>
+
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updatePartHide" (click)="modalUpdatePart.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Parte</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+

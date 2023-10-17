@@ -1,0 +1,38 @@
+<div class="col-sm-12">
+
+
+
+  <app-card [title]="'Administrar Ticket'" [headerContent]="''" [cardOptionBlock]="true">
+
+        <div class="align-buttons">
+            <button type="button" id="uploadNew" class="btn btn-primary" (click)="redirecttodetails()" >Crear Ticket</button>
+        </div>
+        <br>
+        <ngx-datatable #table class="data-table" [rows]="rowsWork" [columns]="[{name:'Descripción', prop:'description'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+            <ngx-datatable-column [resizeable]="false" name="Asunto" [sortable]="false" [draggable]="false" prop="subject"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false"  prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    
+                    <label *ngIf="value == 5">Resuelto</label>
+                    <label *ngIf="value == 2">Abierto</label>
+
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Fecha Creación" [sortable]="false" [draggable]="false" prop="create_at"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Revisión" [sortable]="false" [draggable]="false"  prop="status_response">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <label  *ngIf="value == 1" class="link"  (click)="redirectToView(row)">Revisar Ticket</label>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button class="btn btn-primary btn-icon" (click)="redirectToView(row)"><i class="icofont icofont-eye-alt  "></i></button>
+                    <button class="btn btn-danger btn-icon" (click)="deleteSupport(row)"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </app-card>
+
+</div>

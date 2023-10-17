@@ -1,0 +1,49 @@
+<div class="row">
+
+  <div class="col-sm-12">
+    <app-card>
+      <h5>Rutas del sistema</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Nombre de la Ruta" [sortable]="false"
+          prop="description"></ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="2" name="Acciones" [sortable]="false" sortable="false" prop="status">
+
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+            <button type="button" style="display:none;" id="updateRoutes" class="btn btn-primary waves-effect" (click)="modalUpdateRoutes.show()">Actualizar</button>
+            <button (click)="updateRoute(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+    </app-card>
+  </div>
+</div>
+
+
+<app-modal-basic #modalUpdateRoutes [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Ruta</h4>
+    </div>
+    <div  class="app-modal-body">
+        
+              <div class=" form-group row ">
+                  <div class="col-sm-5 ">
+                      <h6>Nombre de la Ruta <span style="color:red; ">*</span></h6>
+                      <input type="text " class="form-control " [ngModel]="description" >
+                  </div>
+              </div>
+  
+              <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateWarehousesHide" (click)="modalUpdateRoutes.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0" (click)="updateRoutes()">Actualizar Ruta</button>
+            </div>
+
+    </div>
+  </app-modal-basic>
+  

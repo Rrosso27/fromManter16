@@ -1,0 +1,71 @@
+
+<div class="row">
+  <div class="col-sm-12">
+  <app-card>
+    <div>
+      <h4 >Registrar Archivos</h4>
+    </div>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Marca<span style="color:red;">*</span></h6>
+                <select class="form-control" [(ngModel)]="selectedValue" (change)="loadingModel()" name="select">
+                    <option value="0" selected>Seleccionar Marca</option>
+                          <option  *ngFor="let brand of brands" [ngValue]="brand"> {{brand.description}} </option>
+                      </select>
+              </div>
+                <div class="col-sm-6">
+                    <h6>Modelo<span style="color:red;">*</span> </h6>
+                    <select class="form-control" [(ngModel)]="selectedModel" (change)="loadingCatalogueId()" name="select" >
+                      <option value="0" selected>Seleccionar Modelo</option>
+                      <option  *ngFor="let mo of model" [ngValue]="mo"> {{mo.description}} </option>
+                    </select>
+                </div>    
+            </div>
+            <div class="form-group row">
+              <br>
+              <div style="text-align:right" class="col-sm-12">
+                <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivo</h6>
+                <input type='file' multiple (change)="onSelectFile($event)" accept="image/*,application/pdf">
+              </div>
+            </div>
+            <div class="form-group row">
+              <br>
+              <div class="col-sm-12" *ngIf="urlsFiles.length!=0">
+                  <table class="col-sm-12 table">
+                      <thead class="higher">
+                          <tr>
+                              <td>
+                                  Nombre del archivo
+                              </td>
+                              <td>
+                                  Tipo Partes
+                              </td>
+                              <td>
+                                  Tipo servicios
+                              </td>
+                              <td>
+                                  Acciones
+                              </td>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of urlsFiles; let i=index">
+                              <td>{{item.name}}</td>
+                              <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck (click)="onChangeType(i,1,$event)">&nbsp;</td>
+                              <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck (click)="onChangeType(i,2,$event)">&nbsp;</td>
+                              <td style="text-align: center"> 
+                                  <button (click)="deleteFile(i,item)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+
+            <div class="align-buttons">
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="validateCreate()">Guardar</button>
+            </div>
+            
+          </app-card>  
+  </div>  
+</div>

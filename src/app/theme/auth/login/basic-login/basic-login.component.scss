@@ -1,0 +1,25 @@
+body{
+    background-color: #f3f3f3 !important;;
+}
+.common-img-bg {
+    background: #ffffff !important;
+}
+.loginlogo{
+    height: 50%;
+    width: 80%;
+}
+
+@media only screen and (max-width: 992px) {
+    .loginlogo{
+        height: 30%;
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 758px) {
+    .loginlogo{
+        height: 10%;
+        width: 30%;
+    }
+}
+

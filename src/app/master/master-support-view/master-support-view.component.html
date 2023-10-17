@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card [title]="'Visualizar Ticket'" [headerContent]="''" [cardOptionBlock]="true">
+           <br>
+            <div class="align-buttons">
+                <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver</button>
+            </div>
+              <div class="form-group row">
+                  <div class="col-sm-8 col-xs-12" >
+                      <h6>Asunto </h6>
+                      <input type="text" class="form-control" [(ngModel)]="subject" #ctrl="ngModel" id="workTitle" disabled>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-12" >
+                      <h6>Descripción</h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="description"  id="workObservation" disabled></textarea>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                  <div class="col-sm-6" >
+                      <h6>Realizado por </h6>
+                      <input type="text" class="form-control" [(ngModel)]="name" id="workObservation" disabled>
+                  </div>
+                  <div class="col-sm-6" >
+                      <h6>Celular</h6>
+                      <input type="text" class="form-control" [(ngModel)]="cellphone" id="workObservation" disabled>
+                  </div>
+              </div>
+              
+
+              <div class="form-group row">
+                  <div class="col-sm-12" >
+                      <h6>Comentario de soporte</h6>
+                      <textarea type="text" class="form-control" [(ngModel)]="comment" id="workObservation" disabled></textarea>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12" >
+                    <h6>Estado </h6>
+                    <input *ngIf="status == 2" type="text" class="form-control" value="Abierto" id="workObservation" disabled>
+                    <input *ngIf="status == 5" type="text" class="form-control" value="Resuelto" id="workObservation" disabled>
+                </div>
+            </div>
+
+              <div class="form-group row">
+                <app-card class="col-sm-12">
+                    <img *ngFor="let img of urlsImages" src="{{img.url}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
+                </app-card>
+              </div>
+    </app-card>
+  </div>
+</div>
+        
+

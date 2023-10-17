@@ -1,0 +1,145 @@
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Control De Mantenimientos Por Equipos</h5>
+          <br>
+
+          <div class="form-group row">
+            <div class="col-4">
+                <h6>Desde:</h6>
+             <div class="input-group" dir="ltr">
+              <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                       name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+                  <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+             </div>
+            </div>
+            <div class="col-4">
+                <h6>Hasta:</h6>
+                <div class="input-group" dir="ltr">
+                 <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                          name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+                     <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+                </div>
+               </div>
+
+            
+              </div>
+
+          <div class="form-group row">
+
+            <div class="col-sm-4">
+              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+
+            <div class="col-sm-5">
+              <h6>Cliente </h6>
+              <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
+                        <option value="0" selected>Seleccionar cliente </option>
+                    <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <h6>Sede </h6>
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+            </div>
+          
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Equipo <span style="color:red;">*</span></h6>
+    
+              <select class="form-control" [(ngModel)]="selectedForkliftId">
+                <option value="0" selected>Seleccionar equipo </option>
+                <option *ngFor="let forklift of forklifts" [ngValue]="forklift"> {{forklift.full_name}} </option>
+                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <h6>Tipo Mantenimiento <span style="color:red;">*</span></h6>
+              <br>
+              <input type="checkbox" value="m1" [checked]="checkAllType" (change)="checkUncheckAllType($event)" />
+              <strong>Seleccionar todo</strong>
+              <br>
+              <br>
+              <div *ngFor="let item of selectsType">
+                <input type="checkbox" [(ngModel)]="item.select" data-md-icheck  />
+                {{item.name}}<br>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <h6>Estado Mantenimiento </h6>
+              <br>
+              <input type="checkbox" value="m1" [checked]="checkAllStatus" (change)="checkUncheckAllStatus($event)" />
+              <strong>Seleccionar todo</strong>
+              <br>
+              <br>
+              <div *ngFor="let item of selectsStatus">
+                <input type="checkbox" [(ngModel)]="item.select" data-md-icheck />
+                {{item.name}}<br>
+              </div>
+            </div>
+          </div>
+
+          <div class="align-buttons">
+            <div >
+            <button type="button" style="display:none;" id="showAssignInvoice" class="btn btn-primary waves-effect">Checkear</button>
+
+            <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
+          </div>
+          </div>
+          <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+              <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="consecutive">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+  
+                  <label class="link" (click)="viewResumenes(row)">{{value}}</label>
+
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha asignación" [sortable]="false"  prop="date"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Equipo" [sortable]="false"  prop="full_name"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Estado" [sortable]="false"  prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="statusLabel" *ngIf="value==0">
+                    PENDIENTE
+                  </div>
+              
+                  <div *ngIf="value==1">
+                    INICIADO
+                  </div>
+                
+                  <div *ngIf="value==2">  
+                    FINALIZADO
+                  </div>
+                  <div *ngIf="value==3">  
+                    PENDIENTE FIRMA
+                  </div>
+                                  
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Acciones" [sortable]="false"  prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div class="statusLabel" *ngIf="value==0">
+                    <button (click)="deleteRoutine(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </div>          
+              </ng-template>
+              </ngx-datatable-column>
+          </ngx-datatable>
+      </app-card>      
+  </div>
+</div>

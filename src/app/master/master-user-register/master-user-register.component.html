@@ -1,0 +1,737 @@
+<div class="col-sm-12">
+  <app-card
+    [title]="'Administrar usuarios'"
+    [headerContent]="''"
+    [cardOptionBlock]="true"
+  >
+    <div class="align-buttons">
+      <button
+        type="button"
+        id="uploadNew"
+        class="btn btn-primary"
+        (click)="createdUser()"
+      >
+        Crear usuario
+      </button>
+    </div>
+    <div class="filter">
+      <div class="col-sm-6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Filtrar"
+          (keyup)="updateFilter($event)"
+        />
+        <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+      </div>
+    </div>
+    <br />
+    <ngx-datatable
+      #table
+      class="data-table"
+      [rows]="rowsUser"
+      [columns]="[
+        { name: 'Nombre', prop: 'first_name' },
+        { name: 'Apellidos', prop: 'last_name' },
+        { name: 'Email', prop: 'email' },
+        { name: 'Celular', prop: 'cellphone' },
+        { name: 'nombres', prop: 'title' },
+        { prop: 'id' },
+        { prop: 'id' },
+        { prop: 'id' }
+      ]"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="25"
+    >
+      <ngx-datatable-column
+        [resizeable]="false"
+        name="Nombre"
+        [sortable]="false"
+        [draggable]="false"
+        prop="first_name"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [resizeable]="false"
+        name="Apellidos"
+        [sortable]="false"
+        [draggable]="false"
+        prop="last_name"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [resizeable]="false"
+        name="username"
+        [sortable]="false"
+        [draggable]="false"
+        prop="username"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [resizeable]="false"
+        name="Email"
+        [sortable]="false"
+        [draggable]="false"
+        prop="email"
+      ></ngx-datatable-column>
+      <!-- <ngx-datatable-column [resizeable]="false" name="Celular" [sortable]="false" [draggable]="false" prop="cellphone"></ngx-datatable-column>-->
+      <!-- <ngx-datatable-column [resizeable]="false" name="Telefono" [sortable]="false" [draggable]="false" prop="telephone"></ngx-datatable-column>-->
+      <!-- <ngx-datatable-column [resizeable]="false" name="Profile" [sortable]="false" [draggable]="false" prop="profile_id"></ngx-datatable-column>-->
+      <ngx-datatable-column
+        [resizeable]="false"
+        name="Estado"
+        [sortable]="false"
+        [draggable]="false"
+        prop="active"
+      >
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <label
+            (click)="blockAgents(value)"
+            class="label label-md label-primary"
+            *ngIf="value == 0"
+            >Activo</label
+          >
+          <label class="label label-md label-danger" *ngIf="value == 1"
+            >Inactivo</label
+          >
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        [resizeable]="false"
+        name="Acciones"
+        [sortable]="false"
+        [draggable]="false"
+        sortable="false"
+        prop="id"
+      >
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <button
+            class="btn btn-primary btn-icon"
+            (click)="showUpdateUser(row)"
+          >
+            <i class="icofont icofont-pencil-alt-5"></i>
+          </button>
+          <button class="btn btn-danger btn-icon" (click)="deleteUser(row)">
+            <i class="icofont icofont-ui-delete"></i>
+          </button>
+          <button
+            type="button"
+            style="display: none"
+            id="uploadUser"
+            class="btn btn-primary waves-effect"
+            (click)="modalUpdateUser.show()"
+          >
+            Actualizar Usuario
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </app-card>
+
+  <app-modal-basic #modalCreateUser [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+      <h4 class="modal-title">Crear usuario</h4>
+    </div>
+    <div class="app-modal-body">
+      <div class="col-sm-12">
+        <!-- <app-master-spinner></app-master-spinner>  -->
+        <!-- Basic Inputs Validation start -->
+
+        <app-card
+          [title]="'Registrar usuario'"
+          [headerContent]="''"
+          [cardOptionBlock]="true"
+        >
+          <form [formGroup]="myForm" (ngSubmit)="sendUser()">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Nombre <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  formControlName="name"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.name.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.name.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.name.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!--      <div class="messages text-danger" *ngIf="myForm.controls.name.touched &&  !myForm.controls.name.valid">Este campo es requerido</div> -->
+              </div>
+
+              <div class="col-sm-6">
+                <h6>Apellidos <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastname"
+                  formControlName="lastname"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.lastname.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.lastname.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.lastname.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!--    <div class="messages text-danger" *ngIf="myForm.controls.lastname.touched &&  !myForm.controls.lastname.valid">Este campo es requerido</div>
+                        <div class="messages text-danger" *ngIf="myForm.controls.lastname.hasError('maxlength')">Este campo debe ser maximo 70 caracteres</div> -->
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Correo Electrónico <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.email.errors
+                  }"
+                />
+
+                <div
+                  *ngIf="submitted && checkForm.email.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.email.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.email.errors.email"
+                  >
+                    Debe ser un correo válido
+                  </div>
+                </div>
+                <!--     <div class="messages text-danger" *ngIf="myForm.controls.email.touched && !myForm.controls.email.valid">Este campo es requerido y debe ser un correo valido</div> -->
+              </div>
+
+              <div class="col-sm-6">
+                <h6>Documento <span style="color: red">*</span></h6>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="identification"
+                  formControlName="identification"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.identification.errors
+                  }"
+                />
+                <div
+                  class="messages text-danger"
+                  *ngIf="
+                    myForm.controls.identification.touched &&
+                    !myForm.controls.identification.valid
+                  "
+                >
+                  Este campo es requerido
+                </div>
+                <div
+                  *ngIf="submitted && checkForm.name.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.email.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.email.errors.email"
+                  >
+                    Debe ser un correo válido
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Usuario <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  formControlName="username"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.username.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.username.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.username.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!---       <div class="messages text-danger" *ngIf="myForm.controls.username.touched &&  !myForm.controls.username.valid">Este campo es requerido</div> -->
+              </div>
+
+              <div class="col-sm-6">
+                <h6>Perfil <span style="color: red">*</span></h6>
+                <select
+                  name="select"
+                  class="form-control"
+                  formControlName="profile"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.profile.errors
+                  }"
+                >
+                  <option value="0" selected>Seleccionar perfil</option>
+                  <option value="1">ADMINISTRADOR</option>
+                  <option value="2">GESTIÓN COMERCIAL</option>
+                  <option value="3">OPERACIONES</option>
+                  <option value="4">TECNICO</option>
+                  <option value="5">FINANCIERA</option>
+                </select>
+                <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
+                <div
+                  *ngIf="submitted && checkForm.profile.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.profile.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Celular</h6>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cellphone"
+                  formControlName="cellphone"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.cellphone.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.cellphone.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.cellphone.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!-- <div class="messages text-danger" *ngIf="myForm.controls.cellphone.touched &&  !myForm.controls.cellphone.valid">Este campo es requerido</div> -->
+              </div>
+              <div class="col-sm-6">
+                <h6>Telefono</h6>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="telephone"
+                  formControlName="telephone"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.telephone.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.telephone.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.telephone.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!-- <div class="messages text-danger" *ngIf=" myForm.controls.telephone.touched && !myForm.controls.telephone.valid">Este campo es requerido</div> -->
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Contraseña <span style="color: red">*</span></h6>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  formControlName="password"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.password.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.password.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.password.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.password.errors?.minlength"
+                  >
+                    Este campo debe ser mínimo de 6 caracteres
+                  </div>
+                </div>
+                <!--  <div class="messages text-danger error" *ngIf="myForm.controls.password.touched &&  !myForm.controls.password.valid">Este campo es requerido</div> -->
+              </div>
+              <div class="col-sm-6">
+                <h6>Confirmar Contraseña <span style="color: red">*</span></h6>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="rpassword"
+                  formControlName="rpassword"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkForm.rpassword.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkForm.rpassword.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.rpassword.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkForm.rpassword.errors?.equalTo"
+                  >
+                    Las contraseñas no coinciden
+                  </div>
+                </div>
+                <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                        <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <h6>Activo</h6>
+                <ui-switch
+                  class="js-single"
+                  color="#4680ff"
+                  switchColor="#fff"
+                  size="medium"
+                  checked
+                ></ui-switch
+                ><br />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit " class="btn btn-primary m-b-0">
+                  Crear usuario
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+        </app-card>
+      </div>
+    </div>
+  </app-modal-basic>
+
+  <app-modal-basic #modalUpdateUser [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar usuario</h4>
+    </div>
+    <div class="app-modal-body">
+      <div class="col-sm-12">
+        <!-- <app-master-spinner></app-master-spinner>  -->
+        <!-- Basic Inputs Validation start -->
+
+        <app-card
+          [title]="'Actualizar usuario'"
+          [headerContent]="''"
+          [cardOptionBlock]="true"
+        >
+          <form [formGroup]="myUpdateForm" (ngSubmit)="updateUser()">
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Nombre <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updatename"
+                  formControlName="updatename"
+                  [ngClass]="{
+                    'is-invalid': submitted && checkUpdateForm.updatename.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkUpdateForm.updatename.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updatename.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!--      <div class="messages text-danger" *ngIf="myForm.controls.name.touched &&  !myForm.controls.name.valid">Este campo es requerido</div> -->
+              </div>
+
+              <div class="col-sm-6">
+                <h6>Apellidos <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updatelastname"
+                  formControlName="updatelastname"
+                  [ngClass]="{
+                    'is-invalid':
+                      submitted && checkUpdateForm.updatelastname.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkUpdateForm.updatelastname.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updatelastname.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!--    <div class="messages text-danger" *ngIf="myForm.controls.lastname.touched &&  !myForm.controls.lastname.valid">Este campo es requerido</div>
+                        <div class="messages text-danger" *ngIf="myForm.controls.lastname.hasError('maxlength')">Este campo debe ser maximo 70 caracteres</div> -->
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Usuario <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updateusername"
+                  formControlName="updateusername"
+                  [ngClass]="{
+                    'is-invalid':
+                      submitted && checkUpdateForm.updateusername.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkUpdateForm.updateusername.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updateusername.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!---       <div class="messages text-danger" *ngIf="myForm.controls.username.touched &&  !myForm.controls.username.valid">Este campo es requerido</div> -->
+              </div>
+
+              <div class="col-sm-6">
+                <h6>Perfil <span style="color: red">*</span></h6>
+                <select
+                  name="select"
+                  class="form-control"
+                  formControlName="updateprofile"
+                  [ngClass]="{
+                    'is-invalid':
+                      submitted && checkUpdateForm.updateprofile.errors
+                  }"
+                >
+                  <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                  <option value="1">GERENTE</option>
+                  <option value="2">GESTIÓN COMERCIAL</option>
+                  <option value="3">OPERACIONES</option>
+                  <option value="4">GESTIÓN HUMANA</option>
+                  <option value="5">FINANCIERA</option>
+                  <option value="6">EMPLEADO</option>
+                  <option value="7">TECNICO</option>
+                </select>
+                <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
+                <div
+                  *ngIf="submitted && checkUpdateForm.updateprofile.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updateprofile.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <h6>Celular</h6>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="updatecellphone"
+                  formControlName="updatecellphone"
+                  [ngClass]="{
+                    'is-invalid':
+                      submitted && checkUpdateForm.updatecellphone.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkUpdateForm.updatecellphone.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updatecellphone.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!-- <div class="messages text-danger" *ngIf="myForm.controls.cellphone.touched &&  !myForm.controls.cellphone.valid">Este campo es requerido</div> -->
+              </div>
+              <div class="col-sm-6">
+                <h6>Telefono</h6>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="updatetelephone"
+                  formControlName="updatetelephone"
+                  [ngClass]="{
+                    'is-invalid':
+                      submitted && checkUpdateForm.updatetelephone.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && checkUpdateForm.updatetelephone.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updatetelephone.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                </div>
+                <!-- <div class="messages text-danger" *ngIf=" myForm.controls.telephone.touched && !myForm.controls.telephone.valid">Este campo es requerido</div> -->
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <h6>Correo Electrónico <span style="color: red">*</span></h6>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="updateemail"
+                  formControlName="updateemail"
+                  [ngClass]="{
+                    'is-invalid':
+                      submitted && checkUpdateForm.updateemail.errors
+                  }"
+                />
+
+                <div
+                  *ngIf="submitted && checkUpdateForm.updateemail.errors"
+                  class="invalid-feedback"
+                >
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updateemail.errors.required"
+                  >
+                    Este campo es requerido
+                  </div>
+                  <div
+                    class="messages text-danger"
+                    *ngIf="checkUpdateForm.updateemail.errors.email"
+                  >
+                    Debe ser un correo válido
+                  </div>
+                </div>
+                <!--     <div class="messages text-danger" *ngIf="myForm.controls.email.touched && !myForm.controls.email.valid">Este campo es requerido y debe ser un correo valido</div> -->
+              </div>
+              <!--
+                        <div class="col-sm-6">
+                            <h6>Documento <span style="color:red;">*</span></h6>
+                            <input type="number" class="form-control" id="updateidentification" formControlName="updateidentification" [ngClass]="{ 'is-invalid': submitted && checkUpdateForm.updateidentification.errors }">
+                            <div class="messages text-danger" *ngIf="myForm.controls.identification.touched &&  !myForm.controls.identification.valid">Este campo es requerido</div>
+                            <div *ngIf="submitted && checkUpdateForm.updatename.errors" class="invalid-feedback">
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updateemail.errors.required">Este campo es requerido</div>
+                                <div class="messages text-danger" *ngIf="checkUpdateForm.updateemail.errors.email">Debe ser un correo válido</div>
+                            </div>
+                        </div>
+    -->
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <h6>Activo</h6>
+                <ui-switch
+                  class="js-single"
+                  color="#4680ff"
+                  switchColor="#fff"
+                  size="medium"
+                  checked
+                ></ui-switch
+                ><br />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit " class="btn btn-primary m-b-0">
+                  Actualizar usuario
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+        </app-card>
+      </div>
+    </div>
+  </app-modal-basic>
+</div>

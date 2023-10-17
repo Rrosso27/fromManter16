@@ -1,0 +1,117 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Registrar tipo documento</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="myForm" (ngSubmit)="sendBrand()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+
+                    <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+                    <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Activo</h6>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreate($event)" checked></ui-switch><br>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear tipo documento</button>
+
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar tipo documento</h4>
+    </div>
+    <div *ngIf="currentBrand" class="app-modal-body">
+        <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+                    <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentBrand.description}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
+                    <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Activo</h6>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdate($event)" [checked]="enabledUpdated"></ui-switch><br>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar tipo documento</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <app-card>
+            <h5>Registrar tipo documento </h5>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+                    <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+                </div>
+                <div class="col-sm-3">
+                    <div class="checkbox-color checkbox-primary">
+                        <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                        <label for="checkbox18">
+                                 Activo
+                                </label>
+                    </div>
+                    <div class="checkbox-color checkbox-danger">
+                        <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                        <label for="checkbox16">
+                                      Inactivo
+                                    </label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="align-buttons">
+                        <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Crear tipo documento</button>
+                        <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()">Crear tipo documento</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+                <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                                <i class="fa fa-ban"></i>
+                              </button> -->
+
+                        <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+        </app-card>
+    </div>
+</div>

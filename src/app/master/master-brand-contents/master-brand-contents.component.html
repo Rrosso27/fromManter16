@@ -1,0 +1,89 @@
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Registrar marca </h5>
+          <br>
+          <div class="row">
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+                  <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+              </div>
+              <div class="col-sm-3">
+                  <div class="align-buttons">
+                      <button style="display: none;" type="button" id="uploadBrand" (click)="modalUpdateBrand.show()" ></button>
+                      <button type="button"  class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()">Crear marca</button>
+                  </div>
+              </div>
+          </div>
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+              <ngx-datatable-column [flexGrow]="2" [resizeable]="false" name="Descripción" [sortable]="false"  prop="description"></ngx-datatable-column>
+              <ngx-datatable-column [flexGrow]="2" [resizeable]="false" name="Acciones" [sortable]="false" sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+
+                      <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+  </div>
+</div>
+
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Registrar marca</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="myForm" (ngSubmit)="sendBrand()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+
+                    <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+                    <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear marca</button>
+
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar marca</h4>
+    </div>
+    <div *ngIf="currentBrand" class="app-modal-body">
+        <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+                    <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentBrand.description}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
+                    <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar marca</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+

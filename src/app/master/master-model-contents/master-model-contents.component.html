@@ -1,0 +1,113 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar modelo</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendModel()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Descripción<span style="color:red;">*</span> </h6>
+
+                  <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+                  <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <h6>Marca<span style="color:red;">*</span></h6>
+                  <select class="form-control" (change)="ChangingValue()" [(ngModel)]="selectedValue" class="form-control" formControlName="type" name="select" [ngClass]="{ 'is-invalid': submitted && checkForm.type.errors }">
+                      <option value="0" selected>Seleccionar marca</option>
+                            <option  *ngFor="let brand of brands" [ngValue]="brand"> {{brand.description}} </option>
+                         </select>
+
+                  <div *ngIf="submitted && checkForm.type.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.type.errors.required">Este campo es requerido</div>
+                  </div>
+
+              </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Crear Modelo</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar modelo</h4>
+  </div>
+  <div *ngIf="currentFuel" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateUpdate()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+                  <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentFuel.model}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
+                  <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <!-- [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.typeUpdate.errors }" -->
+              <div class="col-sm-6">
+                  <h6>Modelo<span style="color:red;">*</span></h6>
+                  <select class="form-control" (change)="ChangingValue2()" [(ngModel)]="selectedUpdate" class="form-control" formControlName="typeUpdate" name="select">
+                      <option value="0" selected>Seleccionar marca</option>
+                      <option  *ngFor="let brand of brands" [value]="brand.id"> {{brand.description}} </option>
+                             </select>
+                  <div *ngIf="submitted && checkFormUpdate.typeUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormUpdate.typeUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar modelo</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Registrar modelo</h5>
+          <br>
+          <div class="row">
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+                  <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+              </div>
+              <div class="col-sm-3">
+                  <div class="align-buttons">
+                      <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Crear Modelo</button>
+                      <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()" (click)="onChangeSelect()">Crear Modelo</button>
+                  </div>
+              </div>
+          </div>
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Tipo', prop:'type'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+              [limit]="25">
+
+              <ngx-datatable-column [resizeable]="false" name="Modelo" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="brand"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <button (click)="updateFuel(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+  </div>
+</div>

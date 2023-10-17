@@ -1,0 +1,68 @@
+<form [formGroup]="myForm" (ngSubmit)="sendPaymentMargin()">
+  <div class="form-group row">
+    <div class="col-sm-7">
+
+      <div class="col-sm-5">
+
+        <h6>Condición de pago<span style="color:red;">*</span></h6>
+        <select class="form-control" class="form-control" formControlName="conditionalPaymentId" name="select">
+          <option value="0" selected>Seleccionar condición pago </option>
+          <option *ngFor="let paymentCondition of paymentConditions" [ngValue]="paymentCondition.id">
+            {{paymentCondition.description}} </option>
+        </select>
+
+      </div>
+      <div class="col-sm-5">
+        <h6>Margen <span style="color:red;">*</span></h6>
+        <input type="text" class="form-control" ng formControlName="worth"
+          [ngClass]="{ 'is-invalid': submitted && checkForm.worth.errors }">
+        <div *ngIf="submitted && checkForm.worth.errors" class="invalid-feedback">
+          <div class="messages text-danger" *ngIf="checkForm.worth.errors.required">Este campo es requerido</div>
+        </div>
+      </div>
+
+      <div style="display: none;" class="col-sm-5">
+        <input type="text" class="form-control" ng formControlName="id">
+      </div>
+    </div>
+
+
+    <div class="align-buttons">
+      <button type="submit " class="btn btn-primary m-b-0 ">Agregar</button>
+    </div>
+  </div>
+</form>
+
+
+
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">description</th>
+        <th scope="col">margin</th>
+        <th scope="col">operaciónes </th>
+
+      </tr>
+    </thead>
+    <tbody *ngFor="let paymentMargin of paymentMargins">
+      <tr>
+        <td> {{paymentMargin.id}}</td>
+        <td> {{paymentMargin.description}}</td>
+        <td> {{paymentMargin.price_margin}}</td>
+        <td>
+
+          <button (click)="loadingDataById(paymentMargin.id)" class="btn btn-primary btn-icon"><i
+              class="icofont icofont-pencil-alt-5"></i></button>
+
+          <button (click)=deletePaymentMargin(paymentMargin.id) class="btn btn-danger btn-icon"><i
+              class="icofont icofont-ui-delete"></i></button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+  </table>
+</div>

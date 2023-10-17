@@ -1,0 +1,178 @@
+<!-- Vista Normal -->
+<!--  -->
+<!--  -->
+<div *ngIf="!userCustomer" class="row">
+
+  <div class="col-sm-12">
+    <app-card>
+      <h5>Administración de hojas de vida </h5>
+      <br>
+
+      <div class="form-group row">
+
+        <div class="col-sm-6">
+          <h6>Sucursales <span style="color:red;">*</span> </h6>
+
+          <select class="form-control" (change)="getCustomerRegionals(selectedRegionalId)"
+            [(ngModel)]="selectedRegionalId">
+            <option value="0" selected>Seleccionar sucursal </option>
+            <option *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+
+        <div class="col-sm-6">
+          <h6>Cliente <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getBranchOffices(selectedBusinessId)" [(ngModel)]="selectedBusinessId">
+            <option value="0" selected>Seleccionar cliente </option>
+            <option *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Sede <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId">
+            <option value="0" selected>Seleccionar sede </option>
+            <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"> {{branchOffice.branch_name}}
+            </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Filtrar por</h6>
+          <select class="form-control" [(ngModel)]="filterhv">
+            <option value="" selected>Seleccione filtro </option>
+            <option value="">Baterías</option>
+            <option value="">Equipos</option>
+            <option value=""></option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Equipo <span style="color:red;">*</span></h6>
+
+          <select class="form-control" [(ngModel)]="selectedForkliftId">
+            <option value="0" selected>Seleccionar equipo </option>
+            <option *ngFor="let forklift of forklifts" [ngValue]="forklift.id"> {{forklift.full_name}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+        <div class="col-sm-4">
+          &nbsp;&nbsp;&nbsp; <br><button class="btn btn-primary" (click)="clearFilter()"><i></i>Limpiar filtro</button>
+        </div>
+      </div>
+
+      <div class="align-buttons">
+        <div>
+          <button type="button" style="display:none;" id="showAssignInvoice"
+            class="btn btn-primary waves-effect">Checkear</button>
+
+
+          <br>
+          <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search"></i>Buscar</button>
+        </div>
+      </div>
+      <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Montacarga"
+          [sortable]="false" prop="full_name"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="2" name="Ver" [sortable]="false" sortable="false" prop="status">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+            <label class="link btn btn-primary btn-icon" (click)="editResumenes(row)"><i
+                class="icofont icofont-eye-alt"></i></label>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+
+    </app-card>
+  </div>
+</div>
+
+
+
+<!-- Vista usuario cliente -->
+<!--  -->
+<!--  -->
+<div *ngIf="userCustomer" class="row">
+
+  <div class="col-sm-12">
+    <app-card>
+      <h5>Administración de hojas de vida </h5>
+      <br>
+
+      <div class="form-group row">
+
+        <div class="col-sm-6">
+          <h6>Cliente <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getBranchOfficeUser()" [(ngModel)]="selectedBusinessId">
+            <option value="0" selected>Seleccionar cliente </option>
+            <option *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <h6>Sede <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId">
+            <option value="0" selected>Seleccionar sede </option>
+            <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"> {{branchOffice.branch_name}}
+            </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Equipo <span style="color:red;">*</span></h6>
+
+          <select class="form-control" [(ngModel)]="selectedForkliftId">
+            <option value="0" selected>Seleccionar equipo </option>
+            <option *ngFor="let forklift of forklifts" [ngValue]="forklift.id"> {{forklift.full_name}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+        <div class="col-sm-4">
+          &nbsp;&nbsp;&nbsp; <br><button class="btn btn-primary" (click)="clearFilter()"><i></i>Limpiar filtro</button>
+        </div>
+      </div>
+
+      <div class="align-buttons">
+        <div>
+          <button type="button" style="display:none;" id="showAssignInvoice"
+            class="btn btn-primary waves-effect">Checkear</button>
+
+
+          <br>
+          <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search"></i>Buscar</button>
+        </div>
+      </div>
+      <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Montacarga"
+          [sortable]="false" prop="full_name"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="2" name="Ver" [sortable]="false" sortable="false" prop="status">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+            <label class="link btn btn-primary btn-icon" (click)="editResumenes(row)"><i
+                class="icofont icofont-eye-alt"></i></label>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+
+    </app-card>
+  </div>
+</div>

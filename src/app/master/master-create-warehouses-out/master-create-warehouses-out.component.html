@@ -1,0 +1,186 @@
+<div class="col-sm-12">
+  <app-card>
+    <form [formGroup]="myForm" (ngSubmit)="sendWarehousesOut()">
+      <h5>Registrar salida </h5>
+      <br>
+      <div class="form-group row">
+        <div class="col-sm-4">
+            <h6>Cliente <span style="color:red;">*</span></h6>
+            <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedCustomer" formControlName="customer">
+                  <option value="0" selected>Seleccionar el cliente</option>
+                  <option  *ngFor="let cus of customers" [ngValue]="cus.id"> {{cus.description}} </option>
+                </select>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Sede <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOffice" formControlName="branchOffice">
+                <option value="0" selected>Seleccionar la sede</option>
+                <option  *ngFor="let office of branchOffices" [ngValue]="office.id"> {{office.description}} </option>
+              </select>
+        </div>
+
+
+          <div class="col-sm-4">
+            <h6>Tipo <span style="color:red;">*</span></h6>
+            <input  type="text" class="form-control"   [(ngModel)]="selectForkLift" list="browsers">
+            <datalist  id="browsers">
+               <div  *ngFor="let fork of forkLift">
+                  <option    value={{fork.description}}>
+               </div> 
+            </datalist>
+          </div>
+      </div>
+      
+      <br>
+
+      <div class="form-group row">
+        <div class="col-sm-4">
+          <h6>Tecnico <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedTechnician" formControlName="technician">
+                <option value="0" selected>Seleccionar el tecnico</option>
+                <option  *ngFor="let tech of technicians" [ngValue]="tech.id"> {{tech.description}} </option>
+              </select>
+        </div>
+
+        <div class="col-sm-4">
+            <h6>Cantidad <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="quantity" [ngClass]="{ 'is-invalid': submitted && checkForm.quantity.errors }">
+            <div *ngIf="submitted && checkForm.quantity.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.quantity.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <h6>Referencia <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="reference" [ngClass]="{ 'is-invalid': submitted && checkForm.reference.errors }">
+            <div *ngIf="submitted && checkForm.reference.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.reference.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+          <div class="col-sm-4">
+            <h6>Valor Unitario <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="unitCost" [ngClass]="{ 'is-invalid': submitted && checkForm.unitCost.errors }">
+            <div *ngIf="submitted && checkForm.unitCost.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.unitCost.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-4">
+          <h6>Valor Total <span style="color:red;">*</span></h6>
+          <input type="text" class="form-control" formControlName="totalCost" [ngClass]="{ 'is-invalid': submitted && checkForm.totalCost.errors }">
+          <div *ngIf="submitted && checkForm.totalCost.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.totalCost.errors.required">Este campo es requerido</div>
+          </div>
+        </div>      
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10">
+          <h6>Descipcion <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+            <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+      </div>
+     <br>
+      <div class="form-group row">
+
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10">
+          <textarea class="form-control" formControlName="control" [ngClass]="{ 'is-invalid': submitted && checkForm.businessName.errors }" placeholder="Control"></textarea>
+            <div *ngIf="submitted && checkForm.businessName.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.businessName.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+      </div>
+
+      <br>
+      <br>
+
+      <div class="form-group row">
+        
+        <div class="col-sm-4">
+          <h6>Nro Pedido/Cotizacion <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="estimate" [ngClass]="{ 'is-invalid': submitted && checkForm.estimate.errors }">
+            <div *ngIf="submitted && checkForm.estimate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.estimate.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Liquidacion <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="liquidation" [ngClass]="{ 'is-invalid': submitted && checkForm.liquidation.errors }">
+            <div *ngIf="submitted && checkForm.liquidation.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.liquidation.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Viene de liquidacion <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="businessName" [ngClass]="{ 'is-invalid': submitted && checkForm.businessName.errors }">
+            <div *ngIf="submitted && checkForm.businessName.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.businessName.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="form-group row">
+        
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10">
+          <h6>Consumo <span style="color:red;">*</span></h6>
+            <input type="text" class="form-control" formControlName="consumption" [ngClass]="{ 'is-invalid': submitted && checkForm.consumption.errors }">
+            <div *ngIf="submitted && checkForm.consumption.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.consumption.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+      </div>
+      <br>
+      <div class="form-group row">
+
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10">
+          <textarea class="form-control" formControlName="observation" [ngClass]="{ 'is-invalid': submitted && checkForm.observation.errors }" placeholder="Observaciones"></textarea>
+            <div *ngIf="submitted && checkForm.observation.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.observation.errors.required">Este campo es requerido</div>
+            </div>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+      </div>
+
+      <br>
+      <div class="align-buttons">
+      <button type="submit " class="btn btn-primary m-b-0 " >Crear Salida</button>
+    </div>
+  </form>
+  </app-card>
+</div>

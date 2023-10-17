@@ -1,0 +1,75 @@
+:host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll {
+    display: inherit;
+    width: 100%;
+    font-size:smaller;
+  }
+
+  :host ::ng-deep .ngx-datatable .datatable-header .datatable-header-cell {
+    display: inherit;
+    width: 100%;
+    font-size:smaller;
+  }
+
+.table-scroll{
+  height:192px;
+}
+
+.statusLabel{
+   font-size: 11px;
+}
+
+.detail-title{
+  text-align: center;
+}
+
+.table-height{
+  height:150px;
+  overflow-:scroll;
+}
+
+  .link{
+    text-decoration: underline;
+    color: #00215a;
+}
+
+  .form-group.hidden {
+    width: 0;
+    margin: 0;
+    border: none;
+    padding: 0;
+  }
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+  }
+
+
+  .list-status{
+    font-size: small;
+    /* position: relative; */
+    /* display: block; */
+    padding: 0.10rem 0.0rem;
+    margin-bottom: -1px;
+    /* background-color: #fff; */
+}
+
+.brand {
+    align-content: rigth;
+}
+
+.align-buttons {
+    text-align: right;
+}

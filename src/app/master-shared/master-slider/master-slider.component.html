@@ -1,0 +1,49 @@
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Bootstrap slider card start -->
+            <div class="card">
+                <!--  Active id: {{myCarousel.activeId}} -->
+                <div class="card-header">
+                    <h4>Espacio informativo</h4>
+                </div>
+                <div class="card-block" (click)="changeSlider(myCarousel.activeId)">
+
+                    <ngb-carousel #myCarousel="ngbCarousel" [interval]="0">
+
+                        <ng-template ngbSlide *ngFor="let slide of newsPhotos" [id]="slide.id">
+
+                            <img [src]="slide.image_url">
+
+                        </ng-template>
+
+
+                    </ngb-carousel>
+
+
+                    <div class="card-header">
+
+                        <h5><i class="icofont icofont-tasks-alt m-r-5"></i>Información de noticia</h5>
+                        <!--    <button class="btn btn-sm btn-primary f-right"><i class="icofont icofont-ui-alarm"></i>Check in</button> -->
+                    </div>
+                    <div class="card-body" *ngIf="currentSlider">
+                        <div class="">
+                            <div class="m-b-20">
+                                <h4 class="sub-title m-b-15">{{currentSlider.title }}</h4>
+                                <br>
+                                <h6>{{currentSlider.subtitle }}</h6>
+                                <br>
+                                <p>
+                                    {{ currentSlider.text}}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Bootstrap slider card end -->
+            </div>
+        </div>
+
+        <!-- <div class="col-xl-8 col-lg-12 pull-xl-4"> -->

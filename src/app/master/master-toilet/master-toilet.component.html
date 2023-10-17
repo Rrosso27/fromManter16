@@ -1,0 +1,96 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar aseo</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendRegional()">
+          <div class="form-group row">
+          
+              
+              <div class="col-sm-5">
+
+                  <h6>Descripción<span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+                  <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+          </div>
+
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createRegionalHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Agregar aseo</button>
+            </div>
+
+        </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar aseo</h4>
+  </div>
+  <div *ngIf="currentRegional" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="updatedRegional()">
+          <div class=" form-group row ">
+            
+
+              <div class="col-sm-5 ">
+
+                  <h6>Descripción <span style="color:red; ">*</span></h6>
+                  <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                  <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
+                      <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<div class="row">
+
+<div class="col-sm-12">
+    <app-card  style="position: sticky; top: 300px;">
+        <h5>Registrar lista de aseo </h5>
+        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+            </div>
+            
+            <div class="col-sm-3">
+                <div class="align-buttons">
+                    <button type="button" id="registerRegionals" class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()">Crear Aseo</button>
+                  </div>
+              </div>
+          </div>
+          <br>
+          <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+          [limit]="25">
+          
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="delivery_review"></ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+              
+              
+              
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  
+                  <button type="button" style="display:none;" id="updateReg" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Actualizar sucursal</button>
+                  <button (click)="updateReg(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                  <button (click)="deleteRegional(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+
+
+        </ngx-datatable>
+    </app-card>
+</div>
+</div>

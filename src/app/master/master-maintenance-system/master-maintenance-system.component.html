@@ -1,0 +1,73 @@
+<div class="col-sm-12">
+  <app-card [title]="'Administrar Sistemas'" [headerContent]="''" [cardOptionBlock]="true">
+
+        <div class="align-buttons">
+            <button type="button" id="uploadNew" class="btn btn-primary" (click)="modalRegisterBrand.show()" >Crear Sitemas</button>
+            <button style="display: none;" type="button" id="updateReg" (click)="modalUpdateBrand.show()"></button>
+        </div>
+        <br>
+        <ngx-datatable #table class="data-table" [rows]="rowsWork" [columns]="[{name:'Descripción', prop:'description'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+            <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button class="btn btn-primary btn-icon" (click)="updateSys(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <button class="btn btn-danger btn-icon" (click)="deleteWorkHeader(row)"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </app-card>
+</div>
+
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar Sistema</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendSystem()">
+          <div class="form-group row">
+              <div class="col-sm-5">
+
+                <h6>Descripción<span style="color:red;">*</span></h6>
+                <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+                <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                    <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                </div>
+              </div>
+
+          </div>
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createRegionalHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Agregar Sistema</button>
+            </div>
+
+        </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Sistema</h4>
+  </div>
+  <div  class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="updatedRegional()">
+          <div class=" form-group row ">
+
+              <div class="col-sm-5 ">
+
+                <h6>Descripción <span style="color:red; ">*</span></h6>
+                <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
+                    <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
+                </div>
+              </div>
+          </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar sistema</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>

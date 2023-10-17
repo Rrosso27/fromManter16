@@ -1,0 +1,91 @@
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Vista de Archivos</h5>
+          <br>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h6>Marca</h6>
+
+                <select class="form-control" (change)="loadingModel()" [(ngModel)]="selectedBusinessId"> 
+                            <option value="0" selected>Seleccionar Marca </option>
+                        <option   *ngFor="let customer of brands" [ngValue]="customer.id"> {{customer.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                       </select>
+                </div>
+
+            <div class="col-sm-6">
+                <h6>Modelo</h6>
+                <select class="form-control" [(ngModel)]="selectedOfficeId" (change)=loadingCatalogueId()> 
+                    <option value="0" selected>Seleccionar Modelo </option>
+                <option   *ngFor="let office of model" [ngValue]="office.id"> {{office.description}}  </option>
+                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+               </select>
+            </div>
+        </div>
+        <br>
+
+          <br>
+          <div class="form-group row">
+            <br>
+            <div class="col-sm-12" *ngIf="urlsFiles.length!=0">
+                <table class="col-sm-12 table" >
+                    <thead class="higher">
+                        <tr>
+                            <td>
+                                Nombre del archivo
+                            </td>
+                            <td>
+                                Tipo Partes
+                            </td>
+                            <td>
+                                Tipo servicios
+                            </td>
+                            <td>
+                                Acciones
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of urlsFiles; let i=index">
+                            <td > <label style="max-width: 90px;">{{item.name}}</label> </td>
+                            <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck disabled>&nbsp;</td>
+                            <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck disabled>&nbsp;</td>
+                            <td style="text-align: center"> 
+                                <label *ngIf="item.id!=0" class="link btn btn-primary btn-icon" id="viewFile" (click)="viewFile(item)"><i class="icofont icofont-eye-alt"></i></label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <div  class="form-group row" oncontextmenu='return false'>
+            <br>
+            <div class="pdf-container col-sm-12" oncontextmenu='return false' id="viewFiles">
+            </div>
+          </div>
+          <div [style.top]='topCssText' style="position:absolute;left:0px;bottom:2%;right:4%;" oncontextmenu="return false;"></div>
+         
+          
+      </app-card>
+
+      <div class="align-buttons">
+ 
+        <button type="submit " class="btn btn-primary m-b-0" (click)="toBack()">Volver al inicio</button>
+      </div>
+  </div>
+</div>
+<script language="JavaScript" type="text/javascript">
+    console.log(document);
+    document.addEventListener('mousedown', e => {
+    if(e.button == 2) {
+       return false;
+    }
+    });
+document.getElementById('pdfEmbed').addEventListener('contextmenu', e => e.preventDefault());
+//-->
+</script>

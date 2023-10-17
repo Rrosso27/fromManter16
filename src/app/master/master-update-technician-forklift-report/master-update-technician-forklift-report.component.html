@@ -1,0 +1,290 @@
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Reporte de Técnico</h5>
+          <br>
+
+          <div class="form-group row">
+
+            <div class="col-sm-6">
+              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg.id"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+          </div>
+
+            <div class="col-sm-6">
+              <h6>Cliente  <span style="color:red;">*</span></h6>
+              <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
+                          <option value="0" selected>Seleccionar cliente </option>
+                      <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Sede  <span style="color:red;">*</span></h6>
+                <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+              </div>
+
+            <div class="col-sm-4">
+              <h6>Equipo  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
+                          <option value="0" selected>Seleccionar equipo </option>
+                          <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+
+            <div class="col-sm-4">
+              <h6>Reporte  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedReporId" (click)="getReportTechnicianDetail()" disabled> 
+                          <option value="0" selected>Seleccionar el reporte a diligenciar </option>
+                          <option   *ngFor="let forklift of report" [ngValue]="forklift.id"   > {{forklift.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+          </div>
+            <div class=" align-buttons" >
+              <button  type="button" (click)="updateHeader()"   class="btn btn-primary waves-effect">Actualizar</button>
+            </div>
+
+          
+          
+
+      </app-card>      
+  </div>
+</div>
+<!-- 
+<div>
+  <app-card title="Items">
+    
+    <div class="align-buttons">
+      <button class="btn btn-primary m-b-0"  (click)="validateCondition()" >Diligenciar Item</button>
+      <button style="display: none;" class="btn btn-primary m-b-0" (click)="modalPart.show()" id="showPart">Diligenciar Item</button>
+      <button style="display: none;" class="btn btn-primary m-b-0" (click)="modalUpdatePart.show()" id="showPartUpdate">Diligenciar Item</button>
+      </div> 
+
+  <ngx-datatable #table class="data-table" [rows]="makeForklift"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Item" [sortable]="false" prop="technical_report_details_description"></ngx-datatable-column>
+      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Observación" [sortable]="false" prop="work"></ngx-datatable-column>
+      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <button (click)="updateParts(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+              <button (click)="deletePart(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+          </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </app-card>
+</div> -->
+
+<div > 
+  <div *ngFor="let detail of makeForklift; let i =index">
+      <app-card >
+        
+          <div class="form-group row">
+
+            <div class="col-sm-12">
+          
+          <!-- <input type="text"   class="form-control" disabled> -->
+              <h5><label  >{{i+1}}. {{detail.technical_report_details_description}} </label></h5>
+                    
+            </div>
+          </div>
+          <!-- <form [formGroup]="partForm"> -->
+          <div class="form-group row">
+            <div class="col-sm-10  comment">
+              <!-- <h6>Observación</h6> -->
+              <textarea class="textinput"  id="partDescription" wrap="hard" name="observacion" [(ngModel)]="detail.work"  required></textarea>
+   
+            </div>
+          </div>
+          <!-- <div class="align-buttons">
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Guardat Item</button>
+          </div> -->
+          <div class=" align-buttons" >
+            <button  type="button" (click)="sendUpdatePart(detail)"   class="btn btn-primary waves-effect">Guardar</button>
+          </div>
+      <!-- </form> -->
+
+        </app-card>
+      </div>
+
+    </div>
+
+    
+
+  
+
+
+<div >
+  <!-- <app-card title="Imagenes">
+    <br>
+    <div class="form-group row">
+      <img *ngFor="let img of image" src="{{img.url}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
+    </div>
+  </app-card> -->
+              <app-card>
+
+    <div  class="row">
+      <div class="col-sm-4">
+      </div>
+    
+      <div class="col-sm-4">
+      </div>
+      <div class="col-sm-4">
+          <div class="labelItem align-buttons">
+              <button (click)="uploadAll()" class="btn btn-primary">Guardar Imagenes</button>
+          </div>
+      </div>
+    </div>
+    
+    
+          <!-- <div  *ngIf="showCreateItem" class="form-group row "> -->
+           
+    
+              <div class="col-sm-6">
+                  <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivos</h6>
+                  <input type='file' (change)="onSelectFile($event)" >
+                  <br>
+                  <br>
+                   <div class="table-responsive">
+                  <table class="table">
+                  <thead>
+                  <tr>
+                      <th>Archivo</th>
+                      <th>Acción</th>
+                  </tr>
+                  </thead>
+                  <tbody  class="col-sm-3" *ngFor='let file of urlsFiles; let i = index' >
+                  <td>
+                                  <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
+                 <!-- <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100">  --> 
+    
+                  <img  *ngIf="file" src="{{file.url}}" width="15%"> 
+                                  <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
+                                  <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                                  <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
+                  </td>
+                  <td>
+                  <button (click)="deleteFiles(file,i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+    
+                  </td>
+                  </tbody>
+                  </table>
+                  </div>
+                  <!-- </app-card> -->
+              </div>
+          <!-- </div> -->
+  </app-card>
+  <div class="align-buttons">
+    <button (click)="modalDetail.show()" class="btn btn-primary">Enviar Correo</button>
+</div>
+</div>
+
+<app-modal-basic #modalDetail [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Agregar Correos Electrónico</h4>
+  </div>
+  <div class="app-modal-body">
+          <div class="form-group row">
+              <div class="col-sm-12">
+                  <h6>Asunto</h6>
+                  <input type="text" class="form-control" [(ngModel)]="subject" >
+              </div>
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-12">
+                  <div class="row">
+                      <div class="col-sm-12 col-xs-12 col-md-12  col-lg-11">
+                          <h6>Agregar Correo Electrónico</h6>
+                      </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                      <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5" >
+                          <h6> Correo  </h6>
+                      </div>
+                      <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                         <h6> Nombre  </h6> 
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+
+
+                        <input  type="text" class="form-control"   [(ngModel)]="masterEmail" list="browsers">
+                        <datalist  id="browsers">
+                           <div  *ngFor="let customerEmail of emailCustomer">
+                              <option    value={{customerEmail.email}}>
+                           </div> 
+                         
+                        </datalist>
+
+
+                      </div>
+                      <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                          <input type="text" class="form-control" [(ngModel)]="masterName">
+                      
+                        
+                      
+                      </div>
+                      <div class="col-sm-1" style="margin-top: 0.5%">
+                          <button class="btn btn-warning btn-icon" (click)="addEmail()"><i class="icofont icofont-ui-add"></i></button>
+                      </div>
+                  </div>
+                  <br>
+                  <br>
+                  <div>
+                      <h6>Lista Correos Electrónicos</h6>
+
+                      <br>
+                      <div  *ngFor="let email of emailsSend;let pointIdex=index">
+                          <div class="row">
+                              <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                  <input type="text" class="form-control"  value='{{email.email}}'  disabled>
+                              </div>
+                              <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                  <input type="text" class="form-control"  value='{{email.contact}}' disabled>
+                              </div>
+                              <div class="col-sm-1" style="margin-top: 0.5%">
+                                  <button class="btn btn-default btn-icon" (click)="deleteEmail(pointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                              </div>
+                          </div>
+                          <br>
+                    
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="form-group row">
+              <div class="col-sm-12">
+                  <h6>Mensaje</h6>
+                  <textarea type="text" rows="5" class="form-control" id="comment"  [(ngModel)]="comment"></textarea>
+              </div>
+          </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="emailDetailHide" (click)="modalDetail.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendEmailEstimate()">Enviar Correo</button>
+
+          </div>
+     
+  </div>
+
+</app-modal-basic>
